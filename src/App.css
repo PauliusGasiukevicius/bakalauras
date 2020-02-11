@@ -36,3 +36,9 @@
     transform: rotate(360deg);
   }
 }
+
+.fbButton {
+  color: white !important;
+  background-color: #3b5998 !important;
+  border-color: #3b5998 !important;
+}

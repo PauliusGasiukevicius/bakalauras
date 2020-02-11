@@ -10,7 +10,15 @@ function App() {
   const [user, setUser] = useState(null);
 
   let onSuccessGoogleAuth = (response) => {
-    setUser({...response.profileObj, token: response.Zi.id_token}); //save user info + JWT token
+    document.activeElement.blur();
+    setUser({authObj: response.profileObj, authType: "google"}); //save user info + JWT token
+    //ToDo, load backend-stuff like courses/etc
+  }
+
+  let onSuccessFacebookAuth = (response) => {
+    document.activeElement.blur();
+    setUser({authObj: (response.authResponse || response), authType: "facebook" });
+    //TODO Note this above OR trick might not work, gotta recheck when DB is connected and stuff
     //ToDo, load backend-stuff like courses/etc
   }
 
@@ -31,7 +39,7 @@ function App() {
 
   return (
     <div className="App">
-      <Header user={user} onSuccessGoogleAuth={onSuccessGoogleAuth} onLogout={onLogout} />
+      <Header user={user} onSuccessGoogleAuth={onSuccessGoogleAuth} onLogout={onLogout} onSuccessFacebookAuth={onSuccessFacebookAuth} />
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
