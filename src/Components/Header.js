@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { GoogleLogin } from 'react-google-login';
 import FacebookLogin from 'react-facebook-login';
 
-export default function Header({onSuccessGoogleAuth, user, onLogout, onSuccessFacebookAuth}) {
+export default function Header({onSuccessGoogleAuth, user, onLogout, onSuccessFacebookAuth, setRoute}) {
 
   const onFailure = (response) => {
     alert('Deja jums nepavyko prisijungti');
@@ -14,7 +14,7 @@ export default function Header({onSuccessGoogleAuth, user, onLogout, onSuccessFa
   }
 
   return (
-    <header className="header">
+    <header className="header h-100" >
       <nav className="navbar navbar-expand-md fixed-top navbar-dark bg-dark p-0 pr-2">
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
@@ -26,20 +26,20 @@ export default function Header({onSuccessGoogleAuth, user, onLogout, onSuccessFa
                 <a className="nav-link h5" href="#">e-Learn</a>
               </li>
               <li className="nav-item active">
-                  <a className="nav-link" href="#">Home</a>
+                  <a className="nav-link" href="#" onClick={()=>setRoute('home')}>Home</a>
               </li>
               <li className="nav-item">
-                  <a className="nav-link" href="#">About</a>
+                  <a className="nav-link" href="#" onClick={()=>setRoute('about')}>About</a>
               </li>
               <li className="nav-item">
-                  <a className="nav-link" href="#">Donate</a>
+                  <a className="nav-link" href="#" onClick={()=>setRoute('donate')}>Donate</a>
               </li>
             </ul>
           </div>
 
           <div className = "input-group form-inline justify-content-center align-items-center w-100">
             <input className="w-100 ml-auto justify-content-center align-items-center form-control mr-sm-2" type="search" placeholder="Search for courses" aria-label="Search"/>
-            <button className="btn btn-outline-light my-2 my-md-0" type="submit">
+            <button onClick={()=>setRoute('coursesSearch')} className="btn btn-outline-light my-2 my-md-0" type="submit">
               <i className="fa fa-search"></i></button>
           </div>
 
@@ -51,7 +51,7 @@ export default function Header({onSuccessGoogleAuth, user, onLogout, onSuccessFa
             </div>)
             :
             (<div className = "form-inline justify-content-md-end justify-content-center w-100">
-            <button className="btn btn-outline-light my-2 my-md-0 m-1" data-toggle="tooltip" data-placement="bottom" title="Create course">
+            <button onClick={()=>setRoute('courseCreate')} className="btn btn-outline-light my-2 my-md-0 m-1" data-toggle="tooltip" data-placement="bottom" title="Create course">
               <i className="fa fa-plus"></i></button>
             <button className="btn btn-outline-light my-2 my-md-0 m-1" data-toggle="tooltip" data-placement="bottom" title="My profile">
               <i className="fa fa-user"></i></button>
@@ -61,7 +61,6 @@ export default function Header({onSuccessGoogleAuth, user, onLogout, onSuccessFa
               <i className="fa fa-sign-in"></i></button>
             </div>)
           }
-          
 
           </div>
       </nav>

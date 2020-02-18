@@ -1,0 +1,23 @@
+Refer to wireframes file for rough sketches
+
+Main stuff:
+1. Create fake courses api (+ other apis till main stuff is +- done)
+2. create courses view component (filtering too)
+3. create courses (I teach/ I Learn) button and pages
+4. create user profile (with edit and badges)
+5. course creation page
+6. course edit page
+7. let add text items to course and folders
+8. text edit in system
+9. let add other items (video/pdf/slides/whatever) (make sure its secure)
+10. let add Assignments + grades
+11. let add quizzes
+12. let add badges to course
+
+Optional:
+1. instant messaging
+2. More login options
+3. About page
+4. Donation page
+5. notifications for replies and stuff
+

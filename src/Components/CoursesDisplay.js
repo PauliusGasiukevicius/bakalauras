@@ -1,21 +1,12 @@
-const express = require('express');
-const path = require('path');
-const bodyParser = require('body-parser');
-const app = express();
+import React, {useState, useEffect} from 'react';
+import CourseCard from './CourseCard.js'
 
-//Middle-ware
-app.use(express.static(path.join(__dirname, '..', 'build')));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+export default function Header() {
 
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'build', 'index.html'));
-});
+    const [courses, setCourses] = useState([]);
 
-
-//temp-API for stuff in development
-app.get('/courses', (req,res) => {
-    res.send([
+    if(!courses || courses.length==0)
+    setCourses([
         {_id: 1, name: "Example", desc: "An example description", imageUrl: "https://www.gettyimages.pt/gi-resources/images/Homepage/Hero/PT/PT_hero_42_153645159.jpg"},
         {_id: 2, name: "Example", desc: "An example description", imageUrl: "https://www.gettyimages.pt/gi-resources/images/Homepage/Hero/PT/PT_hero_42_153645159.jpg"},
         {_id: 3, name: "Example", desc: "An example description", imageUrl: "https://www.gettyimages.pt/gi-resources/images/Homepage/Hero/PT/PT_hero_42_153645159.jpg"},
@@ -27,8 +18,17 @@ app.get('/courses', (req,res) => {
         {_id: 9, name: "Example", desc: "An example description", imageUrl: "https://www.gettyimages.pt/gi-resources/images/Homepage/Hero/PT/PT_hero_42_153645159.jpg"},
         {_id: 10, name: "Example", desc: "An example description", imageUrl: "https://www.gettyimages.pt/gi-resources/images/Homepage/Hero/PT/PT_hero_42_153645159.jpg"},
     ]);
-});
 
-app.listen(process.env.PORT || 8080, () => {
+    fetch('http://localhost:8080/courses')
+    .then(resp => resp.json())
+    .then(r => {setCourses(r)})
 
-});
+  return (
+  <div className="w-100 container-fluid d-flex flex-wrap justify-content-around">
+        {
+            !courses ? <h5>Kursų nerasta</h5> :
+            courses.map(course => <CourseCard course={course} key={"Course" + course._id}/>)
+        }
+  </div>
+  );
+}

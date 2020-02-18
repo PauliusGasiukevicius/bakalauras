@@ -1,7 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import logo from './logo.svg';
 import ls from 'local-storage'
-import Header from './Header.js';
+import Header from './Components/Header.js';
+import CoursesDisplay from './Components/CoursesDisplay.js';
+import CourseCreation from './Components/CourseCreation.js'
+import About from './Components/About.js'
+import Donate from './Components/Donate.js'
 import './App.css';
 
 function App() {
@@ -38,14 +42,29 @@ function App() {
  
 
   return (
-    <div className="App">
-      <Header user={user} onSuccessGoogleAuth={onSuccessGoogleAuth} onLogout={onLogout} onSuccessFacebookAuth={onSuccessFacebookAuth} />
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Bachelor WIP
-        </p>
-        </header>
+    <div className="App" style={{backgroundColor: "#282c34"}}>
+      <Header setRoute={setRoute} user={user} onSuccessGoogleAuth={onSuccessGoogleAuth} onLogout={onLogout} onSuccessFacebookAuth={onSuccessFacebookAuth} />
+        <div className="h-100" style={{backgroundColor: "#282c34", marginTop: "60px"}}>
+          {
+            route == 'home' ? 
+              <header className="App-header">
+                <img src={logo} className="App-logo" alt="logo" />
+                <p>
+                  Bachelor WIP
+                </p>
+                <CoursesDisplay />
+              </header>
+            : route == 'coursesSearch' ?
+              <CoursesDisplay />
+            : route == 'about' ?
+              <About />
+            : route == 'donate' ?
+              <Donate />
+            : route == 'courseCreate' ?
+              <CourseCreation user={user}/>
+            : <p>An unexpected error has occured.</p>
+          }
+        </div>
     </div>
   );
 }
