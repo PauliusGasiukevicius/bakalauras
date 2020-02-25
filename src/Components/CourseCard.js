@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 
-export default function Header({course}) {
+export default function CourseCard({course}) {
 
   return (
   <div className="m-2 card text-white bg-dark border border-white" style={{width: "400px"}}>

@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import CourseCard from './CourseCard.js'
 
-export default function Header() {
+export default function CourseDisplay() {
 
     const [courses, setCourses] = useState([]);
 
@@ -19,9 +19,9 @@ export default function Header() {
         {_id: 10, name: "Example", desc: "An example description", imageUrl: "https://www.gettyimages.pt/gi-resources/images/Homepage/Hero/PT/PT_hero_42_153645159.jpg"},
     ]);
 
-    fetch('http://localhost:8080/courses')
+    /*fetch('http://localhost:8080/courses')
     .then(resp => resp.json())
-    .then(r => {setCourses(r)})
+    .then(r => {setCourses(r)})*/
 
   return (
   <div className="w-100 container-fluid d-flex flex-wrap justify-content-around">

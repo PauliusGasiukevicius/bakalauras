@@ -39,25 +39,25 @@ export default function Header({onSuccessGoogleAuth, user, onLogout, onSuccessFa
 
           <div className = "input-group form-inline justify-content-center align-items-center w-100">
             <input className="w-100 ml-auto justify-content-center align-items-center form-control mr-sm-2" type="search" placeholder="Search for courses" aria-label="Search"/>
-            <button onClick={()=>setRoute('coursesSearch')} className="btn btn-outline-light my-2 my-md-0" type="submit">
+            <button type="button" onClick={()=>setRoute('coursesSearch')} className="btn btn-outline-light my-2 my-md-0" >
               <i className="fa fa-search"></i></button>
           </div>
 
           {
             user == null ? 
             (<div className = "form-inline justify-content-md-end justify-content-center w-100">
-            <button className="btn btn-outline-light my-2 my-md-0" data-toggle="modal" data-target="#login-modal">
+            <button type="button" className="btn btn-outline-light my-2 my-md-0" data-toggle="modal" data-target="#login-modal">
               <i className="fa fa-sign-in"></i> Login</button>
             </div>)
             :
             (<div className = "form-inline justify-content-md-end justify-content-center w-100">
-            <button onClick={()=>setRoute('courseCreate')} className="btn btn-outline-light my-2 my-md-0 m-1" data-toggle="tooltip" data-placement="bottom" title="Create course">
+            <button type="button" onClick={()=>setRoute('courseCreate')} className="btn btn-outline-light my-2 my-md-0 m-1" data-toggle="tooltip" data-placement="bottom" title="Create course">
               <i className="fa fa-plus"></i></button>
-            <button className="btn btn-outline-light my-2 my-md-0 m-1" data-toggle="tooltip" data-placement="bottom" title="My profile">
+            <button type="button" className="btn btn-outline-light my-2 my-md-0 m-1" data-toggle="tooltip" data-placement="bottom" title="My profile">
               <i className="fa fa-user"></i></button>
-            <button className="btn btn-outline-light my-2 my-md-0 m-1" data-toggle="tooltip" data-placement="bottom" title="My courses">
+            <button type="button" className="btn btn-outline-light my-2 my-md-0 m-1" data-toggle="tooltip" data-placement="bottom" title="My courses">
               <i className="fa fa-folder"></i></button>
-            <button className="btn btn-outline-light my-2 my-md-0 m-1" onClick={onLogout} data-toggle="tooltip" data-placement="bottom" title="Logout">
+            <button type="button" className="btn btn-outline-light my-2 my-md-0 m-1" onClick={onLogout} data-toggle="tooltip" data-placement="bottom" title="Logout">
               <i className="fa fa-sign-in"></i></button>
             </div>)
           }
@@ -78,8 +78,8 @@ export default function Header({onSuccessGoogleAuth, user, onLogout, onSuccessFa
         <div className="modal-body" data-dismiss="modal">
           <GoogleLogin className="w-100 p-1 m-1"
           clientId="289002604454-d8h61qef9mdg6nglvtld21otnnatjkc3.apps.googleusercontent.com"
-          onSuccess={onSuccessGoogleAuth}
-          onFailure={onFailure}
+          onSuccess={(r) => onSuccessGoogleAuth(r)}
+          onFailure={(r) => onFailure(r)}
           cookiePolicy={'single_host_origin'}
           />
 
@@ -88,7 +88,7 @@ export default function Header({onSuccessGoogleAuth, user, onLogout, onSuccessFa
             icon="fa-facebook"
             appId="485952342069924"
             fields="name,email,picture"
-            callback={responseFacebook}
+            callback={(r) => responseFacebook(r)}
             cssClass="fbButton w-100 btn p-1 m-1" />
         </div>
       </div>
