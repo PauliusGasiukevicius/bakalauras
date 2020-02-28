@@ -1,6 +1,4 @@
 const Joi = require('@hapi/joi');
-const multer  = require('multer');
-const upload = multer({ dest: 'uploads/' });
 
 const courseValidationSchema = Joi.object({});
 //^^use this https://hapi.dev/family/joi/
@@ -11,19 +9,21 @@ module.exports = (app, mongoose) => {
         name : String,
         desc : String,
         creator: mongoose.ObjectId,
-        imageUrl: [String]
+        imageUrl: [String],
+        students: Number,
+        rating: Number
         });
     let Course = mongoose.model('course', courseSchema);
 
-    app.post('/createCourse', upload.fields(
-        [{name: 'image', maxCount: 1}, {name: 'name', maxCount: 1}, {name: 'description', maxCount: 1}]),
-        (req, resp) => {
-        console.log(req.body, req.file, req.files);
-        
+    app.post('/createCourse', (req, resp) => {
+        console.log(req.body);
+        let {name, description, imgURL, user} = req.body;
+        console.log(name,description,imgURL, user);
+
         resp.send({err: 'hmm'});
         /*Next:
-         1) upload images to imgur and get link back
-         2) add user _id to POST so we can track creator
+         1) upload images to imgur and get link back [done]
+         2) add user _id to POST so we can track creator [done]
          3) Write JOI validations so that text is not > 1KB
          4) save all that to DB
          5) add get API for courses :user teaches

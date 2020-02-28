@@ -22,5 +22,6 @@ db.on('error', console.error.bind(console, 'connection error:'));
 app.listen(process.env.PORT || 8080, () => {
     db.once('open', () => {
         require('./courseCreation.js')(app, mongoose);
+        require('./users.js')(app, mongoose);
     });
 });

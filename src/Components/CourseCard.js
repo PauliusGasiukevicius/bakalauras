@@ -13,7 +13,7 @@ export default function CourseCard({course}) {
 
         <div className="card-footer">
             <small className="">
-                <i className="fa fa-user" /> {course.userCount || 123456} <br />
+                <i className="fa fa-user" /> {course.students || 123456} <br />
                 <i className="fa fa-star" /> {course.rating || 4.5}
             </small>
         </div>

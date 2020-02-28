@@ -3,25 +3,27 @@ import React, {useState, useEffect, useCallback} from 'react';
 export default function CourseCreation({user}) {
 
   let onChangeImage = (e) => {
-    let img = document.getElementById('courseImageUpload').files[0];
-    let reader = new FileReader();        
-    reader.onload = e => document.getElementById('courseImage').src = e.target.result;        
-    reader.readAsDataURL(img);
+    let img = document.getElementById('courseImageUpload').files[0]; 
+    let apiUrl = 'https://api.imgur.com/3/image';
+    let apiKey = '88f7b792a58698f';
+
+    let formData = new FormData();
+    formData.append("image", img);
+
+    fetch(apiUrl, {method: "POST", mode: "cors", headers:
+       {Authorization: 'Client-ID ' + apiKey, Accept: 'application/json'}, body: formData})
+    .then(r => r.json())
+    .then(r => document.getElementById('courseImage').src = r.data.link);
+
   }
 
   let onSubmitCourse = () => {
     let courseName = document.getElementById('courseName').value;
     let courseDescription = document.getElementById('courseDesc').value;
-    let img = document.getElementById('courseImageUpload').files[0];
+    let imgUrl = document.getElementById('courseImage').src;
 
-    let data = new FormData();
-    data.append('image', img);
-    data.append('name', courseName);
-    data.append('description', courseDescription);
-
-    console.log(data.entries);
-
-    fetch("./createCourse",{method:"POST", body: data})
+    fetch("./createCourse",{method:"POST", headers: {'Content-Type': 'application/json'}, 
+    body: JSON.stringify({name: courseName, description: courseDescription, imgUrl: imgUrl , user: user})})
     .then(r => r.json())
     .then(res => console.log(res));
   }
@@ -30,11 +32,11 @@ export default function CourseCreation({user}) {
   <div className="d-flex text-white w-100 justify-content-around" style={{marginTop: "10rem"}}>
     <form className="w-75">
     <div className="form-group m-2">
-          <img id="courseImage" className=" img-fluid p-3" maxHeight="300px" src="/public/images/default_course_img.png"/>
+          <img id="courseImage" className=" img-fluid p-3" style={{maxHeight: "300px"}} src="/public/images/default_course_img.png"/>
 
-          <div class="custom-file">
-            <input onChange={(e)=>onChangeImage(e)} type="file" class="custom-file-input" id="courseImageUpload" accept="image/gif, image/jpeg, image/png" />
-            <label class="custom-file-label" htmlFor="courseImageUpload">Change Image</label>
+          <div className="custom-file">
+            <input onChange={(e)=>onChangeImage(e)} type="file" className="custom-file-input" id="courseImageUpload" accept="image/gif, image/jpeg, image/png" />
+            <label className="custom-file-label" htmlFor="courseImageUpload">Change Image</label>
           </div>
         </div>
         <div className="form-group m-2">

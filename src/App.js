@@ -15,13 +15,23 @@ function App() {
 
   let onSuccessGoogleAuth = (response) => {
     document.activeElement.blur();
-    setUser({authObj: response.profileObj, authType: "google"}); //save user info + JWT token
-    //ToDo, load backend-stuff like courses/etc
+
+    let data = {...response.profileObj, token: response.tokenId, authType: "google"};
+
+    fetch('/userGoogle', {method: "POST", headers: {'Content-Type': 'application/json'},
+     body: JSON.stringify(data)})
+    .then(r => r.json())
+    .then(r => {
+      if(r && !r.err)setUser(r);
+      else if(r && r.err) alert(r.err);
+    })
   }
 
   let onSuccessFacebookAuth = (response) => {
     document.activeElement.blur();
-    setUser({authObj: (response.authResponse || response), authType: "facebook" });
+    alert('Auth succes, yet FB not yet supported on backend *sigh*')
+    //setUser({authObj: (response.authResponse || response), authType: "facebook" });
+    console.log({authObj: (response.authResponse || response), authType: "facebook" });
     //TODO Note this above OR trick might not work, gotta recheck when DB is connected and stuff
     //ToDo, load backend-stuff like courses/etc
   }
