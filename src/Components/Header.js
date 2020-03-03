@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { GoogleLogin } from 'react-google-login';
 import FacebookLogin from 'react-facebook-login';
 
-export default function Header({onSuccessGoogleAuth, user, onLogout, onSuccessFacebookAuth, setRoute}) {
+export default function Header({setCoursesFilter, onSuccessGoogleAuth, user, onLogout, onSuccessFacebookAuth, setRoute}) {
 
   const onFailure = (response) => {
     alert('Deja jums nepavyko prisijungti');
@@ -10,7 +10,12 @@ export default function Header({onSuccessGoogleAuth, user, onLogout, onSuccessFa
 
   const responseFacebook = (response) => {
     if(response.status == "connected" || response.accessToken)onSuccessFacebookAuth(response);
-    else alert('Deja jums nepavyko prisijungti');
+   else alert('Deja jums nepavyko prisijungti');
+  }
+
+  const clickSearch = () => {
+    setCoursesFilter(document.getElementById('coursesSearchInput').value.toLowerCase);
+    setRoute('coursesSearch');
   }
 
   return (
@@ -38,8 +43,8 @@ export default function Header({onSuccessGoogleAuth, user, onLogout, onSuccessFa
           </div>
 
           <div className = "input-group form-inline justify-content-center align-items-center w-100">
-            <input className="w-100 ml-auto justify-content-center align-items-center form-control mr-sm-2" type="search" placeholder="Search for courses" aria-label="Search"/>
-            <button type="button" onClick={()=>setRoute('coursesSearch')} className="btn btn-outline-light my-2 my-md-0" >
+            <input id="coursesSearchInput" className="w-100 ml-auto justify-content-center align-items-center form-control mr-sm-2" type="search" placeholder="Search for courses" aria-label="Search"/>
+            <button type="button" onClick={()=>clickSearch()} className="btn btn-outline-light my-2 my-md-0" >
               <i className="fa fa-search"></i></button>
           </div>
 
@@ -57,7 +62,7 @@ export default function Header({onSuccessGoogleAuth, user, onLogout, onSuccessFa
               <i className="fa fa-user"></i></button>
             <button type="button" className="btn btn-outline-light my-2 my-md-0 m-1" data-toggle="tooltip" data-placement="bottom" title="My courses">
               <i className="fa fa-folder"></i></button>
-            <button type="button" className="btn btn-outline-light my-2 my-md-0 m-1" onClick={onLogout} data-toggle="tooltip" data-placement="bottom" title="Logout">
+            <button type="button" className="btn btn-outline-light my-2 my-md-0 m-1" onClick={()=>onLogout()} data-toggle="tooltip" data-placement="bottom" title="Logout">
               <i className="fa fa-sign-in"></i></button>
             </div>)
           }

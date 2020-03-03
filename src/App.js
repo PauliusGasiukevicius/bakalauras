@@ -4,6 +4,7 @@ import ls from 'local-storage'
 import Header from './Components/Header.js';
 import CoursesDisplay from './Components/CoursesDisplay.js';
 import CourseCreation from './Components/CourseCreation.js'
+import CourseEdit from './Components/CourseEdit.js'
 import About from './Components/About.js'
 import Donate from './Components/Donate.js'
 import './App.css';
@@ -12,6 +13,9 @@ function App() {
 
   const [route, setRoute] = useState('home');
   const [user, setUser] = useState(null);
+  const [courses, setCourses] = useState([]);
+  const [currentCourse, setCurrentCourse] = useState(null);
+  const [coursesFilter, setCoursesFilter] = useState(null);
 
   let onSuccessGoogleAuth = (response) => {
     document.activeElement.blur();
@@ -38,13 +42,25 @@ function App() {
 
   let onLogout = () => {
     setUser(null);
+    setRoute('home');
   }
 
   useEffect(() => {
     let cachedUser = ls.get('user') || null;
     if(cachedUser != null)setUser(cachedUser);
-  
+
+    fetch('/courses')
+    .then(resp => resp.json())
+    .then(r => {setCourses(r)})
+
   },[]);
+
+  useEffect(() => {
+    if(route=='home' || route=='coursesSearch')
+    fetch('/courses')
+    .then(resp => resp.json())
+    .then(r => {setCourses(r)})
+  },[route]);
  
  useEffect(() => {
     ls.set('user', user);
@@ -53,7 +69,7 @@ function App() {
 
   return (
     <div className="App" style={{backgroundColor: "#282c34"}}>
-      <Header setRoute={setRoute} user={user} onSuccessGoogleAuth={onSuccessGoogleAuth} onLogout={onLogout} onSuccessFacebookAuth={onSuccessFacebookAuth} />
+      <Header setCoursesFilter={setCoursesFilter} setRoute={setRoute} user={user} onSuccessGoogleAuth={onSuccessGoogleAuth} onLogout={onLogout} onSuccessFacebookAuth={onSuccessFacebookAuth} />
         <div className="h-100" style={{backgroundColor: "#282c34", marginTop: "60px"}}>
           {
             route == 'home' ? 
@@ -62,16 +78,18 @@ function App() {
                 <p>
                   Bachelor WIP
                 </p>
-                <CoursesDisplay />
+                <CoursesDisplay courses={courses} coursesFilter={coursesFilter}/>
               </header>
             : route == 'coursesSearch' ?
-              <CoursesDisplay />
+              <CoursesDisplay courses={courses} coursesFilter={coursesFilter}/>
             : route == 'about' ?
               <About />
             : route == 'donate' ?
               <Donate />
+            : route == 'courseEdit' ?
+              <CourseEdit currentCourse={currentCourse} user={user}/>
             : route == 'courseCreate' ?
-              <CourseCreation user={user}/>
+              <CourseCreation user={user} setRoute={setRoute} setCurrentCourse={setCurrentCourse}/>
             : <p>An unexpected error has occured.</p>
           }
         </div>

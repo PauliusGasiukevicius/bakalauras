@@ -9,31 +9,39 @@ module.exports = (app, mongoose) => {
         name : String,
         desc : String,
         creator: mongoose.ObjectId,
-        imageUrl: [String],
+        imageUrl: String,
         students: Number,
+        ratingsCount: Number,
         rating: Number
         });
     let Course = mongoose.model('course', courseSchema);
 
     app.post('/createCourse', (req, resp) => {
-        console.log(req.body);
-        let {name, description, imgURL, user} = req.body;
-        console.log(name,description,imgURL, user);
+        //console.log(req.body);
+        let {name, description, imgUrl, user} = req.body;
+        if(!user || !user._id)return resp.send({err: 'You need to be logged in to create new courses'});
+        if(name && name.length > 50)return resp.send({err: 'Course name cannot be longer than 50 symbols'});
+        if(description && description.length > 1024)return resp.send({err: 'Course description cannot be longer than 1024 symbols'});
 
-        resp.send({err: 'hmm'});
-        /*Next:
-         1) upload images to imgur and get link back [done]
-         2) add user _id to POST so we can track creator [done]
-         3) Write JOI validations so that text is not > 1KB
-         4) save all that to DB
-         5) add get API for courses :user teaches
-         opt) add API for get courses from :filters and range of [x,y] (and load more button on start)
-        */
-        /*let course = new Course({ });
-        course.save((err,res) => {
+        Course.find({name: name}, (err, doc) => {
             if(err)return resp.send({err: "DB ERROR"});
-            return resp.send(res);
-        });*/
+            if(doc.length > 0)return resp.send({err: "course with such name already exists"});
+
+            let course = new Course({
+                name : name,
+                desc : description,
+                creator: mongoose.Types.ObjectId(user._id),
+                imageUrl: imgUrl,
+                students: 0,
+                ratingsCount: 0,
+                rating: 0
+            });
+
+            course.save((err,res) => {
+                if(err)return resp.send({err: "DB ERROR"});
+                return resp.send(res);
+            });
+        });
     });
 
     app.get('/courses', (req,resp) => {
