@@ -1,8 +1,3 @@
-const Joi = require('@hapi/joi');
-
-const courseValidationSchema = Joi.object({});
-//^^use this https://hapi.dev/family/joi/
-
 module.exports = (app, mongoose) => {
 
     let courseSchema = new mongoose.Schema({
@@ -14,13 +9,14 @@ module.exports = (app, mongoose) => {
         ratingsCount: Number,
         rating: Number
         });
+
     let Course = mongoose.model('course', courseSchema);
 
     app.post('/createCourse', (req, resp) => {
         //console.log(req.body);
         let {name, description, imgUrl, user} = req.body;
         if(!user || !user._id)return resp.send({err: 'You need to be logged in to create new courses'});
-        if(name && name.length > 50)return resp.send({err: 'Course name cannot be longer than 50 symbols'});
+        if(name && name.length > 40)return resp.send({err: 'Course name cannot be longer than 40 symbols'});
         if(description && description.length > 1024)return resp.send({err: 'Course description cannot be longer than 1024 symbols'});
 
         Course.find({name: name}, (err, doc) => {
@@ -41,6 +37,13 @@ module.exports = (app, mongoose) => {
                 if(err)return resp.send({err: "DB ERROR"});
                 return resp.send(res);
             });
+        });
+    });
+
+    app.get('/courses/user/teach/:id', (req,resp) => {
+        Course.find({creator: req.params.id}, (err,docs) => {
+            if(err)return resp.send({err: "DB ERROR"});
+            return resp.send(docs);
         });
     });
 

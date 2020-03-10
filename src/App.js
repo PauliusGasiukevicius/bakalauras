@@ -7,15 +7,17 @@ import CourseCreation from './Components/CourseCreation.js'
 import CourseEdit from './Components/CourseEdit.js'
 import About from './Components/About.js'
 import Donate from './Components/Donate.js'
+import UserProfile from './Components/UserProfile.js'
+import CoursesITeach from './Components/CoursesITeach.js'
 import './App.css';
 
 function App() {
 
   const [route, setRoute] = useState('home');
   const [user, setUser] = useState(null);
-  const [courses, setCourses] = useState([]);
+  const [courses, setCourses] = useState(null);
   const [currentCourse, setCurrentCourse] = useState(null);
-  const [coursesFilter, setCoursesFilter] = useState(null);
+  const [coursesFilter, setCoursesFilter] = useState('');
 
   let onSuccessGoogleAuth = (response) => {
     document.activeElement.blur();
@@ -28,6 +30,7 @@ function App() {
     .then(r => {
       if(r && !r.err)setUser(r);
       else if(r && r.err) alert(r.err);
+      console.log(r);
     })
   }
 
@@ -70,7 +73,7 @@ function App() {
   return (
     <div className="App" style={{backgroundColor: "#282c34"}}>
       <Header setCoursesFilter={setCoursesFilter} setRoute={setRoute} user={user} onSuccessGoogleAuth={onSuccessGoogleAuth} onLogout={onLogout} onSuccessFacebookAuth={onSuccessFacebookAuth} />
-        <div className="h-100" style={{backgroundColor: "#282c34", marginTop: "60px"}}>
+        <div className="h-100" style={{backgroundColor: "#282c34", marginTop: "65px"}}>
           {
             route == 'home' ? 
               <header className="App-header">
@@ -78,14 +81,18 @@ function App() {
                 <p>
                   Bachelor WIP
                 </p>
-                <CoursesDisplay courses={courses} coursesFilter={coursesFilter}/>
+                <CoursesDisplay courses={courses} user={user}/>
               </header>
             : route == 'coursesSearch' ?
-              <CoursesDisplay courses={courses} coursesFilter={coursesFilter}/>
+              <CoursesDisplay courses={courses} coursesFilter={coursesFilter} user={user}/>
+            : route == 'coursesITeach' ?
+              <CoursesITeach user={user}/>
             : route == 'about' ?
               <About />
             : route == 'donate' ?
-              <Donate />
+              <Donate user={user}/>
+            : route == 'profile' ?
+              <UserProfile user={user}/>
             : route == 'courseEdit' ?
               <CourseEdit currentCourse={currentCourse} user={user}/>
             : route == 'courseCreate' ?

@@ -18,7 +18,7 @@ module.exports = (app, mongoose) => {
         fetch('https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=' + req.body.token)
         .then(res => res.json())
         .then(user => {
-            if(!user.email)return resp.send({err: "Baigesi prisijungimo galiojimo laikas"});
+            if(!user.email)return resp.send({err: "Session has expired, plese relogin"});
 
             User.findOne({ID: "G"+req.body.googleId}, (err, res) => {
                 if(err)return resp.send({err: "DB klaida"});

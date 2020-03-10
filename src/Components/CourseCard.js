@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 
-export default function CourseCard({course}) {
+export default function CourseCard({course, user}) {
 
   return (
   <div className="m-2 card text-white bg-dark border border-white" style={{width: "400px"}}>
@@ -8,7 +8,11 @@ export default function CourseCard({course}) {
 
         <div className="card-body">
             <h2 className="card-title">{course.name}</h2>
-            <p className="card-text">{course.desc}</p>
+            <p className="card-text">{course.desc.length > 80 ? course.desc.substring(0, 79) + "..." : course.desc}</p>
+            {!user ? <></> :
+            user.courses.includes(course._id) ? 
+            <button type="button" className="w-100 btn btn-success">continue course</button> : 
+            <button type="button" className="w-100 btn btn-warning">Enter course</button>}
         </div>
 
         <div className="card-footer">

@@ -14,7 +14,7 @@ export default function Header({setCoursesFilter, onSuccessGoogleAuth, user, onL
   }
 
   const clickSearch = () => {
-    setCoursesFilter(document.getElementById('coursesSearchInput').value.toLowerCase);
+    setCoursesFilter(document.getElementById('coursesSearchInput').value.toLowerCase());
     setRoute('coursesSearch');
   }
 
@@ -58,10 +58,12 @@ export default function Header({setCoursesFilter, onSuccessGoogleAuth, user, onL
             (<div className = "form-inline justify-content-md-end justify-content-center w-100">
             <button type="button" onClick={()=>setRoute('courseCreate')} className="btn btn-outline-light my-2 my-md-0 m-1" data-toggle="tooltip" data-placement="bottom" title="Create course">
               <i className="fa fa-plus"></i></button>
-            <button type="button" className="btn btn-outline-light my-2 my-md-0 m-1" data-toggle="tooltip" data-placement="bottom" title="My profile">
+            <button type="button" onClick={()=>setRoute('profile')} className="btn btn-outline-light my-2 my-md-0 m-1" data-toggle="tooltip" data-placement="bottom" title="My profile">
               <i className="fa fa-user"></i></button>
             <button type="button" className="btn btn-outline-light my-2 my-md-0 m-1" data-toggle="tooltip" data-placement="bottom" title="My courses">
               <i className="fa fa-folder"></i></button>
+            <button type="button" onClick={()=>setRoute('coursesITeach')} className="btn btn-outline-light my-2 my-md-0 m-1" data-toggle="tooltip" data-placement="bottom" title="Courses I teach">
+              <i class="fa fa-graduation-cap"></i></button>
             <button type="button" className="btn btn-outline-light my-2 my-md-0 m-1" onClick={()=>onLogout()} data-toggle="tooltip" data-placement="bottom" title="Logout">
               <i className="fa fa-sign-in"></i></button>
             </div>)
