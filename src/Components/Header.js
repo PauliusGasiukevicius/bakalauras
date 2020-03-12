@@ -1,4 +1,5 @@
-import React, {useState, useEffect} from 'react';
+/* eslint-disable eqeqeq */
+import React, {} from 'react';
 import { GoogleLogin } from 'react-google-login';
 import FacebookLogin from 'react-facebook-login';
 
@@ -63,7 +64,7 @@ export default function Header({setCoursesFilter, onSuccessGoogleAuth, user, onL
             <button type="button" className="btn btn-outline-light my-2 my-md-0 m-1" data-toggle="tooltip" data-placement="bottom" title="My courses">
               <i className="fa fa-folder"></i></button>
             <button type="button" onClick={()=>setRoute('coursesITeach')} className="btn btn-outline-light my-2 my-md-0 m-1" data-toggle="tooltip" data-placement="bottom" title="Courses I teach">
-              <i class="fa fa-graduation-cap"></i></button>
+              <i className="fa fa-graduation-cap"></i></button>
             <button type="button" className="btn btn-outline-light my-2 my-md-0 m-1" onClick={()=>onLogout()} data-toggle="tooltip" data-placement="bottom" title="Logout">
               <i className="fa fa-sign-in"></i></button>
             </div>)

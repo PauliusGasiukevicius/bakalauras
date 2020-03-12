@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import CoursesDisplay from './CoursesDisplay.js'
 
-export default function CoursesITeach({user}) {
+export default function CoursesITeach({user, goToCourseView}) {
   
     const [courses, setCourses] = useState(null);
 
@@ -12,7 +12,7 @@ export default function CoursesITeach({user}) {
             if(r.err)console.log(r);
             else setCourses(r);
         })
-        },[]);
+        });
 
-    return <CoursesDisplay courses={courses} user={user}/>;
+    return <CoursesDisplay courses={courses} user={user} goToCourseView={goToCourseView}/>;
 }

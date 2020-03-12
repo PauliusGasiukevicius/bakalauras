@@ -1,7 +1,7 @@
-import React, {useState, useEffect} from 'react';
+import React, {} from 'react';
 import CourseCard from './CourseCard.js'
 
-export default function CourseDisplay({courses, coursesFilter, user}) {
+export default function CourseDisplay({courses, coursesFilter, user, goToCourseView}) {
   return (
   <div className="w-100 container-fluid d-flex flex-wrap justify-content-around">
         {
@@ -9,7 +9,7 @@ export default function CourseDisplay({courses, coursesFilter, user}) {
             courses.filter(course => {
                 if(coursesFilter)return course.name.toLowerCase().includes(coursesFilter);
                 return 1;
-            }).map(course => <CourseCard user={user} course={course} key={"Course" + course._id}/>)
+            }).map(course => <CourseCard goToCourseView={goToCourseView} user={user} course={course} key={"Course" + course._id}/>)
         }
   </div>
   );

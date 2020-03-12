@@ -1,7 +1,7 @@
-import React, {useState, useEffect} from 'react';
+import React, {} from 'react';
 import CoursesITeach from './CoursesITeach.js';
 
-export default function UserProfile({user}) {
+export default function UserProfile({user, goToCourseView}) {
 
   return (
     <div className="m-2 card text-white bg-dark border border-white">
@@ -14,18 +14,18 @@ export default function UserProfile({user}) {
         <div className="card-footer">
             <div className="m-2 card text-white bg-dark border border-white">
                 <div className="card-body">
-                    <h2 className="card-title">Badges of {user.name}</h2>
+                    <h2 className="card-title">Badges of {user.name} :</h2>
                 </div>
             </div>
             <div className="m-2 card text-white bg-dark border border-white">
                 <div className="card-body">
-                    <h2 className="card-title">Courses {user.name} is studying:</h2>
+                    <h2 className="card-title">Courses {user.name} is studying :</h2>
                 </div>
             </div>
             <div className="m-2 card text-white bg-dark border border-white">
                 <div className="card-body">
-                    <h2 className="card-title">Courses {user.name} is teaching:</h2>
-                    {<CoursesITeach user={user}/>}
+                    <h2 className="card-title">Courses {user.name} is teaching :</h2>
+                    {<CoursesITeach goToCourseView={goToCourseView} user={user}/>}
                 </div>
             </div>
         </div>

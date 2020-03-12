@@ -5,6 +5,7 @@ import Header from './Components/Header.js';
 import CoursesDisplay from './Components/CoursesDisplay.js';
 import CourseCreation from './Components/CourseCreation.js'
 import CourseEdit from './Components/CourseEdit.js'
+import CourseView from './Components/CourseView.js'
 import About from './Components/About.js'
 import Donate from './Components/Donate.js'
 import UserProfile from './Components/UserProfile.js'
@@ -19,6 +20,12 @@ function App() {
   const [currentCourse, setCurrentCourse] = useState(null);
   const [coursesFilter, setCoursesFilter] = useState('');
 
+  let goToCourseView = (course, edit = false) => {
+    setCurrentCourse(course);
+    if(!edit)setRoute('courseView');
+    else setRoute('courseEdit');
+  }
+
   let onSuccessGoogleAuth = (response) => {
     document.activeElement.blur();
 
@@ -29,8 +36,11 @@ function App() {
     .then(r => r.json())
     .then(r => {
       if(r && !r.err)setUser(r);
-      else if(r && r.err) alert(r.err);
-      console.log(r);
+      else if(r && r.err)
+      {
+        alert(r.err);
+        setUser(null);
+      }
     })
   }
 
@@ -81,20 +91,22 @@ function App() {
                 <p>
                   Bachelor WIP
                 </p>
-                <CoursesDisplay courses={courses} user={user}/>
+                <CoursesDisplay courses={courses} user={user} goToCourseView={goToCourseView}/>
               </header>
             : route == 'coursesSearch' ?
-              <CoursesDisplay courses={courses} coursesFilter={coursesFilter} user={user}/>
+              <CoursesDisplay courses={courses} coursesFilter={coursesFilter} user={user} goToCourseView={goToCourseView}/>
             : route == 'coursesITeach' ?
-              <CoursesITeach user={user}/>
+              <CoursesITeach user={user} goToCourseView={goToCourseView}/>
             : route == 'about' ?
               <About />
             : route == 'donate' ?
               <Donate user={user}/>
             : route == 'profile' ?
-              <UserProfile user={user}/>
+              <UserProfile user={user} goToCourseView={goToCourseView}/>
             : route == 'courseEdit' ?
-              <CourseEdit currentCourse={currentCourse} user={user}/>
+              <CourseEdit course={currentCourse} user={user}/>
+              : route == 'courseView' ?
+              <CourseView course={currentCourse} user={user}/>
             : route == 'courseCreate' ?
               <CourseCreation user={user} setRoute={setRoute} setCurrentCourse={setCurrentCourse}/>
             : <p>An unexpected error has occured.</p>
