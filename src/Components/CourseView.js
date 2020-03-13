@@ -1,10 +1,30 @@
 import React, {useEffect} from 'react';
 
-export default function CourseView({course, user}) {
+export default function CourseView({course, user, setRoute, goToCourseView, setUser}) {
 
     useEffect(() => {
         setTimeout(document.getElementById('courseViewFirstTab').click(),50);
     }, []);
+
+    const joinCourse = () => {
+        fetch(`/joinCourse/${course._id}`, {method: 'POST', headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({user: user})})
+            .then(r => r.json())
+            .then(r => {
+                if(r && r.err)alert(r.err);
+                else setUser(r);
+            })
+    }
+
+    const leaveCourse = () => {
+        fetch(`/leaveCourse/${course._id}`, {method: 'POST', headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({user: user})})
+        .then(r => r.json())
+        .then(r => {
+            if(r && r.err)alert(r.err);
+            else setUser(r);
+        }) 
+    }
 
   return (
     <div className="w-100" style={{color: "white"}}>
@@ -31,13 +51,13 @@ export default function CourseView({course, user}) {
                     <div className="card-body">
                         <h2 className="card-title">{course.name}</h2>
                         <p className="card-text">{course.desc}</p>
-                        {!user ? <></> :
+                        {!user ? <></> : 
                         user.courses.includes(course._id) ? 
-                        <button onClick={console.log('ha')} type="button" className="m-1 w-100 btn btn-danger">Leave course</button> : 
-                        <button onClick={console.log('ha')} type="button" className="m-1 w-100 btn btn-success">Join course</button>}
+                        <button onClick={()=>leaveCourse()} type="button" className="m-1 w-100 btn btn-danger">Leave course</button> : 
+                        <button onClick={()=>joinCourse()} type="button" className="m-1 w-100 btn btn-success">Join course</button>}
                         {!user ? <></> :
                         course.creator === user._id ? 
-                        <button onClick={console.log('ha')} type="button" className="m-1 w-100 btn btn-warning">Edit course</button> : 
+                        <button onClick={()=>goToCourseView(course,1)} type="button" className="m-1 w-100 btn btn-warning">Edit course</button> : 
                         <></>}
                     </div>
 

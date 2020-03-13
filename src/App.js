@@ -10,6 +10,7 @@ import About from './Components/About.js'
 import Donate from './Components/Donate.js'
 import UserProfile from './Components/UserProfile.js'
 import CoursesITeach from './Components/CoursesITeach.js'
+import CoursesIStudy from './Components/CoursesIStudy.js'
 import './App.css';
 
 function App() {
@@ -97,6 +98,8 @@ function App() {
               <CoursesDisplay courses={courses} coursesFilter={coursesFilter} user={user} goToCourseView={goToCourseView}/>
             : route == 'coursesITeach' ?
               <CoursesITeach user={user} goToCourseView={goToCourseView}/>
+              : route == 'coursesIStudy' ?
+              <CoursesIStudy user={user} goToCourseView={goToCourseView}/>
             : route == 'about' ?
               <About />
             : route == 'donate' ?
@@ -104,9 +107,9 @@ function App() {
             : route == 'profile' ?
               <UserProfile user={user} goToCourseView={goToCourseView}/>
             : route == 'courseEdit' ?
-              <CourseEdit course={currentCourse} user={user}/>
+              <CourseEdit course={currentCourse} user={user} setRoute={setRoute}/>
               : route == 'courseView' ?
-              <CourseView course={currentCourse} user={user}/>
+              <CourseView setUser={setUser} course={currentCourse} user={user} setRoute={setRoute} goToCourseView={goToCourseView}/>
             : route == 'courseCreate' ?
               <CourseCreation user={user} setRoute={setRoute} setCurrentCourse={setCurrentCourse}/>
             : <p>An unexpected error has occured.</p>

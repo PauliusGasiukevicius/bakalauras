@@ -2,17 +2,7 @@ const fetch = require('node-fetch');
 
 module.exports = (app, mongoose) => {
 
-    let userSchema = new mongoose.Schema({
-        ID: String,
-        name : String,
-        email : String,
-        imageUrl: String,
-        createdCourses: [mongoose.ObjectId],
-        courses: [mongoose.ObjectId],
-        badges: [mongoose.ObjectId]
-        });
-
-    let User = mongoose.model('user', userSchema);
+    let User = require('./models/user.js');
 
     app.post('/userGoogle', (req, resp) => {
         fetch('https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=' + req.body.token)

@@ -14,6 +14,7 @@ app.get('/', (req, res) => {
 });
 
 const mongoose = require('mongoose');
+mongoose.set('useFindAndModify', false);
 mongoose.connect(process.env.DB_URL, {useNewUrlParser: true, useUnifiedTopology: true });
 
 const db = mongoose.connection;
@@ -22,6 +23,6 @@ db.on('error', console.error.bind(console, 'connection error:'));
 app.listen(process.env.PORT || 8080, () => {
     db.once('open', () => {
         require('./courses.js')(app, mongoose);
-        require('./users.js')(app, mongoose);
+        require('./userGoogleLogin.js')(app, mongoose);
     });
 });

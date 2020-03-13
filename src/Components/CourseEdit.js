@@ -1,10 +1,23 @@
 import React, {useEffect} from 'react';
 
-export default function CourseEdit({course, user}) {
+export default function CourseEdit({course, user, setRoute}) {
 
     useEffect(() => {
         setTimeout(document.getElementById('courseViewFirstTab').click(),50);
     }, []);
+
+    const deleteCourse = () => {
+        if(window.confirm("Are you sure you want to delete this course? This action cannot be undone."))
+        {
+            fetch(`/deleteCourse/${course._id}`, {method: 'DELETE', headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({user: user})})
+            .then(r => r.json())
+            .then(r => {
+                if(r && r.err)alert(r.err);
+                setRoute('home');
+            })
+        }
+    }
 
   return (
     <div className="w-100" style={{color: "white"}}>
@@ -28,7 +41,7 @@ export default function CourseEdit({course, user}) {
                     <div className="card-body">
                         <h2 className="card-title">{course.name}</h2>
                         <p className="card-text">{course.desc}</p>
-                        <button onClick={console.log('ha')} type="button" className="m-1 w-100 btn btn-danger">Delete course</button>
+                        <button onClick={() => deleteCourse()} type="button" className="m-1 w-100 btn btn-danger">Delete course</button>
                     </div>
 
                     <div className="card-footer">

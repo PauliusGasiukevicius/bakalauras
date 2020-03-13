@@ -61,7 +61,7 @@ export default function Header({setCoursesFilter, onSuccessGoogleAuth, user, onL
               <i className="fa fa-plus"></i></button>
             <button type="button" onClick={()=>setRoute('profile')} className="btn btn-outline-light my-2 my-md-0 m-1" data-toggle="tooltip" data-placement="bottom" title="My profile">
               <i className="fa fa-user"></i></button>
-            <button type="button" className="btn btn-outline-light my-2 my-md-0 m-1" data-toggle="tooltip" data-placement="bottom" title="My courses">
+            <button type="button" onClick={()=>setRoute('coursesIStudy')} className="btn btn-outline-light my-2 my-md-0 m-1" data-toggle="tooltip" data-placement="bottom" title="My courses">
               <i className="fa fa-folder"></i></button>
             <button type="button" onClick={()=>setRoute('coursesITeach')} className="btn btn-outline-light my-2 my-md-0 m-1" data-toggle="tooltip" data-placement="bottom" title="Courses I teach">
               <i className="fa fa-graduation-cap"></i></button>

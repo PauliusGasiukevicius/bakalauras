@@ -5,7 +5,7 @@ export default function CourseDisplay({courses, coursesFilter, user, goToCourseV
   return (
   <div className="w-100 container-fluid d-flex flex-wrap justify-content-around">
         {
-            !courses ? <i class="fa fa-lg fa-spinner fa-spin"></i> :
+            !courses ? <i className="fa fa-spinner fa-spin text-white" style={{fontSize: "3em"}}></i> :
             courses.filter(course => {
                 if(coursesFilter)return course.name.toLowerCase().includes(coursesFilter);
                 return 1;
