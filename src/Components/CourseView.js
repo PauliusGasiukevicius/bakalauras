@@ -1,4 +1,5 @@
 import React, {useEffect} from 'react';
+import CourseContent from './CourseContent.js';
 
 export default function CourseView({course, user, setRoute, goToCourseView, setUser}) {
 
@@ -70,15 +71,15 @@ export default function CourseView({course, user, setRoute, goToCourseView, setU
                 </div>
             </div>
             <div id="content" className="tab-pane fade">
-                <h3>Content</h3>
-                <p>//TODO</p>
+                <h3 className="p-2">Content</h3>
+                <CourseContent user={user} course={course}/>
             </div>
             <div id="badges" className="tab-pane fade">
-                <h3>Badges</h3>
+                <h3 className="p-2">Badges</h3>
                 <p>//TODO</p>
             </div>
             <div id="qa" className="tab-pane fade">
-                <h3>Q & A</h3>
+                <h3 className="p-2">Q & A</h3>
                 <p>//TODO</p>
             </div>
         </div>

@@ -16,8 +16,8 @@ import './App.css';
 function App() {
 
   const [route, setRoute] = useState('home');
-  const [user, setUser] = useState(null);
-  const [courses, setCourses] = useState(null);
+  const [user, setUser] = useState({'name': 'John Snow', courses: [1]});
+  const [courses, setCourses] = useState([{_id: 1, name:'a', desc:'b'}]);
   const [currentCourse, setCurrentCourse] = useState(null);
   const [coursesFilter, setCoursesFilter] = useState('');
 

@@ -1,4 +1,5 @@
 import React, {useEffect} from 'react';
+import CourseContent from './CourseContent.js';
 
 export default function CourseEdit({course, user, setRoute}) {
 
@@ -54,7 +55,7 @@ export default function CourseEdit({course, user, setRoute}) {
             </div>
             <div id="edit-content" className="tab-pane fade">
                 <h3>Content</h3>
-                <p>//TODO</p>
+                <CourseContent user={user} course={course}/>
             </div>
             <div id="edit-badges" className="tab-pane fade">
                 <h3>Badges</h3>
