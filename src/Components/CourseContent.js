@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import Section from './Section.js';
+import AddNewSectionModal from './AddNewSectionModal.js';
 
 export default function CourseContent({course, user}) {
-    const [data, setData] = useState([
-      {name: 'Section 1', items: [{name: 'hmm'}, {name: 'test'}, {name: 'hmm3'}]},
-      {name: 'Section 2', items: [{name: '3.txt'}]},
-      {name: 'Section 3', items: [{name: '4.html'}]},
+  
+  const [data, setData] = useState([
+      {_id: '321sd21s', name: 'Section 1', items: [{_id: 'sdfsdffs', name: 'hmm'}, {_id: 'sdfsdffs', name: 'test'}, {_id: 'sdfsdffs', name: 'hmm3'}]},
+      {_id: 'sdfsdffs', name: 'Section 2', items: [{_id: 'sdfsdffs', name: '3.txt'}]},
+      {_id: 'fgfggd1s', name: 'Section 3', items: [{_id: 'sdfsdffs', name: '4.html'}]},
     ]);
 
     let courseSectionAction = (sectionID, action) => {
@@ -32,7 +34,6 @@ export default function CourseContent({course, user}) {
 
     let courseItemAction = (sectionID, itemID, action) => {
       let A = JSON.parse(JSON.stringify(data));
-      console.log(A);
       switch(action){
         case 'UP':
           if(itemID == 0)return;
@@ -53,26 +54,30 @@ export default function CourseContent({course, user}) {
       }
     }
 
+    let createNewSection = (name) => {
+      if(name == '')return alert('name cannot be empty');
+      let A = JSON.parse(JSON.stringify(data));
+      A.push({name:name, items: [], id: new Date().getTime() + Math.random().toString()});
+      setData(A);
+    }
+
+    let createNewSectionItem = (sectionId, name, location) => {
+      if(name == '')return alert('name cannot be empty');
+      let A = JSON.parse(JSON.stringify(data));
+      A[sectionId].items.push({name:name, location: '', _id: new Date().getTime() + Math.random().toString()});
+      setData(A);
+    }
+
   return (
   <div style={{color: "white"}}>
       
       {!data ? <></> :
       data.map((section, idx) => 
-      <Section sectionId={idx}
-      itemAction={courseItemAction}
-      sectionAction={courseSectionAction}
-       key={course._id+section.name} 
-       items={section.items} 
-       name={section.name} 
-       course={course} 
-       user={user} />
-      )}
+      <Section sectionId={idx} itemAction={courseItemAction} sectionAction={courseSectionAction}
+      createNewSectionItem={createNewSectionItem} key={course._id+section._id} 
+      section={section} course={course} user={user} />)}
     
-    <button className="btn btn-outline-light mx-auto" style={{fontSize: "1.2em"}}>
-        <p className="align-middle p-0 m-0">
-          New section <i className="fa fa-plus-circle"></i>
-        </p>
-    </button>
+    <AddNewSectionModal createNewSection={createNewSection} />
 
   </div>
   );

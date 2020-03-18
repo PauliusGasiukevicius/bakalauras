@@ -1,5 +1,5 @@
 module.exports = (app, mongoose) => {
-    let Course = require('./models/course.js');
+    let Course = require('./models/courseModel.js');
 
     app.post('/createCourse', (req, resp) => {
         //console.log(req.body);

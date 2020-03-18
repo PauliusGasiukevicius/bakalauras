@@ -1,7 +1,7 @@
 module.exports = (app, mongoose) => {
 
-    let Course = require('./models/course.js');
-    let User = require('./models/user.js');
+    let Course = require('./models/courseModel.js');
+    let User = require('./models/userModel.js');
 
     app.post('/leaveCourse/:course_id/', async (req, resp) => {
         let {user} = req.body;

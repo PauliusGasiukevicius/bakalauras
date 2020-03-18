@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import Item from './Item.js';
+import AddNewItemModal from './AddNewItemModal.js';
 
-export default function Section({course, user, items, name, itemAction, sectionAction, sectionId}) {
+export default function Section({course, user, section, itemAction, sectionAction, sectionId, createNewSectionItem}) {
 
-let ID = name.replace(/ /g,'_');
+  let {name, items, _id} = section;
   const [arrowUp, setArrowUp] = useState(false);
   const [check, setCheck] = useState(false);
 
@@ -18,7 +19,7 @@ let ID = name.replace(/ /g,'_');
         <button onClick={()=>setCheck(!check)} className="btn btn-outline-light">
             <i className={`fa fa-${check?'check-':''}square`} style={{fontSize: '2em'}}></i>
         </button>
-        <button onClick={()=>setArrowUp(!arrowUp)} className="w-100 btn btn-outline-light" type="button" data-toggle="collapse" data-target={'#'+ID}>
+        <button onClick={()=>setArrowUp(!arrowUp)} className="w-100 btn btn-outline-light" type="button" data-toggle="collapse" data-target={'#section'+_id}>
             <div>
                 {name}
                 <i className={`fa fa-arrow-circle-${arrowUp ? 'up' : 'down'} pull-right`} style={{fontSize: '2em'}}></i>
@@ -38,7 +39,7 @@ let ID = name.replace(/ /g,'_');
         </button>
     </div>
 
-    <div className="collapse" id={ID}>
+    <div className="collapse" id={'section'+_id}>
         <div className="card card-body bg-dark border border-white">
             <ul>
                 {!items ? <></> :
@@ -47,18 +48,14 @@ let ID = name.replace(/ /g,'_');
                     itemId={idx}
                     sectionId={sectionId}
                     itemAction={itemAction}
-                    key={course._id+name+item.name} 
+                    key={course._id+section._id+item._id} 
                     location={item.location} 
                     name={item.name} 
                     course={course} 
                     user={user} />
                 )}
             </ul>
-            <button className="btn btn-outline-light mx-auto" style={{fontSize: "1.2em"}}>
-                <p className="align-middle p-0 m-0">
-                    New item <i className="fa fa-plus-circle"></i>
-                </p>
-            </button>
+            <AddNewItemModal sectionId={sectionId} createNewSectionItem={createNewSectionItem}/>
         </div>
     </div>
   </div>

@@ -2,7 +2,7 @@ const fetch = require('node-fetch');
 
 module.exports = (app, mongoose) => {
 
-    let User = require('./models/user.js');
+    let User = require('./models/userModel.js');
 
     app.post('/userGoogle', (req, resp) => {
         fetch('https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=' + req.body.token)

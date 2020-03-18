@@ -23,6 +23,7 @@ db.on('error', console.error.bind(console, 'connection error:'));
 app.listen(process.env.PORT || 8080, () => {
     db.once('open', () => {
         require('./courses.js')(app, mongoose);
+        require('./courseContent.js')(app, mongoose);
         require('./userGoogleLogin.js')(app, mongoose);
     });
 });
