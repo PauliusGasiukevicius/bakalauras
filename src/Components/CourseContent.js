@@ -1,15 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Section from './Section.js';
 import AddNewSectionModal from './AddNewSectionModal.js';
 
 export default function CourseContent({course, user}) {
   
-  const [data, setData] = useState([
-      {_id: '321sd21s', name: 'Section 1', items: [{_id: 'sdfsdffs', name: 'hmm'}, {_id: 'sdfsdffs', name: 'test'}, {_id: 'sdfsdffs', name: 'hmm3'}]},
-      {_id: 'sdfsdffs', name: 'Section 2', items: [{_id: 'sdfsdffs', name: '3.txt'}]},
-      {_id: 'fgfggd1s', name: 'Section 3', items: [{_id: 'sdfsdffs', name: '4.html'}]},
-    ]);
+  const [data, setData] = useState(null);
 
+  useEffect(() => {
+    fetch(`/getCourseContent/${course._id}`)
+    .then(r => r.json())
+    .then(r => {
+      if(!r.err)setData(r);
+      console.log(r);
+    });
+  },[]);
+
+  //id now mean actual db _id so should fix code to use pos
     let courseSectionAction = (sectionID, action) => {
       let A = JSON.parse(JSON.stringify(data));
       switch(action){
@@ -32,6 +38,7 @@ export default function CourseContent({course, user}) {
       }
     }
 
+    //id now mean actual db _id so should fix code to use pos
     let courseItemAction = (sectionID, itemID, action) => {
       let A = JSON.parse(JSON.stringify(data));
       switch(action){
@@ -54,30 +61,52 @@ export default function CourseContent({course, user}) {
       }
     }
 
-    let createNewSection = (name) => {
+    let createNewSection = async (name, setSectionLoading) => {
       if(name == '')return alert('name cannot be empty');
       let A = JSON.parse(JSON.stringify(data));
-      A.push({name:name, items: [], id: new Date().getTime() + Math.random().toString()});
-      setData(A);
+
+      setSectionLoading(true);
+      let resp = await fetch(`/addSection/${course._id}`, 
+      {method:"POST", headers: {'Content-Type': 'application/json'}, body: JSON.stringify({name: name, user: user})});
+      let json = await resp.json();
+      setSectionLoading(false);
+
+      if(json._id)
+      {
+        A.push(json);
+        setData(A);
+      }
     }
 
-    let createNewSectionItem = (sectionId, name, location) => {
+    let createNewSectionItem = async (sectionPos, sectionId, name, setItemLoading, location='test', type='test') => {
       if(name == '')return alert('name cannot be empty');
       let A = JSON.parse(JSON.stringify(data));
-      A[sectionId].items.push({name:name, location: '', _id: new Date().getTime() + Math.random().toString()});
-      setData(A);
+
+      setItemLoading(true);
+      let resp = await fetch(`/addItem/${course._id}/${sectionId}`, 
+      {method:"POST", headers: {'Content-Type': 'application/json'}, body: JSON.stringify({name: name, location: location, type: type, user: user})});
+      let json = await resp.json();
+      setItemLoading(false);
+
+      console.log(json);
+
+      if(json._id)
+      {
+        A[sectionPos].items.push(json);
+        setData(A);
+      }
     }
 
   return (
   <div style={{color: "white"}}>
       
-      {!data ? <></> :
+      {!data ? <i className="fa fa-spinner fa-spin text-white" style={{fontSize: "3em"}}></i> :
       data.map((section, idx) => 
-      <Section sectionId={idx} itemAction={courseItemAction} sectionAction={courseSectionAction}
+      <Section itemAction={courseItemAction} sectionAction={courseSectionAction}
       createNewSectionItem={createNewSectionItem} key={course._id+section._id} 
-      section={section} course={course} user={user} />)}
+      section={section} course={course} user={user} sectionPos={idx} />)}
     
-    <AddNewSectionModal createNewSection={createNewSection} />
+    {!data ? <></> : <AddNewSectionModal createNewSection={createNewSection} />}
 
   </div>
   );

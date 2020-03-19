@@ -1,20 +1,27 @@
 import React, { useState } from 'react';
 
-export default function AddNewItemModal({sectionId, createNewSectionItem}) {
+export default function AddNewItemModal({sectionId, createNewSectionItem, sectionPos}) {
 
   const [newItemName, setNewItemName] = useState('');  
+  const [itemLoading, setItemLoading] = useState(false);
 
   let createItem = () => {
-    createNewSectionItem(sectionId,newItemName);
+    createNewSectionItem(sectionPos,sectionId,newItemName,setItemLoading); //,location, type
     setNewItemName('');
   }
 
   return (
   <>
     <button className="btn btn-outline-light mx-auto" style={{fontSize: "1.2em"}} data-toggle="modal" data-target={`#${sectionId}addItem`}>
+        {!itemLoading ? 
         <p className="align-middle p-0 m-0">
             New item <i className="fa fa-plus-circle"></i>
         </p>
+         :
+         <div>
+           <span class="spinner-border spinner-grow-sm" role="status"></span>
+           Loading...
+         </div>}
     </button>
 
     <div className="modal fade" id={`${sectionId}addItem`} tabIndex="-1" role="dialog">

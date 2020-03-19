@@ -3,18 +3,24 @@ import React, { useState } from 'react';
 export default function AddNewSectionModal({createNewSection}) {
 
   const [newSectionName, setNewSectionName] = useState('');
+  const [sectionLoading, setSectionLoading] = useState(false);
 
   let createSection = () => {
-      createNewSection(newSectionName);
+      createNewSection(newSectionName, setSectionLoading);
       setNewSectionName('');
   }
 
   return (
   <>
     <button className="btn btn-outline-light mx-auto" style={{fontSize: "1.2em"}} data-toggle="modal" data-target="#addSection">
+        {!sectionLoading ? 
         <p className="align-middle p-0 m-0">
           New section <i className="fa fa-plus-circle"></i>
-        </p>
+        </p> :
+        <div>
+          <span class="spinner-border spinner-grow-sm" role="status"></span>
+          Loading...
+        </div>}
     </button>
 
     <div className="modal fade" id="addSection" tabIndex="-1" role="dialog">

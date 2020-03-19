@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Item from './Item.js';
 import AddNewItemModal from './AddNewItemModal.js';
 
-export default function Section({course, user, section, itemAction, sectionAction, sectionId, createNewSectionItem}) {
+export default function Section({sectionPos, course, user, section, itemAction, sectionAction, createNewSectionItem}) {
 
   let {name, items, _id} = section;
   const [arrowUp, setArrowUp] = useState(false);
@@ -10,7 +10,7 @@ export default function Section({course, user, section, itemAction, sectionActio
 
   let deleteSection = () => {
     if(window.confirm("Are you sure you want to delete this whole section (including all items in it)? This action cannot be undone."))
-        sectionAction(sectionId, "DELETE");
+        sectionAction(sectionPos, "DELETE");
   }
 
   return (
@@ -28,10 +28,10 @@ export default function Section({course, user, section, itemAction, sectionActio
         <button className="btn btn-outline-light">
             <i className="fa fa-edit" style={{fontSize: '2em'}}></i>
         </button>
-        <button onClick={()=>{sectionAction(sectionId, "UP")}} className="btn btn-outline-light">
+        <button onClick={()=>{sectionAction(sectionPos, "UP")}} className="btn btn-outline-light">
             <i className="fa fa-angle-up" style={{fontSize: '2em'}}></i>
         </button>
-        <button onClick={()=>{sectionAction(sectionId, "DOWN")}} className="btn btn-outline-light">
+        <button onClick={()=>{sectionAction(sectionPos, "DOWN")}} className="btn btn-outline-light">
             <i className="fa fa-angle-down" style={{fontSize: '2em'}}></i>
         </button>
         <button onClick={()=>deleteSection()} className="btn btn-outline-light">
@@ -45,8 +45,8 @@ export default function Section({course, user, section, itemAction, sectionActio
                 {!items ? <></> :
                 items.map((item,idx) => 
                     <Item 
-                    itemId={idx}
-                    sectionId={sectionId}
+                    itemPos={idx}
+                    sectionPos={sectionPos}
                     itemAction={itemAction}
                     key={course._id+section._id+item._id} 
                     location={item.location} 
@@ -55,7 +55,7 @@ export default function Section({course, user, section, itemAction, sectionActio
                     user={user} />
                 )}
             </ul>
-            <AddNewItemModal sectionId={sectionId} createNewSectionItem={createNewSectionItem}/>
+            <AddNewItemModal sectionPos={sectionPos} sectionId={_id} createNewSectionItem={createNewSectionItem}/>
         </div>
     </div>
   </div>

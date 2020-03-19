@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-export default function Item({course, user, location, name, itemId, sectionId, itemAction}) {
+export default function Item({course, user, location, name, itemPos, sectionPos, itemAction}) {
     const [check, setCheck] = useState(false);
 
   return (
@@ -15,13 +15,13 @@ export default function Item({course, user, location, name, itemId, sectionId, i
         <button className="btn btn-outline-light">
             <i className="fa fa-edit" style={{fontSize: '2em'}}></i>
         </button>
-        <button onClick={()=>{itemAction(sectionId, itemId, "UP")}} className="btn btn-outline-light">
+        <button onClick={()=>{itemAction(sectionPos, itemPos, "UP")}} className="btn btn-outline-light">
             <i className="fa fa-angle-up" style={{fontSize: '2em'}}></i>
         </button>
-        <button onClick={()=>{itemAction(sectionId, itemId, "DOWN")}} className="btn btn-outline-light">
+        <button onClick={()=>{itemAction(sectionPos, itemPos, "DOWN")}} className="btn btn-outline-light">
             <i className="fa fa-angle-down" style={{fontSize: '2em'}}></i>
         </button>
-        <button onClick={()=>{itemAction(sectionId, itemId, "DELETE")}} className="btn btn-outline-light">
+        <button onClick={()=>{itemAction(sectionPos, itemPos, "DELETE")}} className="btn btn-outline-light">
             <i className="fa fa-trash" style={{fontSize: '2em'}}></i>
         </button>
   </div>

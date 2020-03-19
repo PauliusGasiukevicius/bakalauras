@@ -29,7 +29,7 @@ export default function CourseCreation({user, setRoute, setCurrentCourse}) {
       if(res.err)alert(res.err);
       else 
       {
-          setCurrentCourse(res._id);
+          setCurrentCourse(res);
           setRoute('courseEdit');
       }
     });
