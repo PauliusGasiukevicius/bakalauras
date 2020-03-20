@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import CourseContent from './CourseContent.js';
+import CourseContent from './courseContent/CourseContent.js';
 
 export default function CourseEdit({course, user, setRoute}) {
 

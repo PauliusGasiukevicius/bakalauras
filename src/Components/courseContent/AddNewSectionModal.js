@@ -12,7 +12,7 @@ export default function AddNewSectionModal({createNewSection}) {
 
   return (
   <>
-    <button className="btn btn-outline-light mx-auto" style={{fontSize: "1.2em"}} data-toggle="modal" data-target="#addSection">
+    <button disabled={sectionLoading} className="btn btn-outline-light mx-auto" style={{fontSize: "1.2em"}} data-toggle="modal" data-target="#addSection">
         {!sectionLoading ? 
         <p className="align-middle p-0 m-0">
           New section <i className="fa fa-plus-circle"></i>

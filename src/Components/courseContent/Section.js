@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Item from './Item.js';
 import AddNewItemModal from './AddNewItemModal.js';
 
-export default function Section({sectionPos, course, user, section, itemAction, sectionAction, createNewSectionItem}) {
+export default function Section({isDoingAction, sectionPos, course, user, section, itemAction, sectionAction, createNewSectionItem}) {
 
   let {name, items, _id} = section;
   const [arrowUp, setArrowUp] = useState(false);
@@ -16,25 +16,25 @@ export default function Section({sectionPos, course, user, section, itemAction, 
   return (
   <div className="p-1" style={{marginBottom: '1em'}}>
     <div className="d-flex" >
-        <button onClick={()=>setCheck(!check)} className="btn btn-outline-light">
+        <button disabled={isDoingAction} onClick={()=>setCheck(!check)} className="btn btn-outline-light">
             <i className={`fa fa-${check?'check-':''}square`} style={{fontSize: '2em'}}></i>
         </button>
-        <button onClick={()=>setArrowUp(!arrowUp)} className="w-100 btn btn-outline-light" type="button" data-toggle="collapse" data-target={'#section'+_id}>
+        <button disabled={isDoingAction} onClick={()=>setArrowUp(!arrowUp)} className="w-100 btn btn-outline-light" type="button" data-toggle="collapse" data-target={'#section'+_id}>
             <div>
                 {name}
                 <i className={`fa fa-arrow-circle-${arrowUp ? 'up' : 'down'} pull-right`} style={{fontSize: '2em'}}></i>
             </div>
         </button>
-        <button className="btn btn-outline-light">
+        <button disabled={isDoingAction} className="btn btn-outline-light">
             <i className="fa fa-edit" style={{fontSize: '2em'}}></i>
         </button>
-        <button onClick={()=>{sectionAction(sectionPos, "UP")}} className="btn btn-outline-light">
+        <button disabled={isDoingAction} onClick={()=>{sectionAction(sectionPos, "UP")}} className="btn btn-outline-light">
             <i className="fa fa-angle-up" style={{fontSize: '2em'}}></i>
         </button>
-        <button onClick={()=>{sectionAction(sectionPos, "DOWN")}} className="btn btn-outline-light">
+        <button disabled={isDoingAction} onClick={()=>{sectionAction(sectionPos, "DOWN")}} className="btn btn-outline-light">
             <i className="fa fa-angle-down" style={{fontSize: '2em'}}></i>
         </button>
-        <button onClick={()=>deleteSection()} className="btn btn-outline-light">
+        <button disabled={isDoingAction} onClick={()=>deleteSection()} className="btn btn-outline-light">
                 <i className="fa fa-trash" style={{fontSize: '2em'}}></i>
         </button>
     </div>
@@ -45,6 +45,7 @@ export default function Section({sectionPos, course, user, section, itemAction, 
                 {!items ? <></> :
                 items.map((item,idx) => 
                     <Item 
+                    isDoingAction={isDoingAction} 
                     itemPos={idx}
                     sectionPos={sectionPos}
                     itemAction={itemAction}

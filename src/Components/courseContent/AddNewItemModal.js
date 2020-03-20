@@ -12,7 +12,7 @@ export default function AddNewItemModal({sectionId, createNewSectionItem, sectio
 
   return (
   <>
-    <button className="btn btn-outline-light mx-auto" style={{fontSize: "1.2em"}} data-toggle="modal" data-target={`#${sectionId}addItem`}>
+    <button disabled={itemLoading} className="btn btn-outline-light mx-auto" style={{fontSize: "1.2em"}} data-toggle="modal" data-target={`#${sectionId}addItem`}>
         {!itemLoading ? 
         <p className="align-middle p-0 m-0">
             New item <i className="fa fa-plus-circle"></i>

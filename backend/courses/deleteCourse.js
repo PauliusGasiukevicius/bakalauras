@@ -1,6 +1,6 @@
 module.exports = (app, mongoose) => {
 
-    let Course = require('./models/courseModel.js');
+    let Course = require('../models/courseModel.js');
 
     app.delete('/deleteCourse/:course_id/', async (req, resp) => {
         let {user} = req.body;

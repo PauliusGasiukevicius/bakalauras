@@ -1,7 +1,7 @@
 module.exports = (app, mongoose) => {
 
-    let Course = require('./models/courseModel.js');
-    let User = require('./models/userModel.js');
+    let Course = require('../models/courseModel.js');
+    let User = require('../models/userModel.js');
 
     require('./createCourse.js')(app, mongoose);
     require('./joinCourse.js')(app, mongoose);
