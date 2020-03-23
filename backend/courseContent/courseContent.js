@@ -6,6 +6,7 @@ module.exports = (app, mongoose) => {
 
     require('./sections.js')(app,mongoose);
     require('./items.js')(app,mongoose);
+    require('./courseUserProgress.js')(app,mongoose);
 
     app.get('/getCourseContent/:courseId', async (req,resp) => {
     try{

@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
 
-export default function Item({isDoingAction, course, user, location, name, itemPos, sectionPos, itemAction}) {
-    const [check, setCheck] = useState(false);
+export default function Item({edit, isSectionChecked, userProgress, isDoingAction, item, itemPos, sectionPos, itemAction}) {
+    let {name, location} = item;
 
   return (
   <div className="w-100 d-flex">
-        <button disabled={isDoingAction} onClick={()=>setCheck(!check)} className="btn btn-outline-light">
-            <i className={`fa fa-${check?'check-':''}square`} style={{fontSize: '2em'}}></i>
-        </button>
+        {!edit ? 
+        <button disabled={isDoingAction} onClick={()=>{itemAction(sectionPos, itemPos, "TOGGLE_CHECK")}} className="btn btn-outline-light">
+            <i className={`fa fa-${(isSectionChecked || userProgress.items.includes(item._id)) ?'check-':''}square`} style={{fontSize: '2em'}}></i>
+        </button> : null}
         <button disabled={isDoingAction} className="w-100 btn btn-outline-light">
             {name}
             <i className="fa fa-eye float-right" style={{fontSize: '2em'}}></i>
         </button>
+        {edit ? <>
         <button disabled={isDoingAction} className="btn btn-outline-light">
             <i className="fa fa-edit" style={{fontSize: '2em'}}></i>
         </button>
@@ -23,7 +25,7 @@ export default function Item({isDoingAction, course, user, location, name, itemP
         </button>
         <button disabled={isDoingAction} onClick={()=>{itemAction(sectionPos, itemPos, "DELETE")}} className="btn btn-outline-light">
             <i className="fa fa-trash" style={{fontSize: '2em'}}></i>
-        </button>
+        </button> </> : null}
   </div>
   );
 }

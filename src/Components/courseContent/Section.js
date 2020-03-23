@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import Item from './Item.js';
 import AddNewItemModal from './AddNewItemModal.js';
+import EditSectionModal from './EditSectionModal.js';
 
-export default function Section({isDoingAction, sectionPos, course, user, section, itemAction, sectionAction, createNewSectionItem}) {
+export default function Section({edit, userProgress, isDoingAction, sectionPos, course, user, section, itemAction, sectionAction, createNewSectionItem}) {
 
   let {name, items, _id} = section;
   const [arrowUp, setArrowUp] = useState(false);
-  const [check, setCheck] = useState(false);
 
   let deleteSection = () => {
     if(window.confirm("Are you sure you want to delete this whole section (including all items in it)? This action cannot be undone."))
@@ -16,18 +16,18 @@ export default function Section({isDoingAction, sectionPos, course, user, sectio
   return (
   <div className="p-1" style={{marginBottom: '1em'}}>
     <div className="d-flex" >
-        <button disabled={isDoingAction} onClick={()=>setCheck(!check)} className="btn btn-outline-light">
-            <i className={`fa fa-${check?'check-':''}square`} style={{fontSize: '2em'}}></i>
-        </button>
+        {!edit ?
+        <button disabled={isDoingAction} onClick={()=>sectionAction(sectionPos, "TOGGLE_CHECK")} className="btn btn-outline-light">
+            <i className={`fa fa-${userProgress.sections.includes(section._id) ?'check-':''}square`} style={{fontSize: '2em'}}></i>
+        </button> : null}
         <button disabled={isDoingAction} onClick={()=>setArrowUp(!arrowUp)} className="w-100 btn btn-outline-light" type="button" data-toggle="collapse" data-target={'#section'+_id}>
             <div>
                 {name}
                 <i className={`fa fa-arrow-circle-${arrowUp ? 'up' : 'down'} pull-right`} style={{fontSize: '2em'}}></i>
             </div>
         </button>
-        <button disabled={isDoingAction} className="btn btn-outline-light">
-            <i className="fa fa-edit" style={{fontSize: '2em'}}></i>
-        </button>
+        {edit ? <>
+            <EditSectionModal sectionPos={sectionPos} section={section} sectionAction={sectionAction}/>
         <button disabled={isDoingAction} onClick={()=>{sectionAction(sectionPos, "UP")}} className="btn btn-outline-light">
             <i className="fa fa-angle-up" style={{fontSize: '2em'}}></i>
         </button>
@@ -36,7 +36,7 @@ export default function Section({isDoingAction, sectionPos, course, user, sectio
         </button>
         <button disabled={isDoingAction} onClick={()=>deleteSection()} className="btn btn-outline-light">
                 <i className="fa fa-trash" style={{fontSize: '2em'}}></i>
-        </button>
+        </button></> : null}
     </div>
 
     <div className="collapse" id={'section'+_id}>
@@ -45,18 +45,13 @@ export default function Section({isDoingAction, sectionPos, course, user, sectio
                 {!items ? <></> :
                 items.map((item,idx) => 
                     <Item 
-                    isDoingAction={isDoingAction} 
-                    itemPos={idx}
-                    sectionPos={sectionPos}
-                    itemAction={itemAction}
-                    key={course._id+section._id+item._id} 
-                    location={item.location} 
-                    name={item.name} 
-                    course={course} 
-                    user={user} />
+                    isDoingAction={isDoingAction} itemPos={idx} sectionPos={sectionPos} 
+                    itemAction={itemAction} key={course._id+section._id+item._id} edit={edit}
+                    item={item} userProgress={userProgress} isSectionChecked={userProgress.sections.includes(section._id)}/>
                 )}
             </ul>
-            <AddNewItemModal sectionPos={sectionPos} sectionId={_id} createNewSectionItem={createNewSectionItem}/>
+            
+            {!edit ? null : <AddNewItemModal sectionPos={sectionPos} sectionId={_id} createNewSectionItem={createNewSectionItem}/>}
         </div>
     </div>
   </div>

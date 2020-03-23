@@ -55,7 +55,7 @@ export default function CourseEdit({course, user, setRoute}) {
             </div>
             <div id="edit-content" className="tab-pane fade">
                 <h3>Content</h3>
-                <CourseContent user={user} course={course}/>
+                <CourseContent user={user} course={course} edit={true}/>
             </div>
             <div id="edit-badges" className="tab-pane fade">
                 <h3>Badges</h3>

@@ -4,6 +4,14 @@ module.exports = (app, mongoose) => {
     let CourseContentSection = require('../models/courseContentSectionModel.js');
     let CourseContentSectionItem = require('../models/courseContentSectionItemModel.js');
 
+    app.post('/editSection/:sectionId', async (req,resp) => {
+        try{
+            let {name} = req.body;
+            await CourseContentSection.updateOne({_id: req.params.sectionId}, {name: name});
+            return resp.send({ok: 'success'});
+        }catch (error) {console.log(error);return resp.status(400).send({err: error});}
+    });
+
     app.post('/addSection/:courseId', async (req,resp) => {
         try{
             let content = await CourseContent.findOne({courseId: req.params.courseId});
