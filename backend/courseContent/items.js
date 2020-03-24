@@ -5,9 +5,9 @@ module.exports = (app, mongoose) => {
 
     app.post('/addItem/:courseId/:sectionId', async (req,resp) => {
         try{
-            let {name, location, type} = req.body;
+            let {name, location, type, text} = req.body;
     
-            let item = new CourseContentSectionItem({courseId : req.params.courseId, name: name, location: location, type: type});
+            let item = new CourseContentSectionItem({courseId : req.params.courseId, name: name, location: location, type: type, text: text});
             item = await item.save();
     
             await CourseContentSection.updateOne({_id: req.params.sectionId}, {$push: {items: mongoose.Types.ObjectId(item._id)}});
