@@ -5,7 +5,7 @@ let courseContentSectionItemSchema = new mongoose.Schema({
         name: String,
         location: String,
         type: String,
-        text: String
+        content: String
     });
 
 module.exports = mongoose.model('courseContentSectionItem', courseContentSectionItemSchema);

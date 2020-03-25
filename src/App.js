@@ -66,7 +66,6 @@ function App() {
     fetch('/courses')
     .then(resp => resp.json())
     .then(r => {setCourses(r)})
-
   },[]);
 
   useEffect(() => {

@@ -4,17 +4,40 @@ import { Editor } from '@tinymce/tinymce-react';
 export default function AddNewItemModal({sectionId, createNewSectionItem, sectionPos}) {
 
   const [newItemName, setNewItemName] = useState('');  
-  const [itemText, setItemText] = useState('');  
+  const [itemContent, setItemContent] = useState('');  
   const [type, setType] = useState('');
   const [itemLoading, setItemLoading] = useState(false);
+  const [fileLocation, setFileLocation] = useState('');
 
   let createItem = () => {
-    createNewSectionItem(sectionPos,sectionId,newItemName,setItemLoading); //,location, type
+    createNewSectionItem(sectionPos,sectionId,newItemName,setItemLoading, itemContent, fileLocation, type);
     setNewItemName('');
   }
 
   let textEditorChange = (content, editor) => {
-    setItemText(content);
+    setItemContent(content);
+  }
+
+  let onChangeVideo = (e) => {
+    let video = document.getElementById(`courseItemVideoUpload${sectionId}`).files[0]; 
+
+    let formData = new FormData();
+    formData.append("file", video);
+
+    fetch('/uploadFile', {method: "POST", mode: "cors", body: formData})
+    .then(r => r.json())
+    .then(r => {if(r.location)setFileLocation(r.location);});
+  }
+
+  let onChangeFile = (e) => {
+    let file = document.getElementById(`courseItemFileUpload${sectionId}`).files[0]; 
+
+    let formData = new FormData();
+    formData.append("file", file);
+
+    fetch('/uploadFile', {method: "POST", mode: "cors", body: formData})
+    .then(r => r.json())
+    .then(r => {if(r.location)setFileLocation(r.location);});
   }
 
   return (
@@ -77,11 +100,13 @@ export default function AddNewItemModal({sectionId, createNewSectionItem, sectio
             <div id={`addTextItem${sectionId}`} className="tab-pane fade">
                 <div className="m-2 card text-white bg-dark border border-white" >
                     <div className="card-body">
-                      <Editor initialValue={itemText}
+                      <Editor initialValue={itemContent}
                         apiKey="abmgxvtjvz9gg53o1r2ohp1f5qua4yc5aoiyovbj297ritax"
                         init={{height: 500, menubar: false,
                           plugins: ['advlist autolink lists link image charmap print preview anchor','searchreplace visualblocks code fullscreen','insertdatetime media table paste code help wordcount'],
-                          toolbar: 'undo redo | formatselect | bold italic backcolor | \alignleft aligncenter alignright alignjustify | \bullist numlist outdent indent | removeformat | help'}}
+                          default_link_target:"_blank",
+                          toolbar: 'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent removeformat',
+                          content_css: '//www.tiny.cloud/css/codepen.min.css'}}
                         onEditorChange={(c,e)=>textEditorChange(c,e)}
                       />
                     </div>
@@ -90,6 +115,10 @@ export default function AddNewItemModal({sectionId, createNewSectionItem, sectio
             <div id={`addVideoItem${sectionId}`} className="tab-pane fade">
                 <div className="m-2 card text-white bg-dark border border-white" >
                     <div className="card-body">
+                      <div className="custom-file">
+                        <input onChange={(e)=>onChangeVideo(e)} type="file" className="custom-file-input" id={`courseItemVideoUpload${sectionId}`} accept="video/*" />
+                        <label className="custom-file-label" htmlFor={`courseItemVideoUpload${sectionId}`}>Upload/Change video</label>
+                      </div>
                         ♦ input form for mp4/etc that use formData thing and sends it in multi parts to backend
                         ♦ from backend use this https://developers.google.com/youtube/v3/docs/?apix=true and save link in DB
                     </div>
@@ -98,6 +127,10 @@ export default function AddNewItemModal({sectionId, createNewSectionItem, sectio
             <div id={`addFileItem${sectionId}`} className="tab-pane fade">
                 <div className="m-2 card text-white bg-dark border border-white" >
                     <div className="card-body">
+                      <div className="custom-file">
+                        <input onChange={(e)=>onChangeFile(e)} type="file" className="custom-file-input" id={`courseItemFileUpload${sectionId}`} />
+                        <label className="custom-file-label" htmlFor={`courseItemFileUpload${sectionId}`}>Upload/Change file</label>
+                      </div>
                       ♦ input form for random files yet limit size a lot &lt; 2 MB 
                     </div>
                 </div>

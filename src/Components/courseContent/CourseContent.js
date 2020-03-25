@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import Section from './Section.js';
 import AddNewSectionModal from './AddNewSectionModal.js';
+import CourseFileView from './CourseFileView.js';
 
 export default function CourseContent({course, user, edit}) {
   
   const [data, setData] = useState(null);
   const [userProgress, setUserProgress] = useState(null);
   const [isDoingAction, setIsDoingAction] = useState(false);
+  const [currentSection, setCurrentSection] = useState(0);
+  const [currentItem, setCurrentItem] = useState(0);
 
   useEffect(() => {
     fetch(`/getCourseContent/${course._id}`)
@@ -18,6 +21,12 @@ export default function CourseContent({course, user, edit}) {
     .then(r => {if(!r.err)setUserProgress(r);});
 
   },[]);
+
+  let clickViewItem = (sectionPos, itemPos) => {
+    setCurrentSection(sectionPos);
+    setCurrentItem(itemPos);
+    if(edit) {/*TODO make modal pop up*/}
+  }
 
     let courseSectionAction = async (sectionPos, action, name) => {
       setIsDoingAction(true);
@@ -130,13 +139,13 @@ export default function CourseContent({course, user, edit}) {
       }
     }
 
-    let createNewSectionItem = async (sectionPos, sectionId, name, setItemLoading, location='test', type='test') => {
+    let createNewSectionItem = async (sectionPos, sectionId, name, setItemLoading, content={}, location, type='test') => {
       if(name == '')return alert('name cannot be empty');
       let A = JSON.parse(JSON.stringify(data));
 
       setItemLoading(true);
       let resp = await fetch(`/addItem/${course._id}/${sectionId}`, 
-      {method:"POST", headers: {'Content-Type': 'application/json'}, body: JSON.stringify({name: name, location: location, type: type, user: user})});
+      {method:"POST", headers: {'Content-Type': 'application/json'}, body: JSON.stringify({name: name, type: type, user: user, location: location, content: content})});
       let json = await resp.json();
       setItemLoading(false);
 
@@ -149,13 +158,14 @@ export default function CourseContent({course, user, edit}) {
 
   return (
   <div style={{color: "white"}}>
+      {!edit && data ? <CourseFileView file={data[currentSection].items[currentItem]}/> : null}
 
       {isDoingAction ?<div className="position-fixed h-100 w-100 mx-auto" style={{zIndex: 10}}>
         <div className="fa fa-spinner fa-spin text-white mx-auto" style={{fontSize: "7em"}}></div></div> : null}
       
       {!data ? <i className="fa fa-spinner fa-spin text-white" style={{fontSize: "3em"}}></i> :
       data.map((section, idx) => 
-      <Section edit={edit} itemAction={courseItemAction} sectionAction={courseSectionAction}
+      <Section edit={edit} itemAction={courseItemAction} sectionAction={courseSectionAction} clickViewItem={clickViewItem}
       createNewSectionItem={createNewSectionItem} key={course._id+section._id} userProgress={userProgress}
       section={section} course={course} user={user} sectionPos={idx} isDoingAction={isDoingAction} />)}
     

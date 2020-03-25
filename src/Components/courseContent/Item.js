@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-export default function Item({edit, isSectionChecked, userProgress, isDoingAction, item, itemPos, sectionPos, itemAction}) {
+export default function Item({clickViewItem, edit, isSectionChecked, userProgress, isDoingAction, item, itemPos, sectionPos, itemAction}) {
     let {name, location} = item;
 
   return (
@@ -9,7 +9,7 @@ export default function Item({edit, isSectionChecked, userProgress, isDoingActio
         <button disabled={isDoingAction} onClick={()=>{itemAction(sectionPos, itemPos, "TOGGLE_CHECK")}} className="btn btn-outline-light">
             <i className={`fa fa-${(isSectionChecked || userProgress.items.includes(item._id)) ?'check-':''}square`} style={{fontSize: '2em'}}></i>
         </button> : null}
-        <button disabled={isDoingAction} className="w-100 btn btn-outline-light">
+        <button disabled={isDoingAction} onClick={()=>clickViewItem(sectionPos,itemPos)} className="w-100 btn btn-outline-light">
             {name}
             <i className="fa fa-eye float-right" style={{fontSize: '2em'}}></i>
         </button>

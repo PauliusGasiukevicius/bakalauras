@@ -3,7 +3,7 @@ import Item from './Item.js';
 import AddNewItemModal from './AddNewItemModal.js';
 import EditSectionModal from './EditSectionModal.js';
 
-export default function Section({edit, userProgress, isDoingAction, sectionPos, course, user, section, itemAction, sectionAction, createNewSectionItem}) {
+export default function Section({clickViewItem, edit, userProgress, isDoingAction, sectionPos, course, user, section, itemAction, sectionAction, createNewSectionItem}) {
 
   let {name, items, _id} = section;
   const [arrowUp, setArrowUp] = useState(false);
@@ -45,7 +45,7 @@ export default function Section({edit, userProgress, isDoingAction, sectionPos, 
                 {!items ? <></> :
                 items.map((item,idx) => 
                     <Item 
-                    isDoingAction={isDoingAction} itemPos={idx} sectionPos={sectionPos} 
+                    isDoingAction={isDoingAction} itemPos={idx} sectionPos={sectionPos} clickViewItem={clickViewItem}
                     itemAction={itemAction} key={course._id+section._id+item._id} edit={edit}
                     item={item} userProgress={userProgress} isSectionChecked={userProgress.sections.includes(section._id)}/>
                 )}

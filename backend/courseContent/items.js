@@ -5,9 +5,10 @@ module.exports = (app, mongoose) => {
 
     app.post('/addItem/:courseId/:sectionId', async (req,resp) => {
         try{
-            let {name, location, type, text} = req.body;
+            let {name, type, content} = req.body;
+            //upload file to imgur/youtube/DB and save get path here
     
-            let item = new CourseContentSectionItem({courseId : req.params.courseId, name: name, location: location, type: type, text: text});
+            let item = new CourseContentSectionItem({courseId : req.params.courseId, name: name, location: '', type: type, content: content});
             item = await item.save();
     
             await CourseContentSection.updateOne({_id: req.params.sectionId}, {$push: {items: mongoose.Types.ObjectId(item._id)}});
