@@ -12,6 +12,10 @@ env.txt
 # production
 /build
 
+#temp files
+/uploads
+
+#secrets
 env.txt
 
 # misc

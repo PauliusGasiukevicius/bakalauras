@@ -10,6 +10,7 @@ export default function CourseContent({course, user, edit}) {
   const [isDoingAction, setIsDoingAction] = useState(false);
   const [currentSection, setCurrentSection] = useState(0);
   const [currentItem, setCurrentItem] = useState(0);
+  const [showPreview, setShowPreview] = useState(false);
 
   useEffect(() => {
     fetch(`/getCourseContent/${course._id}`)
@@ -25,7 +26,7 @@ export default function CourseContent({course, user, edit}) {
   let clickViewItem = (sectionPos, itemPos) => {
     setCurrentSection(sectionPos);
     setCurrentItem(itemPos);
-    if(edit) {/*TODO make modal pop up*/}
+    if(edit) setShowPreview(true);
   }
 
     let courseSectionAction = async (sectionPos, action, name) => {

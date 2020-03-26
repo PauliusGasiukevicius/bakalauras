@@ -18,26 +18,36 @@ export default function AddNewItemModal({sectionId, createNewSectionItem, sectio
     setItemContent(content);
   }
 
-  let onChangeVideo = (e) => {
-    let video = document.getElementById(`courseItemVideoUpload${sectionId}`).files[0]; 
+  let onChangeVideo = async(e) => {
+    try{
+      setItemLoading(true);
+      let video = document.getElementById(`courseItemVideoUpload${sectionId}`).files[0]; 
 
-    let formData = new FormData();
-    formData.append("file", video);
+      let formData = new FormData();
+      formData.append("file", video);
 
-    fetch('/uploadFile', {method: "POST", mode: "cors", body: formData})
-    .then(r => r.json())
-    .then(r => {if(r.location)setFileLocation(r.location);});
+      let resp = await fetch('/file', {method: "POST", body: formData});
+      let json = await resp.json();
+      console.log(json);
+      if(json.location)setFileLocation(json.location);
+    }catch(error){console.log(error)};
+  setItemLoading(false);
   }
 
-  let onChangeFile = (e) => {
-    let file = document.getElementById(`courseItemFileUpload${sectionId}`).files[0]; 
+  let onChangeFile = async (e) => {
+      try{
+      setItemLoading(true);
+      let file = document.getElementById(`courseItemFileUpload${sectionId}`).files[0]; 
 
-    let formData = new FormData();
-    formData.append("file", file);
+      let formData = new FormData();
+      formData.append("file", file);
 
-    fetch('/uploadFile', {method: "POST", mode: "cors", body: formData})
-    .then(r => r.json())
-    .then(r => {if(r.location)setFileLocation(r.location);});
+      let resp = await fetch('/file', {method: "POST", body: formData});
+      let json = await resp.json();
+      console.log(json);
+      if(json.location)setFileLocation(json.location);
+    }catch(error){console.log(error)};
+  setItemLoading(false);
   }
 
   return (
@@ -148,7 +158,7 @@ export default function AddNewItemModal({sectionId, createNewSectionItem, sectio
           </div>
           <div className="modal-footer">
             <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button onClick={()=>createItem()}type="button" className="btn btn-warning" data-dismiss="modal">Confirm</button>
+            <button disabled={itemLoading} onClick={()=>createItem()}type="button" className="btn btn-warning" data-dismiss="modal">Confirm</button>
           </div>
         </div>
       </div>

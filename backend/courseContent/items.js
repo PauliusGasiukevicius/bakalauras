@@ -5,10 +5,10 @@ module.exports = (app, mongoose) => {
 
     app.post('/addItem/:courseId/:sectionId', async (req,resp) => {
         try{
-            let {name, type, content} = req.body;
+            let {name, type, content, location} = req.body;
             //upload file to imgur/youtube/DB and save get path here
     
-            let item = new CourseContentSectionItem({courseId : req.params.courseId, name: name, location: '', type: type, content: content});
+            let item = new CourseContentSectionItem({courseId : req.params.courseId, name: name, location: location, type: type, content: content});
             item = await item.save();
     
             await CourseContentSection.updateOne({_id: req.params.sectionId}, {$push: {items: mongoose.Types.ObjectId(item._id)}});
@@ -20,7 +20,6 @@ module.exports = (app, mongoose) => {
         try{
             await CourseContentSectionItem.deleteOne({_id: req.params.itemId});
             await CourseContentSection.updateOne({_id: req.params.sectionId}, {$pull: {items: req.params.itemId}});
-
             return resp.send({ok: 'success'});
         }catch (error) {console.log(error);return resp.status(400).send({err: error});}
     });

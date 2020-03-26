@@ -2,8 +2,10 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const app = express();
+const helmet = require('helmet')
 
 //Middle-ware
+app.use(helmet());
 app.use(express.static(path.join(__dirname, '..', 'build')));
 app.use(express.static(path.join(__dirname, '..', 'public')));
 app.use(bodyParser.json());
@@ -25,5 +27,6 @@ app.listen(process.env.PORT || 8080, () => {
         require('./courses/courses.js')(app, mongoose);
         require('./courseContent/courseContent.js')(app, mongoose);
         require('./userGoogleLogin.js')(app, mongoose);
+        require('./files.js')(app, mongoose);
     });
 });
