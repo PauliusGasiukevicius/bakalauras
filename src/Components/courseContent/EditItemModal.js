@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 
-export default function AddNewItemModal({sectionId, createNewSectionItem, sectionPos}) {
+export default function EditItemModal({item, updateSectionItem, sectionPos, itemPos}) {
 
-  const [newItemName, setNewItemName] = useState('');  
-  const [itemContent, setItemContent] = useState('');  
-  const [type, setType] = useState('');
+  let itemId = item._id;
+  const [newItemName, setNewItemName] = useState(item.name);  
+  const [itemContent, setItemContent] = useState(item.content);  
+  const [type, setType] = useState(item.type);
   const [itemLoading, setItemLoading] = useState(false);
-  const [fileLocation, setFileLocation] = useState('');
+  const [fileLocation, setFileLocation] = useState(item.location);
 
-  let createItem = () => {
-    createNewSectionItem(sectionPos,sectionId,newItemName,setItemLoading, itemContent, fileLocation, type);
-    setNewItemName('');
+  let editItem = () => {
+      updateSectionItem(sectionPos, itemPos, itemId, newItemName, setItemLoading, itemContent, fileLocation, type) 
   }
 
   let textEditorChange = (content, editor) => {
@@ -21,7 +21,7 @@ export default function AddNewItemModal({sectionId, createNewSectionItem, sectio
   let onChangeVideo = async(e) => {
     try{
       setItemLoading(true);
-      let video = document.getElementById(`courseItemVideoUpload${sectionId}`).files[0]; 
+      let video = document.getElementById(`courseItemVideoUpload${itemId}`).files[0]; 
 
       let formData = new FormData();
       formData.append("file", video);
@@ -37,7 +37,7 @@ export default function AddNewItemModal({sectionId, createNewSectionItem, sectio
   let onChangeFile = async (e) => {
       try{
       setItemLoading(true);
-      let file = document.getElementById(`courseItemFileUpload${sectionId}`).files[0]; 
+      let file = document.getElementById(`courseItemFileUpload${itemId}`).files[0]; 
 
       let formData = new FormData();
       formData.append("file", file);
@@ -52,23 +52,15 @@ export default function AddNewItemModal({sectionId, createNewSectionItem, sectio
 
   return (
   <>
-    <button disabled={itemLoading} className="btn btn-outline-light mx-auto" style={{fontSize: "1.2em"}} data-toggle="modal" data-target={`#${sectionId}addItem`}>
-        {!itemLoading ? 
-        <p className="align-middle p-0 m-0">
-            New item <i className="fa fa-plus-circle"></i>
-        </p>
-         :
-         <div>
-           <span class="spinner-border spinner-grow-sm" role="status"></span>
-           Loading...
-         </div>}
+    <button disabled={itemLoading} className="btn btn-outline-light" style={{fontSize: "1.2em"}} data-toggle="modal" data-target={`#${itemId}editItem`}>
+        <i className="fa fa-edit" style={{fontSize: '2em'}}></i>
     </button>
 
-    <div className="modal fade" id={`${sectionId}addItem`} tabIndex="-1" role="dialog">
+    <div className="modal fade" id={`${itemId}editItem`} tabIndex="-1" role="dialog">
       <div className="modal-dialog modal-lg" role="document">
         <div className="modal-content bg-dark">
           <div className="modal-header">
-            <h5 className="modal-title">Add new item</h5>
+            <h5 className="modal-title">Edit item</h5>
             <button type="button" className="close" data-dismiss="modal">
               <span className="text-white">&times;</span>
             </button>
@@ -85,29 +77,29 @@ export default function AddNewItemModal({sectionId, createNewSectionItem, sectio
             <div className="w-100 m-1" style={{color: "white"}}>
               <ul className="nav nav-tabs nav-center mx-auto w-100 justify-content-center align-items-center">
                 <li className="nav-item">
-                    <a onClick={()=>setType('text')} className="btn btn btn-outline-light" data-toggle="tab" href={`#addTextItem${sectionId}`}>
+                    <a onClick={()=>setType('text')} className="btn btn btn-outline-light" data-toggle="tab" href={`#editTextItem${itemId}`}>
                       Text <i className="fa fa-font" style={{fontSize: "1.5em"}} />
                     </a>
                 </li>
                 <li className="nav-item">
-                    <a onClick={()=>setType('video')} className="btn btn btn-outline-light" data-toggle="tab" href={`#addVideoItem${sectionId}`}>
+                    <a onClick={()=>setType('video')} className="btn btn btn-outline-light" data-toggle="tab" href={`#editVideoItem${itemId}`}>
                       Video <i className="fa fa-video-camera" style={{fontSize: "1.5em"}} />
                     </a>
                 </li>
                 <li className="nav-item">
-                    <a onClick={()=>setType('file')} className="btn btn btn-outline-light" data-toggle="tab" href={`#addFileItem${sectionId}`}>
+                    <a onClick={()=>setType('file')} className="btn btn btn-outline-light" data-toggle="tab" href={`#editFileItem${itemId}`}>
                       File <i className="fa fa-file" style={{fontSize: "1.5em"}} />
                     </a>
                 </li>
                 <li className="nav-item">
-                    <a onClick={()=>setType('quizz')} className="btn btn btn-outline-light" data-toggle="tab" href={`#addQuizzItem${sectionId}`}>
+                    <a onClick={()=>setType('quizz')} className="btn btn btn-outline-light" data-toggle="tab" href={`#editQuizzItem${itemId}`}>
                       Quizz <i className="fa fa-check-square-o" style={{fontSize: "1.5em"}} />
                     </a>
                 </li>
               </ul>
 
         <div className="tab-content">
-            <div id={`addTextItem${sectionId}`} className="tab-pane fade">
+            <div id={`editTextItem${itemId}`} className="tab-pane fade">
                 <div className="m-2 card text-white bg-dark border border-white" >
                     <div className="card-body">
                       <Editor initialValue={itemContent}
@@ -122,30 +114,27 @@ export default function AddNewItemModal({sectionId, createNewSectionItem, sectio
                     </div>
                 </div>
             </div>
-            <div id={`addVideoItem${sectionId}`} className="tab-pane fade">
+            <div id={`editVideoItem${itemId}`} className="tab-pane fade">
                 <div className="m-2 card text-white bg-dark border border-white" >
                     <div className="card-body">
                       <div className="custom-file">
-                        <input onChange={(e)=>onChangeVideo(e)} type="file" className="custom-file-input" id={`courseItemVideoUpload${sectionId}`} accept="video/*" />
-                        <label className="custom-file-label" htmlFor={`courseItemVideoUpload${sectionId}`}>Upload/Change video</label>
+                        <input onChange={(e)=>onChangeVideo(e)} type="file" className="custom-file-input" id={`courseItemVideoUpload${itemId}`} accept="video/*" />
+                        <label className="custom-file-label" htmlFor={`courseItemVideoUpload${itemId}`}>Upload/Change video</label>
                       </div>
-                        ♦ input form for mp4/etc that use formData thing and sends it in multi parts to backend
-                        ♦ from backend use this https://developers.google.com/youtube/v3/docs/?apix=true and save link in DB
                     </div>
                 </div>
             </div>
-            <div id={`addFileItem${sectionId}`} className="tab-pane fade">
+            <div id={`editFileItem${itemId}`} className="tab-pane fade">
                 <div className="m-2 card text-white bg-dark border border-white" >
                     <div className="card-body">
                       <div className="custom-file">
-                        <input onChange={(e)=>onChangeFile(e)} type="file" className="custom-file-input" id={`courseItemFileUpload${sectionId}`} />
-                        <label className="custom-file-label" htmlFor={`courseItemFileUpload${sectionId}`}>Upload/Change file</label>
+                        <input onChange={(e)=>onChangeFile(e)} type="file" className="custom-file-input" id={`courseItemFileUpload${itemId}`} />
+                        <label className="custom-file-label" htmlFor={`courseItemFileUpload${itemId}`}>Upload/Change file</label>
                       </div>
-                      ♦ input form for random files yet limit size a lot &lt; 2 MB 
                     </div>
                 </div>
             </div>
-            <div id={`addQuizzItem${sectionId}`} className="tab-pane fade">
+            <div id={`editQuizzItem${itemId}`} className="tab-pane fade">
                 <div className="m-2 card text-white bg-dark border border-white" >
                     <div className="card-body">
                       optional if all other stuff done? or do i need this for badges?
@@ -158,7 +147,7 @@ export default function AddNewItemModal({sectionId, createNewSectionItem, sectio
           </div>
           <div className="modal-footer">
             <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button disabled={itemLoading} onClick={()=>createItem()}type="button" className="btn btn-warning" data-dismiss="modal">Confirm</button>
+            <button disabled={itemLoading} onClick={()=>editItem()}type="button" className="btn btn-warning" data-dismiss="modal">Confirm</button>
           </div>
         </div>
       </div>

@@ -47,7 +47,7 @@ export default function CourseView({course, user, setRoute, goToCourseView, setU
         <div className="tab-content">
             <div id="about" className="tab-pane fade">
                 <div className="m-2 card text-white bg-dark border border-white" >
-                    <img style={{width: "400px"}} className="card-img-top img-fluid mx-auto" src={course.imageUrl || "https://i.imgur.com/IUwKaVm.png"} />
+                    <img style={{maxHeight: "500px", width: "auto"}} className="card-img-top img-fluid mx-auto" src={course.imageUrl || "https://i.imgur.com/IUwKaVm.png"} />
 
                     <div className="card-body">
                         <h2 className="card-title">{course.name}</h2>

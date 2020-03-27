@@ -106,7 +106,7 @@ function App() {
             : route == 'profile' ?
               <UserProfile user={user} goToCourseView={goToCourseView}/>
             : route == 'courseEdit' ?
-              <CourseEdit course={currentCourse} user={user} setRoute={setRoute}/>
+              <CourseEdit course={currentCourse} user={user} setRoute={setRoute} setCourse={setCurrentCourse}/>
               : route == 'courseView' ?
               <CourseView setUser={setUser} course={currentCourse} user={user} setRoute={setRoute} goToCourseView={goToCourseView}/>
             : route == 'courseCreate' ?

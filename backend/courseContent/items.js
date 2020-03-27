@@ -3,6 +3,23 @@ module.exports = (app, mongoose) => {
     let CourseContentSection = require('../models/courseContentSectionModel.js');
     let CourseContentSectionItem = require('../models/courseContentSectionItemModel.js');
 
+    app.post(`/editItem/:itemId`, async (req, resp) => {
+        try{
+            let {name, type, content, location} = req.body;
+            //upload file to imgur/youtube/DB and save get path here if its larger than ~2MB
+
+            let item = await CourseContentSectionItem.findOne({_id: req.params.itemId});
+            item.name = name;
+            item.type = type;
+            item.content = content;
+            item.location = location;
+            
+            item = await item.save();
+
+            return resp.send(item.toObject());
+        }catch (error) {console.log(error);return resp.status(400).send({err: error});}
+    });
+
     app.post('/addItem/:courseId/:sectionId', async (req,resp) => {
         try{
             let {name, type, content, location} = req.body;

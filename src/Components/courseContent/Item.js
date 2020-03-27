@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import PreviewSectionItem from './PreviewSectionItem.js';
+import EditItemModal from './EditItemModal.js';
 
-export default function Item({clickViewItem, edit, isSectionChecked, userProgress, isDoingAction, item, itemPos, sectionPos, itemAction}) {
+export default function Item({updateSectionItem, clickViewItem, edit, isSectionChecked, userProgress, isDoingAction, item, itemPos, sectionPos, itemAction}) {
     let {name, location} = item;
 
   return (
@@ -9,14 +11,9 @@ export default function Item({clickViewItem, edit, isSectionChecked, userProgres
         <button disabled={isDoingAction} onClick={()=>{itemAction(sectionPos, itemPos, "TOGGLE_CHECK")}} className="btn btn-outline-light">
             <i className={`fa fa-${(isSectionChecked || userProgress.items.includes(item._id)) ?'check-':''}square`} style={{fontSize: '2em'}}></i>
         </button> : null}
-        <button disabled={isDoingAction} onClick={()=>clickViewItem(sectionPos,itemPos)} className="w-100 btn btn-outline-light">
-            {name}
-            <i className="fa fa-eye float-right" style={{fontSize: '2em'}}></i>
-        </button>
+        <PreviewSectionItem edit={edit} isDoingAction={isDoingAction} item={item} clickViewItem={clickViewItem} sectionPos={sectionPos} itemPos={itemPos}/>
         {edit ? <>
-        <button disabled={isDoingAction} className="btn btn-outline-light">
-            <i className="fa fa-edit" style={{fontSize: '2em'}}></i>
-        </button>
+        <EditItemModal updateSectionItem={updateSectionItem} item={item} sectionPos={sectionPos} itemPos={itemPos}/>
         <button disabled={isDoingAction} onClick={()=>{itemAction(sectionPos, itemPos, "UP")}} className="btn btn-outline-light">
             <i className="fa fa-angle-up" style={{fontSize: '2em'}}></i>
         </button>

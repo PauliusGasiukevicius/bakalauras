@@ -3,8 +3,8 @@ import React, {} from 'react';
 export default function CourseCard({course, user, goToCourseView}) {
 
   return (
-  <div className="m-2 card text-white bg-dark border border-white" style={{width: "400px"}}>
-        <img className="card-img-top img-fluid" src={course.imageUrl || "https://i.imgur.com/IUwKaVm.png"} />
+  <div className="m-2 card text-white bg-dark border border-white" style={{width: "420px", maxHeight: "600px"}}>
+        <img className="card-img-top" style={{maxHeight: "200px", width: "auto"}} src={course.imageUrl || "https://i.imgur.com/IUwKaVm.png"} />
 
         <div className="card-body">
             <h2 className="card-title">{course.name}</h2>

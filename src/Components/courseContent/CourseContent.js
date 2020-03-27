@@ -10,7 +10,6 @@ export default function CourseContent({course, user, edit}) {
   const [isDoingAction, setIsDoingAction] = useState(false);
   const [currentSection, setCurrentSection] = useState(0);
   const [currentItem, setCurrentItem] = useState(0);
-  const [showPreview, setShowPreview] = useState(false);
 
   useEffect(() => {
     fetch(`/getCourseContent/${course._id}`)
@@ -26,7 +25,6 @@ export default function CourseContent({course, user, edit}) {
   let clickViewItem = (sectionPos, itemPos) => {
     setCurrentSection(sectionPos);
     setCurrentItem(itemPos);
-    if(edit) setShowPreview(true);
   }
 
     let courseSectionAction = async (sectionPos, action, name) => {
@@ -157,9 +155,26 @@ export default function CourseContent({course, user, edit}) {
       }
     }
 
+    let updateSectionItem = async (sectionPos, itemPos, itemId, name, setItemLoading, content, location, type) => {
+      if(name == '')return alert('name cannot be empty');
+      let A = JSON.parse(JSON.stringify(data));
+
+      setItemLoading(true);
+      let resp = await fetch(`/editItem/${itemId}`, 
+      {method:"POST", headers: {'Content-Type': 'application/json'}, body: JSON.stringify({name: name, type: type, user: user, location: location, content: content})});
+      let json = await resp.json();
+      setItemLoading(false);
+
+      if(json._id)
+      {
+        A[sectionPos].items[itemPos] = json;
+        setData(A);
+      }
+    }
+
   return (
   <div style={{color: "white"}}>
-      {!edit && data ? <CourseFileView file={data[currentSection].items[currentItem]}/> : null}
+      {!edit && data && data.length > 0 ? <CourseFileView item={data[currentSection].items[currentItem]}/> : null}
 
       {isDoingAction ?<div className="position-fixed h-100 w-100 mx-auto" style={{zIndex: 10}}>
         <div className="fa fa-spinner fa-spin text-white mx-auto" style={{fontSize: "7em"}}></div></div> : null}
@@ -168,7 +183,7 @@ export default function CourseContent({course, user, edit}) {
       data.map((section, idx) => 
       <Section edit={edit} itemAction={courseItemAction} sectionAction={courseSectionAction} clickViewItem={clickViewItem}
       createNewSectionItem={createNewSectionItem} key={course._id+section._id} userProgress={userProgress}
-      section={section} course={course} user={user} sectionPos={idx} isDoingAction={isDoingAction} />)}
+      section={section} course={course} user={user} sectionPos={idx} isDoingAction={isDoingAction} updateSectionItem={updateSectionItem} />)}
     
     {!data || !edit ? <></> : <AddNewSectionModal createNewSection={createNewSection} />}
 
