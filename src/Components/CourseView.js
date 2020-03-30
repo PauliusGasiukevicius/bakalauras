@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react';
 import CourseContent from './courseContent/CourseContent.js';
+import QA from './QA/QA.js';
 
 export default function CourseView({course, user, setRoute, goToCourseView, setUser}) {
 
@@ -40,7 +41,7 @@ export default function CourseView({course, user, setRoute, goToCourseView, setU
                 <a className="btn btn btn-outline-light w-100" data-toggle="tab" href="#badges">Badges</a>
             </li>
             <li className="nav-item">
-                <a className="btn btn btn-outline-light w-100" data-toggle="tab" href="#qa">Q &</a>
+                <a className="btn btn btn-outline-light w-100" data-toggle="tab" href="#qa">Q & A</a>
             </li>
         </ul>
 
@@ -80,7 +81,7 @@ export default function CourseView({course, user, setRoute, goToCourseView, setU
             </div>
             <div id="qa" className="tab-pane fade">
                 <h3 className="p-2">Q & A</h3>
-                <p>//TODO</p>
+                <QA course={course} user={user} />
             </div>
         </div>
     </div>
