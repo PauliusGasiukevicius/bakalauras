@@ -8,14 +8,16 @@ export default function QuestionSummary({question, user, setCurrentQuestion}) {
             <div className="card-title m-0 p-0">
               <h4> {question.title} </h4>
                 <p className="d-inline"><i className="fa fa-arrow-up" /> {question.upvotes}</p>
+                {"  "}
                 <p className="d-inline"><i className="fa fa-comment" /> {question.replies}</p>
             </div>
         </div>
 
         <div className="card-footer m-0 p-0">
-            <small className="">
-                <i className="fa fa-user" /> {user.name + "     "} 
-                <i className="fa fa-calendar" /> {question.date.toDateString()}
+            <small>
+                <i className="fa fa-user" /> {user.name} {" "}
+                <span>{" "}</span>
+                <i className="fa fa-calendar" /> {(new Date(question.creation_date)).toLocaleString()}
             </small>
         </div>
   </div>
