@@ -1,10 +1,13 @@
 module.exports = (app, mongoose) => {
 
-    let Question = require(`./models/questionModel.js`);
+    let Question = require(`../models/questionModel.js`);
+    let Reply = require(`../models/replyModel.js`);
+    require('./replies.js')(app, mongoose);
 
     app.delete(`/question/:questionId`, async (req, resp) => {
         try{
             await Question.deleteOne({_id: req.params.questionId});
+            await Reply.delete({questionId: req.params.questionId});
         return resp.send({ok: 'success'});  
     }catch (error) {console.log(error);return resp.status(400).send({err: error});}
     });
@@ -25,7 +28,7 @@ module.exports = (app, mongoose) => {
         let question = await Question.findOne({_id: req.params.questionId});
         let {title, content} = req.body;
         question.title = title;
-        question.content = title;
+        question.content = content;
         question.edit_date = new Date();  
         question = await question.save();
 

@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
+import EditReplyModal from './EditReplyModal.js';
 
-export default function Reply({reply, user}) {
+export default function Reply({deleteReply, reply, user, loading, clickEditReply}) {
 
   return (
     <div className="w-100 m-1" style={{color: "white"}}>
@@ -10,15 +11,18 @@ export default function Reply({reply, user}) {
         <i className="fa fa-arrow-up" ></i>
           {" "}{reply.upvotes}
       </button>
-      <button type="button" className="btn btn-outline-light" >
-        <i className="fa fa-edit"></i>
-        {" Edit"}
-      </button>
+      {
+        user._id == reply.userId ? 
+        <>
+          <EditReplyModal reply = {reply} loading={loading} editReply={clickEditReply}/>
 
-      <button type="button" className="btn btn-outline-light" >
-        <i className="fa fa-trash"></i>
-        {" Delete"}
-      </button>
+          <button onClick={()=>deleteReply(reply)} type="button" className="btn btn-outline-light" >
+            <i className="fa fa-trash"></i>
+            {" Delete"}
+          </button>
+        </>
+        : null
+      }
     </div>
 
     <div className="w-100 text-white bg-dark border border-white p-2">
@@ -28,9 +32,9 @@ export default function Reply({reply, user}) {
 
         <div className="card-footer m-0 p-0">
             <small>
-                <i className="fa fa-user" /> {reply.userName} {" "}
-                <span>{" "}</span>
-                <i className="fa fa-calendar" /> {(new Date(reply.creation_date)).toLocaleString()}
+                <i className="fa fa-user" /> {reply.userName}  &nbsp;&nbsp;
+                <i className="fa fa-calendar" /> {(new Date(reply.creation_date)).toLocaleString()} &nbsp;&nbsp;
+                {reply.creation_date != reply.edit_date ? `Editted: ${ (new Date(reply.edit_date)).toLocaleString() }` : null}
             </small>
         </div>
     </div>

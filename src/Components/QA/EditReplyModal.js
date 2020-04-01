@@ -1,28 +1,26 @@
 import React, { useState } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 
-export default function AskNewQuestion({loading, askQuestion}) {
+export default function ReplyModal({reply, loading, editReply}) {
 
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
+  const [content, setContent] = useState(reply.content);
 
   let clickSubmitQuestion = () => {
-    askQuestion(title, content);
-    setContent('');
+    editReply(reply, content);
   }
 
   return (
   <>
-    <button disabled={loading} className="btn btn-outline-light" data-toggle="modal" data-target="#askQuestion">
-      <i className="fa fa-plus-circle"></i>
-      &nbsp;Ask question
+    <button disabled={loading} className="btn btn-outline-light" data-toggle="modal" data-target={`#editReplyQuestion${reply._id}`}>
+      <i className="fa fa-edit"></i>
+      {" Edit"}
     </button>
 
-    <div className="modal fade" id="askQuestion" tabIndex="-1" role="dialog">
+    <div className="modal fade" id={`editReplyQuestion${reply._id}`} tabIndex="-1" role="dialog">
       <div className="modal-dialog modal-lg" role="document">
         <div className="modal-content bg-dark">
           <div className="modal-header">
-            <h5 className="modal-title">Ask new question</h5>
+            <h5 className="modal-title">Reply</h5>
             <button type="button" className="close" data-dismiss="modal">
               <span className="text-white">&times;</span>
             </button>
@@ -30,7 +28,6 @@ export default function AskNewQuestion({loading, askQuestion}) {
           <div className="modal-body">
             <div className="form w-100">
               <div className="form-group w-100">
-                <input type="text" value={title} onChange={(e)=>setTitle(e.target.value)} className="m-1 w-100 form-control" placeholder="Enter question" />
                 <div className="w-100 m-1">
                   <Editor initialValue={content}
                           apiKey="abmgxvtjvz9gg53o1r2ohp1f5qua4yc5aoiyovbj297ritax"

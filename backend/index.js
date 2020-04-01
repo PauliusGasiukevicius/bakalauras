@@ -28,6 +28,6 @@ app.listen(process.env.PORT || 8080, () => {
         require('./courseContent/courseContent.js')(app, mongoose);
         require('./userGoogleLogin.js')(app, mongoose);
         require('./files.js')(app, mongoose);
-        require('./qa.js')(app, mongoose);
+        require('./qa/qa.js')(app, mongoose);
     });
 });
