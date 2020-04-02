@@ -1,6 +1,7 @@
 let multer  = require('multer');
 let upload = multer({ dest: 'uploads/' });
-var fs = require('fs').promises;
+let fs = require('fs').promises;
+let stream = require('express-stream');
 
 module.exports = (app, mongoose) => {
 

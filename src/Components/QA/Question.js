@@ -3,14 +3,102 @@ import Reply from './Reply.js';
 import ReplyModal from './ReplyModal.js';
 import EditQuestion from './EditQuestion.js';
 
-export default function Question({setLoading, question, user, setCurrentQuestion, clickEditQuestion, loading, clickDeleteQuestion}) {
+export default function Question({changeQuestionReplies, changeQuestionUpvotes, setLoading, question, user, setCurrentQuestion, clickEditQuestion, loading, clickDeleteQuestion}) {
 
     const [replies, setReplies] = useState(null);
+    const [upvotes, setUpvotes] = useState([]);
+    const [isQuestionUpvoted, setIsQuestionUpvoted] = useState(false);
+    const [questionUpvotes, setQuestionUpvotes] = useState(question.upvotes);
+
+    useEffect(()=>{
+      fetch(`/upvotes/${question.courseId}/${user._id}`)
+      .then(r => r.json())
+      .then(r => {
+        if(!r.err){
+          setUpvotes(r);
+          setIsQuestionUpvoted(isUpvoted(question, r));
+        }
+      })
+
+      fetch(`/reply/${question._id}`)
+      .then(r => r.json())
+      .then(r => {if(!r.err)setReplies(r)})
+
+    },[]);
+
 
     let deleteQuestion = () => {
       if(window.confirm("Are you sure you want to delete this whole section (including all items in it)? This action cannot be undone."))
-      clickDeleteQuestion(question);
+        clickDeleteQuestion(question);
     }
+
+    let isUpvoted = (item, upvotes) => {
+      console.log(item, upvotes);
+      for(let i=0; i<upvotes.length; i++)
+        if(upvotes[i].objectId == item._id)return 1;
+      return 0;
+    };
+
+    let clickUpvote = async () => {
+        setLoading(true);
+        let resp = await fetch(`/upvotes`, 
+        {method:"POST", headers: {'Content-Type': 'application/json'}, 
+        body: JSON.stringify({courseId: question.courseId, user, objectId: question._id, type: 'question'})});
+        let json = await resp.json();
+
+        if(json._id){ //created upvote object
+          setUpvotes([...upvotes, json]);
+          changeQuestionUpvotes(question, 1);
+          setQuestionUpvotes(questionUpvotes+1);
+          setIsQuestionUpvoted(true);
+        }else if(json.ok){
+          let cp = JSON.parse(JSON.stringify(upvotes));
+          let upvoteIndex = -1;
+          for(let i=0; i<upvotes.length; i++)
+            if(upvotes[i]._id == json.deletedId)upvoteIndex = i;
+          if(upvoteIndex == -1)return;
+          cp.splice(upvoteIndex, 1);
+          setUpvotes(cp);
+          changeQuestionUpvotes(question, -1);
+          setQuestionUpvotes(questionUpvotes - 1);
+          setIsQuestionUpvoted(false);
+        }
+        setLoading(false);
+    }
+
+    let changeReplyUpvotes = (reply, inc) =>
+    {
+      let replyPos = -1;
+      for(let i=0; i<replies.length; i++)
+        if(replies[i]._id == reply._id)replyPos=i;
+
+      if(replyPos < 0)return;
+      replies[replyPos].upvotes+=inc;
+    };
+
+    let clickReplyUpvote = async (reply) => {
+      setLoading(true);
+      let resp = await fetch(`/upvotes`, 
+      {method:"POST", headers: {'Content-Type': 'application/json'}, 
+      body: JSON.stringify({courseId: question.courseId, user, objectId: reply._id, type: 'reply'})});
+      let json = await resp.json();
+
+      if(json._id){ //created upvote object
+        setUpvotes([...upvotes, json]);
+        changeReplyUpvotes(reply, 1);
+        //setIsReplyUpvoted(true);
+      }else if(json.ok){
+        let cp = JSON.parse(JSON.stringify(upvotes));
+        let upvoteIndex = -1;
+        for(let i=0; i<upvotes.length; i++)
+          if(upvotes[i]._id == json.deletedId)upvoteIndex = i;
+        if(upvoteIndex == -1)return;
+        cp.splice(upvoteIndex, 1);
+        setUpvotes(cp);
+        changeReplyUpvotes(reply, -1);
+      }
+      setLoading(false);
+  }
 
     let clickReply = async (content) => {
       let A = JSON.parse(JSON.stringify(replies));
@@ -25,6 +113,7 @@ export default function Question({setLoading, question, user, setCurrentQuestion
       {
         A.push(json);
         setReplies(A);
+        changeQuestionReplies(question, 1);
       }
     }
 
@@ -69,22 +158,17 @@ export default function Question({setLoading, question, user, setCurrentQuestion
       {
         A.splice(replyPos, 1);
         setReplies(A);
+        changeQuestionReplies(question, -1);
       }
     }
-
-    useEffect(()=>{
-      fetch(`/reply/${question._id}`)
-      .then(r => r.json())
-      .then(r => {if(!r.err)setReplies(r)})
-    },[]);
 
   return (
     <div className="w-100" style={{color: "white"}}>
 
       <div className="d-flex w-100" style={{fontSize: "1.5em"}}>
-        <button type="button" className="btn btn-outline-light" >
-          <i className="fa fa-arrow-up" ></i>{" "}
-            {question.upvotes}
+        <button onClick={()=>clickUpvote()} type="button" className="btn btn-outline-light" >
+          {!isQuestionUpvoted ? <i className="fa fa-arrow-up"></i> : <i className="fa fa-arrow-up" style={{color: 'orange'}}></i>}
+            {" "}{questionUpvotes}
         </button>
 
         <ReplyModal reply={clickReply} loading={loading}/>
@@ -128,7 +212,7 @@ export default function Question({setLoading, question, user, setCurrentQuestion
 
     <div className="w-100 text-white bg-dark border border-white p-2">
       {!replies ? <i className="fa fa-spinner fa-spin text-white" style={{fontSize: "3em"}}></i> : 
-      replies.map(r => <Reply clickEditReply={clickEditReply} loading={loading} reply={r} user={user} deleteReply={deleteReply} />)}
+      replies.map(r => <Reply isUpvoted={isUpvoted(r,upvotes)} clickReplyUpvote={clickReplyUpvote} upvotes={upvotes} clickEditReply={clickEditReply} loading={loading} reply={r} user={user} deleteReply={deleteReply} />)}
     </div>
       
   </div>

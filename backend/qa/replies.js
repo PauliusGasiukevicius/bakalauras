@@ -1,11 +1,13 @@
 module.exports = (app, mongoose) => { 
     let Question = require(`../models/questionModel.js`);
     let Reply = require(`../models/replyModel.js`);
+    let Upvote = require(`../models/userUpvotesModel.js`);
 
     app.delete(`/reply/:replyId`, async (req, resp) => {
         try{
             await Reply.deleteOne({_id: req.params.replyId});
             await Question.updateOne({_id: req.params.questionId}, {$inc: {replies: -1}});
+            await Upvote.deleteOne({objectId: req.params.replyId});
         return resp.send({ok: 'success'});  
     }catch (error) {console.log(error);return resp.status(400).send({err: error});}
     });

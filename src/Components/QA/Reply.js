@@ -1,14 +1,18 @@
 import React, {useEffect, useState} from 'react';
 import EditReplyModal from './EditReplyModal.js';
 
-export default function Reply({deleteReply, reply, user, loading, clickEditReply}) {
+export default function Reply({clickReplyUpvote, isUpvoted, deleteReply, reply, user, loading, clickEditReply}) {
+
+  let clickUpvote = () => {
+    clickReplyUpvote(reply);
+  }
 
   return (
     <div className="w-100 m-1" style={{color: "white"}}>
 
       <div className="d-flex w-100" style={{fontSize: "1.5em"}}>
-      <button type="button" className="btn btn-outline-light" >
-        <i className="fa fa-arrow-up" ></i>
+      <button onClick={()=>clickUpvote()} type="button" className="btn btn-outline-light" >
+      {!isUpvoted ? <i className="fa fa-arrow-up"></i> : <i className="fa fa-arrow-up" style={{color: 'orange'}}></i>}
           {" "}{reply.upvotes}
       </button>
       {

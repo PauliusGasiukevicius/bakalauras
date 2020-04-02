@@ -2,12 +2,16 @@ module.exports = (app, mongoose) => {
 
     let Question = require(`../models/questionModel.js`);
     let Reply = require(`../models/replyModel.js`);
+    let Upvote = require(`../models/userUpvotesModel.js`);
+
     require('./replies.js')(app, mongoose);
+    require('./upvotes.js')(app, mongoose);
 
     app.delete(`/question/:questionId`, async (req, resp) => {
         try{
             await Question.deleteOne({_id: req.params.questionId});
-            await Reply.delete({questionId: req.params.questionId});
+            await Upvote.deleteOne({objectId: req.params.questionId});
+            await Reply.deleteMany({questionId: req.params.questionId});
         return resp.send({ok: 'success'});  
     }catch (error) {console.log(error);return resp.status(400).send({err: error});}
     });
