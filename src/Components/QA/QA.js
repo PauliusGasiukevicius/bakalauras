@@ -106,8 +106,8 @@ export default function QA({course, user}) {
   return (
     <div className="w-100 text-white bg-dark border border-white">
     <div className="d-flex p-2">
-      <div className = "flex-fill d-flex">
-        <input value={searchBarText} onChange={(e)=>setSearchBarText(e.target.value)} className="flex-fill form-control" type="search" placeholder="Search for questions" aria-label="Search"/>
+      <div className = " d-flex flex-fill">
+        <input value={searchBarText} onChange={(e)=>setSearchBarText(e.target.value)} className="form-control" type="search" placeholder="Search for questions" aria-label="Search"/>
         <button type="button" onClick={()=>setSearchFilter(searchBarText)} className="btn btn-outline-light" >
           <i className="fa fa-search"></i>
         </button>

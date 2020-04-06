@@ -61,9 +61,6 @@ export default function CourseEdit({course, user, setRoute, setCourse}) {
             <li className="nav-item">
                 <a className="btn btn btn-outline-light w-100" data-toggle="tab" href="#edit-content">Edit content</a>
             </li>
-            <li className="nav-item">
-                <a className="btn btn btn-outline-light w-100" data-toggle="tab" href="#edit-badges">Edit badges</a>
-            </li>
         </ul>
 
         {isDoingAction ?<div className="position-fixed h-100 w-100 mx-auto" style={{zIndex: 10}}>
@@ -99,10 +96,6 @@ export default function CourseEdit({course, user, setRoute, setCourse}) {
             <div id="edit-content" className="tab-pane fade">
                 <h3>Content</h3>
                 <CourseContent user={user} course={course} edit={true}/>
-            </div>
-            <div id="edit-badges" className="tab-pane fade">
-                <h3>Badges</h3>
-                <p>//TODO</p>
             </div>
         </div>
     </div>

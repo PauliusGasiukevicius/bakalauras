@@ -29,10 +29,7 @@ export default function Header({setCoursesFilter, onSuccessGoogleAuth, user, onL
           <div className="navbar w-100">
             <ul className="navbar-nav mr-auto w-100 justify-content-md-start justify-content-center">
               <li className="nav-item active">
-                <a className="nav-link h5" href="#">e-Learn</a>
-              </li>
-              <li className="nav-item active">
-                  <a className="nav-link" href="#" onClick={()=>setRoute('home')}>Home</a>
+                <a className="nav-link h5" href="#" onClick={()=>setRoute('home')}>e-Learn</a>
               </li>
               <li className="nav-item">
                   <a className="nav-link" href="#" onClick={()=>setRoute('about')}>About</a>

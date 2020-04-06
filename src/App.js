@@ -11,6 +11,7 @@ import Donate from './Components/Donate.js'
 import UserProfile from './Components/UserProfile.js'
 import CoursesITeach from './Components/CoursesITeach.js'
 import CoursesIStudy from './Components/CoursesIStudy.js'
+import Completion from './Components/Completion.js';
 import './App.css';
 
 function App() {
@@ -86,13 +87,7 @@ function App() {
         <div className="h-100" style={{backgroundColor: "#282c34", marginTop: "65px"}}>
           {
             route == 'home' ? 
-              <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo" />
-                <p>
-                  Bachelor WIP
-                </p>
                 <CoursesDisplay courses={courses} user={user} goToCourseView={goToCourseView}/>
-              </header>
             : route == 'coursesSearch' ?
               <CoursesDisplay courses={courses} coursesFilter={coursesFilter} user={user} goToCourseView={goToCourseView}/>
             : route == 'coursesITeach' ?
@@ -101,6 +96,8 @@ function App() {
               <CoursesIStudy user={user} goToCourseView={goToCourseView}/>
             : route == 'about' ?
               <About />
+            : route == 'completion' ?
+              <Completion user={user} course={currentCourse} />
             : route == 'donate' ?
               <Donate user={user}/>
             : route == 'profile' ?

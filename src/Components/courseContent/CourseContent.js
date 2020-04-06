@@ -121,6 +121,37 @@ export default function CourseContent({course, user, edit}) {
       setIsDoingAction(false);
     }
 
+    let clickNextPrevItem = (action) => {
+      if(action == 'next')
+      {
+        let nxtItem = currentItem + 1;
+        let nxtSection = currentSection;
+
+        if(nxtItem >= data[currentSection].items.length)
+        {
+          nxtSection++;
+          nxtItem=0;
+        }
+        if(data.length <= nxtSection)return; //end
+        setCurrentItem(nxtItem);
+        setCurrentSection(nxtSection);
+      }
+      else
+      {
+        let nxtItem = currentItem - 1;
+        let nxtSection = currentSection;
+
+        if(nxtItem < 0 && nxtSection == 0)return;
+        if(nxtItem < 0)
+        {
+          nxtSection--;
+          nxtItem=data[nxtSection].items.length - 1;
+        }
+        setCurrentItem(nxtItem);
+        setCurrentSection(nxtSection);
+      }
+    }
+
     let createNewSection = async (name, setSectionLoading) => {
       if(name == '')return alert('name cannot be empty');
       let A = JSON.parse(JSON.stringify(data));
@@ -174,14 +205,14 @@ export default function CourseContent({course, user, edit}) {
 
   return (
   <div style={{color: "white"}}>
-      {!edit && data && data.length > 0 ? <CourseFileView item={data[currentSection].items[currentItem]}/> : null}
+      {!edit && data && data.length > 0 ? <CourseFileView clickNextPrevItem={clickNextPrevItem} item={data[currentSection].items[currentItem]}/> : null}
 
       {isDoingAction ?<div className="position-fixed h-100 w-100 mx-auto" style={{zIndex: 10}}>
         <div className="fa fa-spinner fa-spin text-white mx-auto" style={{fontSize: "7em"}}></div></div> : null}
       
       {!data ? <i className="fa fa-spinner fa-spin text-white" style={{fontSize: "3em"}}></i> :
       data.map((section, idx) => 
-      <Section edit={edit} itemAction={courseItemAction} sectionAction={courseSectionAction} clickViewItem={clickViewItem}
+      <Section clickNextPrevItem={clickNextPrevItem} edit={edit} itemAction={courseItemAction} sectionAction={courseSectionAction} clickViewItem={clickViewItem}
       createNewSectionItem={createNewSectionItem} key={course._id+section._id} userProgress={userProgress}
       section={section} course={course} user={user} sectionPos={idx} isDoingAction={isDoingAction} updateSectionItem={updateSectionItem} />)}
     
