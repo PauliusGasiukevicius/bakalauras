@@ -1,12 +1,33 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import CourseContent from './courseContent/CourseContent.js';
 import QA from './QA/QA.js';
+import ReactStars from 'react-stars'
 
-export default function CourseView({course, user, setRoute, goToCourseView, setUser}) {
+export default function CourseView({setCurrentCourse, course, user, setRoute, goToCourseView, setUser}) {
+
+    const [userRating, setUserRating] = useState(0);
 
     useEffect(() => {
         setTimeout(document.getElementById('courseViewFirstTab').click(),50);
+        fetch(`/rating/${course._id}/${user._id}`)
+        .then(r => r.json())
+        .then(r => {
+            if(r._id)setUserRating(r.value);
+        });
     }, []);
+
+    const ratingChanged = async (newRating) => {
+      let resp = await fetch(`/rating/${course._id}`, {method:"POST", headers: {'Content-Type': 'application/json'}, body: JSON.stringify({user, value: newRating})});
+      let json = await resp.json();
+      if(json._id)
+      {
+          let cnt = course.ratingsCount + (userRating==0 ? 1 : 0);
+          console.log(cnt, course.ratingsCount, userRating);
+          let nwValue = course.rating - userRating + newRating;
+          setUserRating(json.value);
+          setCurrentCourse({...course, ratingsCount: cnt, rating: nwValue});
+      }
+    };
 
     const joinCourse = () => {
         fetch(`/joinCourse/${course._id}`, {method: 'POST', headers: {'Content-Type': 'application/json'},
@@ -59,6 +80,9 @@ export default function CourseView({course, user, setRoute, goToCourseView, setU
                     <div className="card-body">
                         <h2 className="card-title">{course.name}</h2>
                         <p className="card-text">{course.desc}</p>
+                        {user && course.creator != user._id ? <div className="d-flex justify-content-center">
+                                    <ReactStars value={userRating} count={5} onChange={ratingChanged} size={60} color2={'#ffd700'} />
+                                </div> : null}
                         {!user ? <></> : 
                         user.courses.includes(course._id) ? 
                         <button onClick={()=>leaveCourse()} type="button" className="m-1 w-100 btn btn-danger">Leave course</button> : 

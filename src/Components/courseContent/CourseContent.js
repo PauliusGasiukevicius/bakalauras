@@ -109,27 +109,54 @@ export default function CourseContent({course, user, edit}) {
         case 'TOGGLE_CHECK':
           resp = await fetch(`/toggleCheck/${course._id}/${user._id}`, 
           {method:"POST", headers: {'Content-Type': 'application/json'}, 
-          body: JSON.stringify({user: user, isSection: false, idToToggle: A[sectionPos].items[itemPos]._id})});
+          body: JSON.stringify({sectionId: A[sectionPos]._id, user: user, isSection: false, idToToggle: A[sectionPos].items[itemPos]._id})});
           json = await resp.json();
           let B = JSON.parse(JSON.stringify(userProgress));
           if(B.items.includes(A[sectionPos].items[itemPos]._id))B.items.splice(B.items.indexOf(A[sectionPos].items[itemPos]._id ),1);
           else B.items.push(A[sectionPos].items[itemPos]._id );
           if(json.ok)setUserProgress(B);
+          
+          let isSectionDone = true;
+          for(let item of data[sectionPos].items)
+          {
+            if(!B.items.includes(item._id))isSectionDone = false;
+            if(!isSectionDone)break;
+          }
+
+          if(isSectionDone)markAsChecked(1,data[sectionPos]._id,sectionPos,0);
+          else if(B.sections.includes(data[sectionPos]._id)){
+            B.sections.splice(B.sections.indexOf(data[sectionPos]._id),1);
+            setUserProgress(B);
+          }
         break;
         default:
       }
       setIsDoingAction(false);
     }
 
+    let markAsChecked = async(isSection, id, sectionPos, itemPos) => {
+      let resp = await fetch(`/markCheck/${course._id}/${user._id}`, 
+      {method:"POST", headers: {'Content-Type': 'application/json'}, 
+      body: JSON.stringify({user, isSection, idToToggle: id})});
+      let json = await resp.json();
+      let B = JSON.parse(JSON.stringify(userProgress));
+      if(isSection && !B.sections.includes(data[sectionPos]._id))B.sections.push(data[sectionPos]._id);
+      if(!isSection && !B.items.includes(data[sectionPos].items[itemPos]._id))B.items.push(data[sectionPos].items[itemPos]._id);
+      if(json.ok)setUserProgress(B);
+    };
+
     let clickNextPrevItem = (action) => {
       if(action == 'next')
       {
+        markAsChecked(0,data[currentSection].items[currentItem]._id,currentSection,currentItem);
         let nxtItem = currentItem + 1;
         let nxtSection = currentSection;
 
         if(nxtItem >= data[currentSection].items.length)
         {
+          markAsChecked(1,data[currentSection]._id,currentSection,currentItem);
           nxtSection++;
+          while(nxtSection < data.length && data[nxtSection].items.length == 0)nxtSection++;
           nxtItem=0;
         }
         if(data.length <= nxtSection)return; //end

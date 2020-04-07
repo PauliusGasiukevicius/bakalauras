@@ -2,6 +2,7 @@ module.exports = (app, mongoose) => {
     
     let CourseContentSection = require('../models/courseContentSectionModel.js');
     let CourseContentSectionItem = require('../models/courseContentSectionItemModel.js');
+    let File = require('../models/fileModel.js');
 
     app.post(`/editItem/:itemId`, async (req, resp) => {
         try{
@@ -23,10 +24,14 @@ module.exports = (app, mongoose) => {
     app.post('/addItem/:courseId/:sectionId', async (req,resp) => {
         try{
             let {name, type, content, location} = req.body;
-            //upload file to imgur/youtube/DB and save get path here
     
             let item = new CourseContentSectionItem({courseId : req.params.courseId, name: name, location: location, type: type, content: content});
             item = await item.save();
+
+            if(location.startsWith(`/file/`)){
+                let id = location.substr(6);
+                await File.updateOne({_id: id}, {courseId: req.params.courseId, itemId: item._id, sectionId: req.params.sectionId});
+            }
     
             await CourseContentSection.updateOne({_id: req.params.sectionId}, {$push: {items: mongoose.Types.ObjectId(item._id)}});
             return resp.send(item.toObject());
@@ -37,7 +42,10 @@ module.exports = (app, mongoose) => {
         try{
             await CourseContentSectionItem.deleteOne({_id: req.params.itemId});
             await CourseContentSection.updateOne({_id: req.params.sectionId}, {$pull: {items: req.params.itemId}});
+            await File.deleteOne({itemId: req.params.itemId});
+
             return resp.send({ok: 'success'});
+
         }catch (error) {console.log(error);return resp.status(400).send({err: error});}
     });
 

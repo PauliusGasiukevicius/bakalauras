@@ -7,6 +7,14 @@ module.exports = (app, mongoose) => {
 
     let File = require(`./models/fileModel.js`);
 
+    let cleanUpUnusedFiles = async() => {
+        try{
+            await File.deleteMany({courseId: {$exists: false}});
+        setTimeout(cleanUpUnusedFiles, 1000 * 60 * 60);
+        }catch(err){console.log(err)};
+    }
+    cleanUpUnusedFiles();
+
     app.delete(`file/:fileId`, async (req,resp) => {
         try{
             await File.deleteOne({_id: req.params.fileId});

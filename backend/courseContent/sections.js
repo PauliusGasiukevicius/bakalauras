@@ -35,8 +35,10 @@ module.exports = (app, mongoose) => {
             await CourseContentSectionItem.deleteMany({_id: {$in: section.items}});
             await CourseContentSection.deleteOne({_id: req.params.sectionId});
             await CourseContent.updateOne({courseId: req.params.courseId}, {$pull: {sections: req.params.sectionId}});
+            await File.deleteMany({sectionId: req.params.sectionId});
 
             return resp.send({ok: 'success'});
+
         }catch (error) {console.log(error);return resp.status(400).send({err: error});}
     });
 

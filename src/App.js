@@ -105,7 +105,7 @@ function App() {
             : route == 'courseEdit' ?
               <CourseEdit course={currentCourse} user={user} setRoute={setRoute} setCourse={setCurrentCourse}/>
               : route == 'courseView' ?
-              <CourseView setUser={setUser} course={currentCourse} user={user} setRoute={setRoute} goToCourseView={goToCourseView}/>
+              <CourseView setCurrentCourse={setCurrentCourse} setUser={setUser} course={currentCourse} user={user} setRoute={setRoute} goToCourseView={goToCourseView}/>
             : route == 'courseCreate' ?
               <CourseCreation user={user} setRoute={setRoute} setCurrentCourse={setCurrentCourse}/>
             : <p>An unexpected error has occured.</p>
