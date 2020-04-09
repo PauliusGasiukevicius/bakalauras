@@ -15,7 +15,7 @@ export default function AskNewQuestion({loading, askQuestion}) {
   <>
     <button disabled={loading} className="btn btn-outline-light" data-toggle="modal" data-target="#askQuestion">
       <i className="fa fa-plus-circle"></i>
-      &nbsp;Ask question
+      &nbsp;Ask
     </button>
 
     <div className="modal fade" id="askQuestion" tabIndex="-1" role="dialog">

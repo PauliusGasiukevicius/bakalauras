@@ -1,10 +1,12 @@
+let auth = require('../auth.js');
+
 module.exports = (app, mongoose) => {
     
     let CourseContentSection = require('../models/courseContentSectionModel.js');
     let CourseContentSectionItem = require('../models/courseContentSectionItemModel.js');
     let File = require('../models/fileModel.js');
 
-    app.post(`/editItem/:itemId`, async (req, resp) => {
+    app.post(`/editItem/:itemId`, auth, async (req, resp) => {
         try{
             let {name, type, content, location} = req.body;
             //upload file to imgur/youtube/DB and save get path here if its larger than ~2MB
@@ -21,7 +23,7 @@ module.exports = (app, mongoose) => {
         }catch (error) {console.log(error);return resp.status(400).send({err: error});}
     });
 
-    app.post('/addItem/:courseId/:sectionId', async (req,resp) => {
+    app.post('/addItem/:courseId/:sectionId', auth, async (req,resp) => {
         try{
             let {name, type, content, location} = req.body;
     
@@ -38,7 +40,7 @@ module.exports = (app, mongoose) => {
         }catch (error) {console.log(error);return resp.status(400).send({err: error});}
     });
 
-    app.delete('/deleteItem/:sectionId/:itemId', async (req,resp) => {
+    app.delete('/deleteItem/:sectionId/:itemId', auth, async (req,resp) => {
         try{
             await CourseContentSectionItem.deleteOne({_id: req.params.itemId});
             await CourseContentSection.updateOne({_id: req.params.sectionId}, {$pull: {items: req.params.itemId}});
@@ -49,7 +51,7 @@ module.exports = (app, mongoose) => {
         }catch (error) {console.log(error);return resp.status(400).send({err: error});}
     });
 
-    app.post('/swapItems/:sectionId/', async (req,resp) => {
+    app.post('/swapItems/:sectionId/', auth, async (req,resp) => {
         try{
             let {pos1,pos2} = req.body;
             if(pos1 > pos2)[pos1, pos2] = [pos2, pos1];

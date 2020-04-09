@@ -1,10 +1,12 @@
+let auth = require('../auth.js');
+
 module.exports = (app, mongoose) => {
 
     let CourseContent = require('../models/courseContentModel.js');
     let CourseContentSection = require('../models/courseContentSectionModel.js');
     let CourseContentSectionItem = require('../models/courseContentSectionItemModel.js');
 
-    app.post('/editSection/:sectionId', async (req,resp) => {
+    app.post('/editSection/:sectionId', auth, async (req,resp) => {
         try{
             let {name} = req.body;
             await CourseContentSection.updateOne({_id: req.params.sectionId}, {name: name});
@@ -12,7 +14,7 @@ module.exports = (app, mongoose) => {
         }catch (error) {console.log(error);return resp.status(400).send({err: error});}
     });
 
-    app.post('/addSection/:courseId', async (req,resp) => {
+    app.post('/addSection/:courseId', auth, async (req,resp) => {
         try{
             let content = await CourseContent.findOne({courseId: req.params.courseId});
             if(!content){
@@ -29,7 +31,7 @@ module.exports = (app, mongoose) => {
         }catch (error) {console.log(error);return resp.status(400).send({err: error});}
     });
 
-    app.delete('/deleteSection/:courseId/:sectionId', async (req,resp) => {
+    app.delete('/deleteSection/:courseId/:sectionId', auth, async (req,resp) => {
         try{
             let section = await CourseContentSection.findOne({_id: req.params.sectionId});
             await CourseContentSectionItem.deleteMany({_id: {$in: section.items}});
@@ -42,7 +44,7 @@ module.exports = (app, mongoose) => {
         }catch (error) {console.log(error);return resp.status(400).send({err: error});}
     });
 
-    app.post('/swapSections/:courseId/', async (req,resp) => {
+    app.post('/swapSections/:courseId/', auth, async (req,resp) => {
         try{
             let {pos1,pos2} = req.body;
             if(pos1 > pos2)[pos1, pos2] = [pos2, pos1];

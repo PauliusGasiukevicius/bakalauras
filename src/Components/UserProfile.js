@@ -6,10 +6,10 @@ export default function UserProfile({user, goToCourseView}) {
 
   return (
     <div className="m-2 card text-white bg-dark border border-white">
-        <img style={{width: "300px"}} className="p-2 card-img-top img-fluid mx-auto" src={user.imageUrl || "https://i.imgur.com/mCHMpLT.png?3"} />
+        <img style={{width: "300px"}} className="p-2 card-img-top img-fluid mx-auto" src={user.imageUrl} />
 
         <div className="card-body">
-            <h2 className="card-title">{user.name}</h2>
+            <h2 className="card-title">Profile of: {user.name}</h2>
         </div>
 
         <div className="card-footer">

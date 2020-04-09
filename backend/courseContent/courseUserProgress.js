@@ -1,3 +1,5 @@
+let auth = require('../auth.js');
+
 module.exports = (app, mongoose) => {
     
     let CourseUserProgress = require('../models/courseUserProgressModel.js');
@@ -14,7 +16,7 @@ module.exports = (app, mongoose) => {
         return resp.send(progress.toObject());
     });
 
-    app.post('/markCheck/:courseId/:userId', async (req,resp) => {
+    app.post('/markCheck/:courseId/:userId', auth, async (req,resp) => {
         try{
             let {courseId, userId} = req.params;
             let {idToToggle, isSection, user} = req.body;
@@ -38,7 +40,7 @@ module.exports = (app, mongoose) => {
         }catch (error) {console.log(error);return resp.status(400).send({err: error});}
     });
 
-    app.post('/toggleCheck/:courseId/:userId', async (req,resp) => {
+    app.post('/toggleCheck/:courseId/:userId', auth, async (req,resp) => {
         try{
             let {courseId, userId} = req.params;
             let {idToToggle, isSection, user, sectionId} = req.body;

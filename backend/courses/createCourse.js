@@ -1,7 +1,9 @@
+let auth = require('../auth.js');
+
 module.exports = (app, mongoose) => {
     let Course = require('../models/courseModel.js');
 
-    app.post(`/editCourse:courseId`, async(req, resp) => {
+    app.post(`/editCourse:courseId`, auth, async(req, resp) => {
     try{
         let {name, description, imageUrl, user} = req.body;
         if(!user || !user._id)return resp.send({err: 'You need to be logged in to create new courses'});
@@ -18,7 +20,7 @@ module.exports = (app, mongoose) => {
     }catch(e){console.log(e);return resp.status(500).end();}
     });
 
-    app.post('/createCourse', (req, resp) => {
+    app.post('/createCourse', auth, (req, resp) => {
         //console.log(req.body);
         let {name, description, imgUrl, user} = req.body;
         if(!user || !user._id)return resp.send({err: 'You need to be logged in to create new courses'});

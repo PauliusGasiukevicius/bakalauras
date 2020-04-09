@@ -1,9 +1,10 @@
+let auth = require('../auth.js');
 module.exports = (app, mongoose) => {
 
     let Course = require('../models/courseModel.js');
     let File = require('../models/fileModel.js');
 
-    app.delete('/deleteCourse/:course_id/', async (req, resp) => {
+    app.delete('/deleteCourse/:course_id/', auth, async (req, resp) => {
         let {user} = req.body;
         let {course_id} = req.params;
 

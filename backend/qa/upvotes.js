@@ -1,7 +1,9 @@
+let auth = require('../auth.js');
+let Question = require(`../models/questionModel.js`);
+let Reply = require(`../models/replyModel.js`);
+let Upvote = require(`../models/userUpvotesModel.js`);
+
 module.exports = (app, mongoose) => { 
-    let Question = require(`../models/questionModel.js`);
-    let Reply = require(`../models/replyModel.js`);
-    let Upvote = require(`../models/userUpvotesModel.js`);
 
     app.get(`/upvotes/:courseId/:userId`, async (req,resp) => {
         try{
@@ -10,7 +12,7 @@ module.exports = (app, mongoose) => {
     }catch (error) {console.log(error);return resp.status(400).send({err: error});}
     });
 
-    app.post(`/upvotes`, async (req,resp) => {
+    app.post(`/upvotes`, auth, async (req,resp) => {
         try{
             let upvote = await Upvote.findOne({objectId: req.body.objectId});
             if(upvote)

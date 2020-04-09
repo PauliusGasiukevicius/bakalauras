@@ -51,7 +51,7 @@ export default function Section({updateSectionItem, clickViewItem, edit, userPro
                 )}
             </ul>
             
-            {!edit ? null : <AddNewItemModal sectionPos={sectionPos} sectionId={_id} createNewSectionItem={createNewSectionItem}/>}
+            {!edit ? null : <AddNewItemModal user={user} sectionPos={sectionPos} sectionId={_id} createNewSectionItem={createNewSectionItem}/>}
         </div>
     </div>
   </div>

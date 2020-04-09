@@ -232,7 +232,7 @@ export default function CourseContent({course, user, edit}) {
 
   return (
   <div style={{color: "white"}}>
-      {!edit && data && data.length > 0 ? <CourseFileView clickNextPrevItem={clickNextPrevItem} item={data[currentSection].items[currentItem]}/> : null}
+      {!edit && data && data.length > 0 ? <CourseFileView isPreview={false} clickNextPrevItem={clickNextPrevItem} item={data[currentSection].items[currentItem]}/> : null}
 
       {isDoingAction ?<div className="position-fixed h-100 w-100 mx-auto" style={{zIndex: 10}}>
         <div className="fa fa-spinner fa-spin text-white mx-auto" style={{fontSize: "7em"}}></div></div> : null}

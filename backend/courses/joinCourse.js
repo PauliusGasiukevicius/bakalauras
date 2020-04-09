@@ -1,9 +1,11 @@
+let auth = require('../auth.js');
+
 module.exports = (app, mongoose) => {
 
     let Course = require('../models/courseModel.js');
     let User = require('../models/userModel.js');
 
-    app.post('/joinCourse/:course_id/', async (req, resp) => {
+    app.post('/joinCourse/:course_id/', auth, async (req, resp) => {
         let {user} = req.body;
         let {course_id} = req.params;
 

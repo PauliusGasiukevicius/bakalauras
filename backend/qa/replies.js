@@ -1,9 +1,11 @@
+let auth = require('../auth.js');
+
 module.exports = (app, mongoose) => { 
     let Question = require(`../models/questionModel.js`);
     let Reply = require(`../models/replyModel.js`);
     let Upvote = require(`../models/userUpvotesModel.js`);
 
-    app.delete(`/reply/:replyId`, async (req, resp) => {
+    app.delete(`/reply/:replyId`, auth, async (req, resp) => {
         try{
             await Reply.deleteOne({_id: req.params.replyId});
             await Question.updateOne({_id: req.params.questionId}, {$inc: {replies: -1}});
@@ -12,7 +14,7 @@ module.exports = (app, mongoose) => {
     }catch (error) {console.log(error);return resp.status(400).send({err: error});}
     });
 
-    app.post(`/reply/:questionId`, async (req, resp) => {
+    app.post(`/reply/:questionId`, auth, async (req, resp) => {
         try{
         let {content, user} = req.body;
         let time = new Date();            
@@ -24,7 +26,7 @@ module.exports = (app, mongoose) => {
     }catch (error) {console.log(error);return resp.status(400).send({err: error});}
     });
 
-    app.put(`/reply/:replyId`, async (req, resp) => {
+    app.put(`/reply/:replyId`, auth, async (req, resp) => {
         try{
         let reply = await Reply.findOne({_id: req.params.replyId});
         let {content} = req.body;

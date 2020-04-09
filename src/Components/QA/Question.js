@@ -33,7 +33,6 @@ export default function Question({changeQuestionReplies, changeQuestionUpvotes, 
     }
 
     let isUpvoted = (item, upvotes) => {
-      console.log(item, upvotes);
       for(let i=0; i<upvotes.length; i++)
         if(upvotes[i].objectId == item._id)return 1;
       return 0;
@@ -201,7 +200,7 @@ export default function Question({changeQuestionReplies, changeQuestionUpvotes, 
             <div style={{maxHeight: "500px", overflowY: "auto"}} className="w-100" dangerouslySetInnerHTML={{ __html: question.content }}/>
         </div>
 
-        <div className="card-footer m-0 p-0">
+        <div className="card-footer m-0 p-0"> 
           <i className="fa fa-user" /> {question.userName || ' '} &nbsp;&nbsp;
           <i className="fa fa-calendar" /> {(new Date(question.creation_date)).toLocaleString()}&nbsp;&nbsp;
           {question.creation_date != question.edit_date ? `Editted: ${ (new Date(question.edit_date)).toLocaleString() }` : null}

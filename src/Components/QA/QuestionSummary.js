@@ -15,7 +15,7 @@ export default function QuestionSummary({question, user, setCurrentQuestion}) {
 
         <div className="card-footer m-0 p-0">
             <small>
-                <i className="fa fa-user" /> {user.name} {" "}
+                <i className="fa fa-user" /> {question.userName} {" "}
                 <span>{" "}</span>
                 <i className="fa fa-calendar" /> {(new Date(question.creation_date)).toLocaleString()}
             </small>

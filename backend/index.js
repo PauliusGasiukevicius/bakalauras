@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const app = express();
-const helmet = require('helmet')
+const helmet = require('helmet');
 
 //Middle-ware
 app.use(helmet());

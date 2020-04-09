@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-export default function CourseFileView({item, clickNextPrevItem}) {
+export default function CourseFileView({item, clickNextPrevItem, isPreview}) {
 
   let clickNext = () => {
     clickNextPrevItem('next');
@@ -12,10 +12,12 @@ export default function CourseFileView({item, clickNextPrevItem}) {
     
   return (
       <div className="p-2 card text-white bg-dark border border-white w-100" >
+        {!isPreview ? 
         <div className="d-flex justify-content-between">
           <button className="btn btn-outline-light" type="button" onClick={()=>clickPrev()}>&#8249; Previous</button>
+          <p>{item.name}</p>
           <button className="btn btn-outline-light" type="button" onClick={()=>clickNext()}>Next &#8250;</button>
-        </div>
+        </div> : null}
 
         {item && item.type == 'text' ? 
         <div style={{maxHeight: "500px", overflowY: "auto"}} className="w-100" dangerouslySetInnerHTML={{ __html: item.content }}></div> : null}

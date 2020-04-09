@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 
-export default function AddNewItemModal({sectionId, createNewSectionItem, sectionPos}) {
+export default function AddNewItemModal({user, sectionId, createNewSectionItem, sectionPos}) {
 
   const [newItemName, setNewItemName] = useState('');  
   const [itemContent, setItemContent] = useState('');  
@@ -25,6 +25,7 @@ export default function AddNewItemModal({sectionId, createNewSectionItem, sectio
 
       let formData = new FormData();
       formData.append("file", video);
+      formData.append("user", JSON.stringify(user));
 
       let resp = await fetch('/file', {method: "POST", body: formData});
       let json = await resp.json();
@@ -41,6 +42,7 @@ export default function AddNewItemModal({sectionId, createNewSectionItem, sectio
 
       let formData = new FormData();
       formData.append("file", file);
+      formData.append("user", JSON.stringify(user));
 
       let resp = await fetch('/file', {method: "POST", body: formData});
       let json = await resp.json();
@@ -129,8 +131,6 @@ export default function AddNewItemModal({sectionId, createNewSectionItem, sectio
                         <input onChange={(e)=>onChangeVideo(e)} type="file" className="custom-file-input" id={`courseItemVideoUpload${sectionId}`} accept="video/*" />
                         <label className="custom-file-label" htmlFor={`courseItemVideoUpload${sectionId}`}>Upload/Change video</label>
                       </div>
-                        ♦ input form for mp4/etc that use formData thing and sends it in multi parts to backend
-                        ♦ from backend use this https://developers.google.com/youtube/v3/docs/?apix=true and save link in DB
                     </div>
                 </div>
             </div>
@@ -141,7 +141,6 @@ export default function AddNewItemModal({sectionId, createNewSectionItem, sectio
                         <input onChange={(e)=>onChangeFile(e)} type="file" className="custom-file-input" id={`courseItemFileUpload${sectionId}`} />
                         <label className="custom-file-label" htmlFor={`courseItemFileUpload${sectionId}`}>Upload/Change file</label>
                       </div>
-                      ♦ input form for random files yet limit size a lot &lt; 2 MB 
                     </div>
                 </div>
             </div>

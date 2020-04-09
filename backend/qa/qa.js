@@ -1,3 +1,4 @@
+let auth = require('../auth.js');
 module.exports = (app, mongoose) => {
 
     let Question = require(`../models/questionModel.js`);
@@ -7,7 +8,7 @@ module.exports = (app, mongoose) => {
     require('./replies.js')(app, mongoose);
     require('./upvotes.js')(app, mongoose);
 
-    app.delete(`/question/:questionId`, async (req, resp) => {
+    app.delete(`/question/:questionId`, auth, async (req, resp) => {
         try{
             await Question.deleteOne({_id: req.params.questionId});
             await Upvote.deleteOne({objectId: req.params.questionId});
@@ -16,7 +17,7 @@ module.exports = (app, mongoose) => {
     }catch (error) {console.log(error);return resp.status(400).send({err: error});}
     });
 
-    app.post(`/question/:courseId`, async (req, resp) => {
+    app.post(`/question/:courseId`, auth, async (req, resp) => {
         try{
         let {title, content} = req.body;
         let time = new Date();            
@@ -27,7 +28,7 @@ module.exports = (app, mongoose) => {
     }catch (error) {console.log(error);return resp.status(400).send({err: error});}
     });
 
-    app.put(`/question/:questionId`, async (req, resp) => {
+    app.put(`/question/:questionId`, auth, async (req, resp) => {
         try{
         let question = await Question.findOne({_id: req.params.questionId});
         let {title, content} = req.body;

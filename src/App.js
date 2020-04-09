@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-import logo from './logo.svg';
 import ls from 'local-storage'
 import Header from './Components/Header.js';
 import CoursesDisplay from './Components/CoursesDisplay.js';
@@ -38,8 +37,7 @@ function App() {
     .then(r => r.json())
     .then(r => {
       if(r && !r.err)setUser(r);
-      else if(r && r.err)
-      {
+      else if(r && r.err){
         alert(r.err);
         setUser(null);
       }

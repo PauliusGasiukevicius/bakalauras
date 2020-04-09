@@ -22,7 +22,7 @@ data-toggle="modal" data-target={`#previewItem${item._id}${edit ? '' : 'notEdit'
             </button>
           </div>
           <div className="modal-body d-flex">
-              <CourseFileView item={item}/>
+              <CourseFileView isPreview={true} item={item}/>
           </div>
           <div className="modal-footer">
             <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>

@@ -1,3 +1,5 @@
+let auth = require('./auth.js');
+
 module.exports = (app, mongoose) => {
 
     let Rating = require(`./models/courseRatingModel.js`);
@@ -11,7 +13,7 @@ module.exports = (app, mongoose) => {
         }catch (error) {console.log(error);return resp.status(400).send({err: error});}
     })
 
-    app.post(`/rating/:courseId`, async (req,resp) => {
+    app.post(`/rating/:courseId`, auth, async (req,resp) => {
         try{
         let {user, value} = req.body;
         if(value < 0 || value > 5)return resp.send({err: 'invalid rating'});

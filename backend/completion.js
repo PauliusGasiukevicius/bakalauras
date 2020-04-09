@@ -1,8 +1,9 @@
+let auth = require('./auth.js');
+let CourseUserProgress = require('./models/courseUserProgressModel.js');
+let CourseContent = require('./models/courseContentModel.js');
+let Completion = require('./models/Completion.js');
+
 module.exports = (app, mongoose) => {
-    
-    let CourseUserProgress = require('./models/courseUserProgressModel.js');
-    let CourseContent = require('./models/courseContentModel.js');
-    let Completion = require('./models/Completion.js');
 
     app.get('/complete/:courseId/:userId', async (req,resp) => {
         try{
@@ -13,7 +14,7 @@ module.exports = (app, mongoose) => {
         }catch (error) {console.log(error);return resp.status(400).send({err: error});}
     });
 
-    app.post('/complete/:courseId', async (req,resp) => {
+    app.post('/complete/:courseId', auth, async (req,resp) => {
         try{
             let user = req.body.user;
 

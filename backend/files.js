@@ -2,6 +2,7 @@ let multer  = require('multer');
 let upload = multer({ dest: 'uploads/' });
 let fs = require('fs').promises;
 let stream = require('express-stream');
+let auth = require('./auth.js');
 
 module.exports = (app, mongoose) => {
 
@@ -15,7 +16,7 @@ module.exports = (app, mongoose) => {
     }
     cleanUpUnusedFiles();
 
-    app.delete(`file/:fileId`, async (req,resp) => {
+    app.delete(`file/:fileId`, auth, async (req,resp) => {
         try{
             await File.deleteOne({_id: req.params.fileId});
             return resp.send({ok: 'success'});
@@ -37,7 +38,7 @@ module.exports = (app, mongoose) => {
     }catch (error) {console.log(error);return resp.status(400).send({err: error});}
     });
 
-    app.post(`/file`, upload.single('file'), async (req, resp) => {
+    app.post(`/file`, upload.single('file'), auth, async (req, resp) => {
         try{
         let file = new File();
         file.name = req.file.originalname;
