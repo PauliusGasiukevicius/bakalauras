@@ -8,17 +8,16 @@ export default function CourseCreation({user, setRoute, setCurrentCourse}) {
 
   let onChangeImage = async (e) => {
     let img = document.getElementById('courseImageUpload').files[0]; 
-    let apiUrl = 'https://api.imgur.com/3/image';
-    let apiKey = '88f7b792a58698f';
 
     let formData = new FormData();
     formData.append("image", img);
+    formData.append("user", JSON.stringify(user));
 
     setIsDoingAction(true);
-    let resp = await fetch(apiUrl, {method: "POST", mode: "cors", headers:
-       {Authorization: 'Client-ID ' + apiKey, Accept: 'application/json'}, body: formData});
+    let resp = await fetch(`/image`, {method: "POST", body: formData});
     let json = await resp.json();
-    setImageUrl(json.data.link);
+    if(json.url)setImageUrl(json.url);
+    else alert(json.err);
     setIsDoingAction(false);
   }
 

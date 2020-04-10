@@ -6,6 +6,15 @@ const helmet = require('helmet');
 
 //Middle-ware
 app.use(helmet());
+app.use(helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'", 'cdn.tiny.cloud', 'i.imgur.com', 'code.jquery.com',
+       'cdnjs.cloudflare.com', 'stackpath.bootstrapcdn.com', 'code.jquery.com', ],
+      styleSrc: ["'self'", 'stackpath.bootstrapcdn.com'],
+      upgradeInsecureRequests: true
+    },
+    reportOnly: true
+  }))
 app.use(express.static(path.join(__dirname, '..', 'build')));
 app.use(express.static(path.join(__dirname, '..', 'public')));
 app.use(bodyParser.json());
