@@ -13,6 +13,7 @@ export default function CourseView({setCurrentCourse, course, user, setRoute, go
         .then(r => r.json())
         .then(r => {
             if(r._id)setUserRating(r.value);
+            console.log(setUser);
         });
     }, []);
 
@@ -34,7 +35,11 @@ export default function CourseView({setCurrentCourse, course, user, setRoute, go
             body: JSON.stringify({user: user})})
             .then(r => r.json())
             .then(r => {
-                if(r && r.err)alert(r.err);
+                if(r && r.err)
+                {
+                    alert(r.err);
+                    if(r.relogin)setUser(null);
+                }
                 else setUser(r);
             })
     }
@@ -44,7 +49,10 @@ export default function CourseView({setCurrentCourse, course, user, setRoute, go
         body: JSON.stringify({user: user})})
         .then(r => r.json())
         .then(r => {
-            if(r && r.err)alert(r.err);
+            if(r && r.err){
+                alert(r.err);
+                if(r.relogin)setUser(null);
+            }
             else setUser(r);
         }) 
     }
@@ -55,7 +63,10 @@ export default function CourseView({setCurrentCourse, course, user, setRoute, go
         let json = await resp.json();
 
         if(json.ok)setRoute('completion');
-        else if (json.err) alert(json.err);   
+        else if (json.err){
+            alert(json.err);   
+            if(json.relogin)setUser(null);
+        }
     }
 
   return (
@@ -104,11 +115,11 @@ export default function CourseView({setCurrentCourse, course, user, setRoute, go
             </div>
             <div id="content" className="tab-pane fade">
                 <h3 className="p-2">Content</h3>
-                <CourseContent user={user} course={course}/>
+                <CourseContent setUser={setUser} user={user} course={course}/>
             </div>
             <div id="qa" className="tab-pane fade">
                 <h3 className="p-2">Q & A</h3>
-                <QA course={course} user={user} />
+                <QA course={course} user={user} setUser={setUser} />
             </div>
         </div>
     </div>

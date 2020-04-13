@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 
-export default function EditItemModal({item, updateSectionItem, sectionPos, itemPos}) {
+export default function EditItemModal({setUser, user, item, updateSectionItem, sectionPos, itemPos}) {
 
   let itemId = item._id;
   const [newItemName, setNewItemName] = useState(item.name);  
@@ -25,11 +25,17 @@ export default function EditItemModal({item, updateSectionItem, sectionPos, item
 
       let formData = new FormData();
       formData.append("file", video);
+      formData.append("user", JSON.stringify(user));
 
       let resp = await fetch('/file', {method: "POST", body: formData});
       let json = await resp.json();
-      console.log(json);
+
       if(json.location)setFileLocation(json.location);
+      else if(json.relogin){
+        alert(json.err);
+        setUser(null);
+      }
+
     }catch(error){console.log(error)};
   setItemLoading(false);
   }
@@ -41,11 +47,17 @@ export default function EditItemModal({item, updateSectionItem, sectionPos, item
 
       let formData = new FormData();
       formData.append("file", file);
+      formData.append("user", JSON.stringify(user));
 
       let resp = await fetch('/file', {method: "POST", body: formData});
       let json = await resp.json();
-      console.log(json);
+
       if(json.location)setFileLocation(json.location);
+      else if(json.relogin){
+        alert(json.err);
+        setUser(null);
+      }
+
     }catch(error){console.log(error)};
   setItemLoading(false);
   }

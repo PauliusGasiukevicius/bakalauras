@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 
-export default function CourseCreation({user, setRoute, setCurrentCourse}) {
+export default function CourseCreation({setUser, user, setRoute, setCurrentCourse}) {
   const [isDoingAction, setIsDoingAction] = useState(false);
   const [name, setName] = useState('');
   const [desc, setDesc] = useState('');
@@ -26,7 +26,11 @@ export default function CourseCreation({user, setRoute, setCurrentCourse}) {
     body: JSON.stringify({name: name, description: desc, imgUrl: imageUrl , user: user})})
     .then(r => r.json())
     .then(res => {
-      if(res.err)alert(res.err);
+      if(res.err)
+      {
+        alert(res.err);
+        if(res.relogin)setUser(null);
+      }
       else 
       {
           setCurrentCourse(res);

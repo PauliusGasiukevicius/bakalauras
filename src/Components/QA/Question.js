@@ -3,7 +3,7 @@ import Reply from './Reply.js';
 import ReplyModal from './ReplyModal.js';
 import EditQuestion from './EditQuestion.js';
 
-export default function Question({changeQuestionReplies, changeQuestionUpvotes, setLoading, question, user, setCurrentQuestion, clickEditQuestion, loading, clickDeleteQuestion}) {
+export default function Question({setUser, changeQuestionReplies, changeQuestionUpvotes, setLoading, question, user, setCurrentQuestion, clickEditQuestion, loading, clickDeleteQuestion}) {
 
     const [replies, setReplies] = useState(null);
     const [upvotes, setUpvotes] = useState([]);
@@ -61,6 +61,9 @@ export default function Question({changeQuestionReplies, changeQuestionUpvotes, 
           changeQuestionUpvotes(question, -1);
           setQuestionUpvotes(questionUpvotes - 1);
           setIsQuestionUpvoted(false);
+        }else if(json.relogin){
+          alert(json.err);
+          setUser(null);
         }
         setLoading(false);
     }
@@ -95,6 +98,9 @@ export default function Question({changeQuestionReplies, changeQuestionUpvotes, 
         cp.splice(upvoteIndex, 1);
         setUpvotes(cp);
         changeReplyUpvotes(reply, -1);
+      }else if(json.relogin){
+        alert(json.err);
+        setUser(null);
       }
       setLoading(false);
   }
@@ -113,6 +119,9 @@ export default function Question({changeQuestionReplies, changeQuestionUpvotes, 
         A.push(json);
         setReplies(A);
         changeQuestionReplies(question, 1);
+      }else if(json.relogin){
+        alert(json.err);
+        setUser(null);
       }
     }
 
@@ -135,6 +144,9 @@ export default function Question({changeQuestionReplies, changeQuestionUpvotes, 
       {
         A[replyPos] = json;
         setReplies(A);
+      }else if(json.relogin){
+        alert(json.err);
+        setUser(null);
       }
     }
 
@@ -158,6 +170,9 @@ export default function Question({changeQuestionReplies, changeQuestionUpvotes, 
         A.splice(replyPos, 1);
         setReplies(A);
         changeQuestionReplies(question, -1);
+      }else if(json.relogin){
+        alert(json.err);
+        setUser(null);
       }
     }
 

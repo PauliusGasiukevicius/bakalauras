@@ -3,7 +3,7 @@ import Section from './Section.js';
 import AddNewSectionModal from './AddNewSectionModal.js';
 import CourseFileView from './CourseFileView.js';
 
-export default function CourseContent({course, user, edit}) {
+export default function CourseContent({setUser, course, user, edit}) {
   
   const [data, setData] = useState(null);
   const [userProgress, setUserProgress] = useState(null);
@@ -39,6 +39,11 @@ export default function CourseContent({course, user, edit}) {
           json = await resp.json();
           A[sectionPos].name = name;
           if(json.ok)setData(A);
+          else if(json.relogin){
+            alert(json.err);
+            console.log(setUser);
+            setUser(null);
+          }
         break;
         case 'UP':
           if(sectionPos == 0)break;
@@ -47,6 +52,10 @@ export default function CourseContent({course, user, edit}) {
           body: JSON.stringify({user: user, pos1: sectionPos-1, pos2: sectionPos})});
           json = await resp.json();
           if(json.ok)setData(A);
+          else if(json.relogin){
+            alert(json.err);
+            setUser(null);
+          }
         break;
         case 'DOWN':
           if(sectionPos + 1 == A.length)break;
@@ -55,6 +64,10 @@ export default function CourseContent({course, user, edit}) {
           body: JSON.stringify({user: user, pos1: sectionPos, pos2: sectionPos+1})});
           json = await resp.json();
           if(json.ok)setData(A);
+          else if(json.relogin){
+            alert(json.err);
+            setUser(null);
+          }
         break;
         case 'DELETE':
           resp = await fetch(`/deleteSection/${course._id}/${A[sectionPos]._id}`, 
@@ -62,6 +75,10 @@ export default function CourseContent({course, user, edit}) {
           json = await resp.json();
           A.splice(sectionPos,1);
           if(json.ok)setData(A);
+          else if(json.relogin){
+            alert(json.err);
+            setUser(null);
+          }
         break;
         case 'TOGGLE_CHECK':
           resp = await fetch(`/toggleCheck/${course._id}/${user._id}`, 
@@ -72,6 +89,10 @@ export default function CourseContent({course, user, edit}) {
           if(B.sections.includes(A[sectionPos]._id))B.sections.splice(B.sections.indexOf(A[sectionPos]._id),1);
           else B.sections.push(A[sectionPos]._id);
           if(json.ok)setUserProgress(B);
+          else if(json.relogin){
+            alert(json.err);
+            setUser(null);
+          }
         break;
         default:
       }
@@ -90,6 +111,10 @@ export default function CourseContent({course, user, edit}) {
           body: JSON.stringify({user: user, pos1: itemPos-1, pos2: itemPos})});
           json = await resp.json();
           if(json.ok)setData(A);
+          else if(json.relogin){
+            alert(json.err);
+            setUser(null);
+          }
         break;
         case 'DOWN':
           if(itemPos + 1 == A[sectionPos].items.length)break;
@@ -98,6 +123,10 @@ export default function CourseContent({course, user, edit}) {
           body: JSON.stringify({user: user, pos1: itemPos, pos2: itemPos+1})});
           json = await resp.json();
           if(json.ok)setData(A);
+          else if(json.relogin){
+            alert(json.err);
+            setUser(null);
+          }
         break;
         case 'DELETE':
           resp = await fetch(`/deleteItem/${A[sectionPos]._id}/${A[sectionPos].items[itemPos]._id}`, 
@@ -105,6 +134,10 @@ export default function CourseContent({course, user, edit}) {
           json = await resp.json();
           A[sectionPos].items.splice(itemPos,1);
           if(json.ok)setData(A);
+          else if(json.relogin){
+            alert(json.err);
+            setUser(null);
+          }
         break;
         case 'TOGGLE_CHECK':
           resp = await fetch(`/toggleCheck/${course._id}/${user._id}`, 
@@ -115,6 +148,10 @@ export default function CourseContent({course, user, edit}) {
           if(B.items.includes(A[sectionPos].items[itemPos]._id))B.items.splice(B.items.indexOf(A[sectionPos].items[itemPos]._id ),1);
           else B.items.push(A[sectionPos].items[itemPos]._id );
           if(json.ok)setUserProgress(B);
+          else if(json.relogin){
+            alert(json.err);
+            setUser(null);
+          }
           
           let isSectionDone = true;
           for(let item of data[sectionPos].items)
@@ -143,6 +180,10 @@ export default function CourseContent({course, user, edit}) {
       if(isSection && !B.sections.includes(data[sectionPos]._id))B.sections.push(data[sectionPos]._id);
       if(!isSection && !B.items.includes(data[sectionPos].items[itemPos]._id))B.items.push(data[sectionPos].items[itemPos]._id);
       if(json.ok)setUserProgress(B);
+      else if(json.relogin){
+        alert(json.err);
+        setUser(null);
+      }
     };
 
     let clickNextPrevItem = (action) => {
@@ -189,11 +230,14 @@ export default function CourseContent({course, user, edit}) {
       let json = await resp.json();
       setSectionLoading(false);
 
-      if(json._id)
-      {
+      if(json._id){
         A.push(json);
         setData(A);
       }
+      else if(json.relogin){
+          alert(json.err);
+          setUser(null);
+        }
     }
 
     let createNewSectionItem = async (sectionPos, sectionId, name, setItemLoading, content={}, location, type='test') => {
@@ -206,10 +250,12 @@ export default function CourseContent({course, user, edit}) {
       let json = await resp.json();
       setItemLoading(false);
 
-      if(json._id)
-      {
+      if(json._id){
         A[sectionPos].items.push(json);
         setData(A);
+      }else if(json.relogin){
+        alert(json.err);
+        setUser(null);
       }
     }
 
@@ -223,10 +269,12 @@ export default function CourseContent({course, user, edit}) {
       let json = await resp.json();
       setItemLoading(false);
 
-      if(json._id)
-      {
+      if(json._id){
         A[sectionPos].items[itemPos] = json;
         setData(A);
+      }else if(json.relogin){
+        alert(json.err);
+        setUser(null);
       }
     }
 
@@ -239,7 +287,7 @@ export default function CourseContent({course, user, edit}) {
       
       {!data ? <i className="fa fa-spinner fa-spin text-white" style={{fontSize: "3em"}}></i> :
       data.map((section, idx) => 
-      <Section clickNextPrevItem={clickNextPrevItem} edit={edit} itemAction={courseItemAction} sectionAction={courseSectionAction} clickViewItem={clickViewItem}
+      <Section setUser={setUser} clickNextPrevItem={clickNextPrevItem} edit={edit} itemAction={courseItemAction} sectionAction={courseSectionAction} clickViewItem={clickViewItem}
       createNewSectionItem={createNewSectionItem} key={course._id+section._id} userProgress={userProgress}
       section={section} course={course} user={user} sectionPos={idx} isDoingAction={isDoingAction} updateSectionItem={updateSectionItem} />)}
     

@@ -1,20 +1,21 @@
 import React, { useEffect, useState } from 'react';
 
-export default function Completion({course, user}) {
+export default function Completion({course, user, setUser}) {
 
-    const [isComlete, setIsComplete] = useState(true);
+    const [isComlete, setIsComplete] = useState(false);
     const [completionDate, setCompletionDate] = useState(null);
 
     useEffect(()=>{
         fetch(`/complete/${course._id}/${user._id}`)
         .then(r => r.json())
         .then(r => {
-            if(r.ok)
-            {
+            if(r.ok){
                 setIsComplete(true);
                 setCompletionDate(r.date);
+            }else if(r.relogin){
+                alert(r.err);
+                setUser(null);
             }
-            else setIsComplete(true);
         });
     },[]);
 

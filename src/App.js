@@ -73,6 +73,13 @@ function App() {
     .then(resp => resp.json())
     .then(r => {setCourses(r)})
   },[route]);
+
+  let changeUser = (newUser) => {
+    if(newUser == null)
+      setRoute('home');
+      setUser(null);
+      setCurrentCourse(null);
+  }
  
  useEffect(() => {
     ls.set('user', user);
@@ -85,7 +92,7 @@ function App() {
         <div className="h-100" style={{backgroundColor: "#282c34", marginTop: "65px"}}>
           {
             route == 'home' ? 
-                <CoursesDisplay courses={courses} user={user} goToCourseView={goToCourseView}/>
+              <CoursesDisplay courses={courses} user={user} goToCourseView={goToCourseView}/>
             : route == 'coursesSearch' ?
               <CoursesDisplay courses={courses} coursesFilter={coursesFilter} user={user} goToCourseView={goToCourseView}/>
             : route == 'coursesITeach' ?
@@ -95,17 +102,17 @@ function App() {
             : route == 'about' ?
               <About />
             : route == 'completion' ?
-              <Completion user={user} course={currentCourse} />
+              <Completion setUser={changeUser} user={user} course={currentCourse} />
             : route == 'donate' ?
               <Donate user={user}/>
             : route == 'profile' ?
               <UserProfile user={user} goToCourseView={goToCourseView}/>
             : route == 'courseEdit' ?
-              <CourseEdit course={currentCourse} user={user} setRoute={setRoute} setCourse={setCurrentCourse}/>
+              <CourseEdit setUser={changeUser} course={currentCourse} user={user} setRoute={setRoute} setCourse={setCurrentCourse}/>
               : route == 'courseView' ?
-              <CourseView setCurrentCourse={setCurrentCourse} setUser={setUser} course={currentCourse} user={user} setRoute={setRoute} goToCourseView={goToCourseView}/>
+              <CourseView setCurrentCourse={setCurrentCourse} setUser={changeUser} course={currentCourse} user={user} setRoute={setRoute} goToCourseView={goToCourseView}/>
             : route == 'courseCreate' ?
-              <CourseCreation user={user} setRoute={setRoute} setCurrentCourse={setCurrentCourse}/>
+              <CourseCreation setUser={changeUser} user={user} setRoute={setRoute} setCurrentCourse={setCurrentCourse}/>
             : <p>An unexpected error has occured.</p>
           }
         </div>

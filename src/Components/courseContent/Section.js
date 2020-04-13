@@ -3,7 +3,7 @@ import Item from './Item.js';
 import AddNewItemModal from './AddNewItemModal.js';
 import EditSectionModal from './EditSectionModal.js';
 
-export default function Section({updateSectionItem, clickViewItem, edit, userProgress, isDoingAction, sectionPos, course, user, section, itemAction, sectionAction, createNewSectionItem}) {
+export default function Section({setUser, updateSectionItem, clickViewItem, edit, userProgress, isDoingAction, sectionPos, course, user, section, itemAction, sectionAction, createNewSectionItem}) {
 
   let {name, items, _id} = section;
   const [arrowUp, setArrowUp] = useState(false);
@@ -44,14 +44,14 @@ export default function Section({updateSectionItem, clickViewItem, edit, userPro
             <ul>
                 {!items ? <></> :
                 items.map((item,idx) => 
-                    <Item 
+                    <Item user={user} setUser={setUser}
                     isDoingAction={isDoingAction} itemPos={idx} sectionPos={sectionPos} clickViewItem={clickViewItem}
                     itemAction={itemAction} key={course._id+section._id+item._id} edit={edit} updateSectionItem={updateSectionItem}
                     item={item} userProgress={userProgress} isSectionChecked={userProgress.sections.includes(section._id)}/>
                 )}
             </ul>
             
-            {!edit ? null : <AddNewItemModal user={user} sectionPos={sectionPos} sectionId={_id} createNewSectionItem={createNewSectionItem}/>}
+            {!edit ? null : <AddNewItemModal setUser={setUser} user={user} sectionPos={sectionPos} sectionId={_id} createNewSectionItem={createNewSectionItem}/>}
         </div>
     </div>
   </div>

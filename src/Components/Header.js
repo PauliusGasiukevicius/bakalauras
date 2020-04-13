@@ -1,7 +1,6 @@
 /* eslint-disable eqeqeq */
 import React, {} from 'react';
 import { GoogleLogin } from 'react-google-login';
-import FacebookLogin from 'react-facebook-login';
 
 export default function Header({setCoursesFilter, onSuccessGoogleAuth, user, onLogout, onSuccessFacebookAuth, setRoute}) {
 
@@ -17,6 +16,10 @@ export default function Header({setCoursesFilter, onSuccessGoogleAuth, user, onL
   const clickSearch = () => {
     setCoursesFilter(document.getElementById('coursesSearchInput').value.toLowerCase());
     setRoute('coursesSearch');
+  }
+
+  const clickEmailLogin = () => {
+    alert('W.I.P.');
   }
 
   return (
@@ -88,13 +91,14 @@ export default function Header({setCoursesFilter, onSuccessGoogleAuth, user, onL
           cookiePolicy={'single_host_origin'}
           />
 
-          <FacebookLogin 
-            textButton=" Sign in with Facebook"
-            icon="fa-facebook"
-            appId="485952342069924"
-            fields="name,email,picture"
-            callback={(r) => responseFacebook(r)}
-            cssClass="fbButton w-100 btn p-1 m-1" />
+          <div onClick={()=>clickEmailLogin()} className="btn btn-outline-primary w-100 p-11  m-1 text-left" style={{padding: "10px"}}>
+            <span className="align-middle">
+              &nbsp;
+              <i className="fa fa-envelope "  style={{fontSize: "1.5em"}}/>	
+              &nbsp; 	&nbsp; Login with email
+            </span>
+          </div>
+          
         </div>
       </div>
     </div>

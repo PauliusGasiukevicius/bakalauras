@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 
-export default function AddNewItemModal({user, sectionId, createNewSectionItem, sectionPos}) {
+export default function AddNewItemModal({setUser, user, sectionId, createNewSectionItem, sectionPos}) {
 
   const [newItemName, setNewItemName] = useState('');  
   const [itemContent, setItemContent] = useState('');  
@@ -29,8 +29,13 @@ export default function AddNewItemModal({user, sectionId, createNewSectionItem, 
 
       let resp = await fetch('/file', {method: "POST", body: formData});
       let json = await resp.json();
-      console.log(json);
+      
       if(json.location)setFileLocation(json.location);
+      else if(json.relogin){
+        alert(json.err);
+        setUser(null);
+      }
+
     }catch(error){console.log(error)};
   setItemLoading(false);
   }
@@ -46,8 +51,13 @@ export default function AddNewItemModal({user, sectionId, createNewSectionItem, 
 
       let resp = await fetch('/file', {method: "POST", body: formData});
       let json = await resp.json();
-      console.log(json);
+      
       if(json.location)setFileLocation(json.location);
+      else if(json.relogin){
+        alert(json.err);
+        setUser(null);
+      }
+
     }catch(error){console.log(error)};
   setItemLoading(false);
   }

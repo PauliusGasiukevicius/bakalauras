@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PreviewSectionItem from './PreviewSectionItem.js';
 import EditItemModal from './EditItemModal.js';
 
-export default function Item({updateSectionItem, clickViewItem, edit, isSectionChecked, userProgress, isDoingAction, item, itemPos, sectionPos, itemAction}) {
+export default function Item({user, setUser, updateSectionItem, clickViewItem, edit, isSectionChecked, userProgress, isDoingAction, item, itemPos, sectionPos, itemAction}) {
     let {name, location} = item;
 
   return (
@@ -13,7 +13,7 @@ export default function Item({updateSectionItem, clickViewItem, edit, isSectionC
         </button> : null}
         <PreviewSectionItem edit={edit} isDoingAction={isDoingAction} item={item} clickViewItem={clickViewItem} sectionPos={sectionPos} itemPos={itemPos}/>
         {edit ? <>
-        <EditItemModal updateSectionItem={updateSectionItem} item={item} sectionPos={sectionPos} itemPos={itemPos}/>
+        <EditItemModal user={user} setUser={setUser} updateSectionItem={updateSectionItem} item={item} sectionPos={sectionPos} itemPos={itemPos}/>
         <button disabled={isDoingAction} onClick={()=>{itemAction(sectionPos, itemPos, "UP")}} className="btn btn-outline-light">
             <i className="fa fa-angle-up" style={{fontSize: '2em'}}></i>
         </button>

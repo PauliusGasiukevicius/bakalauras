@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import CourseContent from './courseContent/CourseContent.js';
 
-export default function CourseEdit({course, user, setRoute, setCourse}) {
+export default function CourseEdit({setUser, course, user, setRoute, setCourse}) {
 
     const [name, setName] = useState(course.name);
     const [desc, setDesc] = useState(course.desc);
@@ -19,7 +19,10 @@ export default function CourseEdit({course, user, setRoute, setCourse}) {
             body: JSON.stringify({user: user})})
             .then(r => r.json())
             .then(r => {
-                if(r && r.err)alert(r.err);
+                if(r && r.err){
+                    alert(r.err);
+                    if(r.relogin)setUser(null);
+                }
                 setRoute('home');
             })
         }
@@ -44,7 +47,10 @@ export default function CourseEdit({course, user, setRoute, setCourse}) {
         let resp = await fetch(`/editCourse${course._id}`,{method:"POST", headers: {'Content-Type': 'application/json'}, 
         body: JSON.stringify({name: name, description: desc, imageUrl: imageUrl , user: user})});
         let json = await resp.json();
-          if(json.err)alert(json.err);
+          if(json.err){
+              alert(json.err);
+              if(json.relogin)setUser(null);
+          }
           else {
               setCourse(json);
               alert('success');
@@ -94,7 +100,7 @@ export default function CourseEdit({course, user, setRoute, setCourse}) {
             </div>
             <div id="edit-content" className="tab-pane fade">
                 <h3>Content</h3>
-                <CourseContent user={user} course={course} edit={true}/>
+                <CourseContent setUser={setUser} user={user} course={course} edit={true}/>
             </div>
         </div>
     </div>
