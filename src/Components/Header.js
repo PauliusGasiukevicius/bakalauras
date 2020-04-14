@@ -1,6 +1,7 @@
 /* eslint-disable eqeqeq */
 import React, {} from 'react';
 import { GoogleLogin } from 'react-google-login';
+import EmailLogin from './EmailLogin.js';
 
 export default function Header({setCoursesFilter, onSuccessGoogleAuth, user, onLogout, onSuccessFacebookAuth, setRoute}) {
 
@@ -23,6 +24,7 @@ export default function Header({setCoursesFilter, onSuccessGoogleAuth, user, onL
   }
 
   return (
+    <>
     <header className="header h-100" >
       <nav className="navbar navbar-expand-md fixed-top navbar-dark bg-dark p-0 pr-2">
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
@@ -75,7 +77,7 @@ export default function Header({setCoursesFilter, onSuccessGoogleAuth, user, onL
 
   <div className="modal fade" id="login-modal" tabIndex="-1" role="dialog">
     <div className="modal-dialog" role="document">
-      <div className="modal-content">
+      <div className="modal-content bg-dark text-white">
         <div className="modal-header">
           <h5 className="modal-title" id="exampleModalLabel">Login/Sign up</h5>
           <button type="button" className="close" data-dismiss="modal" aria-label="Close">
@@ -86,18 +88,27 @@ export default function Header({setCoursesFilter, onSuccessGoogleAuth, user, onL
         <div className="modal-body" data-dismiss="modal">
           <GoogleLogin className="w-100 p-1 m-1"
           clientId="289002604454-d8h61qef9mdg6nglvtld21otnnatjkc3.apps.googleusercontent.com"
+          render={renderProps => (
+            <div onClick={renderProps.onClick} disabled={renderProps.disabled} className="btn btn-outline-light w-100 p-11  m-1 text-left" style={{padding: "10px"}}>
+              <span className="align-middle">
+                &nbsp;
+                <i className="fa fa-google "  style={{fontSize: "1.5em"}}/>	
+                &nbsp; 	&nbsp; Login with Google
+              </span>
+            </div>
+          )}
           onSuccess={(r) => onSuccessGoogleAuth(r)}
           onFailure={(r) => onFailure(r)}
           cookiePolicy={'single_host_origin'}
           />
 
-          <div onClick={()=>clickEmailLogin()} className="btn btn-outline-primary w-100 p-11  m-1 text-left" style={{padding: "10px"}}>
-            <span className="align-middle">
+        <div className="btn btn-outline-light w-100 p-11  m-1 text-left" style={{padding: "10px"}} data-toggle="modal" data-target="#emailLogin">
+          <span className="align-middle">
               &nbsp;
               <i className="fa fa-envelope "  style={{fontSize: "1.5em"}}/>	
               &nbsp; 	&nbsp; Login with email
-            </span>
-          </div>
+          </span>
+        </div>
           
         </div>
       </div>
@@ -105,6 +116,7 @@ export default function Header({setCoursesFilter, onSuccessGoogleAuth, user, onL
   </div>
 
     </header>
-    
+    <EmailLogin />
+  </>
   );
 }

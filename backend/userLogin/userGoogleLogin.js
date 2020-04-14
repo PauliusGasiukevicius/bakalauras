@@ -2,8 +2,8 @@ const fetch = require('node-fetch');
 
 module.exports = (app, mongoose) => {
 
-    let User = require('./models/userModel.js');
-    let UserSession = require('./models/UserSessionModel.js');
+    let User = require('../models/userModel.js');
+    let UserSession = require('../models/UserSessionModel.js');
 
     let deleteOldSessions = async() => {
         try{
