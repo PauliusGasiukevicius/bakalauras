@@ -3,7 +3,7 @@ import React, {} from 'react';
 import { GoogleLogin } from 'react-google-login';
 import EmailLogin from './EmailLogin.js';
 
-export default function Header({setCoursesFilter, onSuccessGoogleAuth, user, onLogout, onSuccessFacebookAuth, setRoute}) {
+export default function Header({setUser, setCoursesFilter, onSuccessGoogleAuth, user, onLogout, onSuccessFacebookAuth, setRoute}) {
 
   const onFailure = (response) => {
     alert('Deja jums nepavyko prisijungti');
@@ -116,7 +116,7 @@ export default function Header({setCoursesFilter, onSuccessGoogleAuth, user, onL
   </div>
 
     </header>
-    <EmailLogin />
+    <EmailLogin setUser={setUser} />
   </>
   );
 }

@@ -111,11 +111,11 @@ export default function AddNewItemModal({setUser, user, sectionId, createNewSect
                       File <i className="fa fa-file" style={{fontSize: "1.5em"}} />
                     </a>
                 </li>
-                <li className="nav-item">
+                {/*<li className="nav-item">
                     <a onClick={()=>setType('quizz')} className="btn btn btn-outline-light" data-toggle="tab" href={`#addQuizzItem${sectionId}`}>
                       Quizz <i className="fa fa-check-square-o" style={{fontSize: "1.5em"}} />
                     </a>
-                </li>
+                </li>*/}
               </ul>
 
         <div className="tab-content">

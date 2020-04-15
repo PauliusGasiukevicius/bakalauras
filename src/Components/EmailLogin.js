@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
-export default function EmailLogin() {
+export default function EmailLogin({setUser}) {
 
+    const [loading, setLoading] = useState(false);
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
     const [name, setName] = useState('');
@@ -9,21 +10,36 @@ export default function EmailLogin() {
     const [buttonText, setButtonText] = useState('Login');
 
   let clickLoginRegister = async () => {
-    alert('W.I.P.');
 
-    if(buttonText == 'Login'){
+    setLoading(true);
 
+    if(buttonText == 'Login'){ 
+      let resp = await fetch('/loginEmail',  {method: "POST", headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({email, pass})});
+      let json = await resp.json();
+      if(json.err)alert(json.err);
+      else
+      {
+        setUser(json);
+        setTimeout(document.getElementById('closeEmailLogin').click(),50);
+      }
     }else {
-
+      let resp = await fetch('/registerEmail',  {method: "POST", headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({email, pass, confirmPass, name})});
+      let json = await resp.json();
+      if(json.err)alert(json.err);
+      else alert(json.ok);
     }
-    /*let resp = await fetch('/userEmail',  {method: "POST", headers: {'Content-Type': 'application/json'},
-     body: JSON.stringify({email})});
-    let json = await resp.json();
-    if(json.err)alert(json.err);
-    else alert(json.ok);*/
+    setLoading(false);
   }
 
   return (
+    <>
+    {loading ? 
+    <div className="position-fixed h-100 w-100 mx-auto" style={{zIndex: 10}}>
+      <div className="fa fa-spinner fa-spin text-white mx-auto" style={{fontSize: "7em"}}></div>
+    </div> : null}
+
     <div className="modal fade" id="emailLogin" tabIndex="-1" role="dialog">
       <div className="modal-dialog modal-lg" role="document">
         <div className="modal-content bg-dark text-white">
@@ -89,11 +105,12 @@ export default function EmailLogin() {
 
           </div>
           <div className="modal-footer">
-            <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button onClick={()=>clickLoginRegister()}type="button" className="btn btn-warning" data-dismiss="modal">{buttonText}</button>
+            <button id="closeEmailLogin" type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button onClick={()=>clickLoginRegister()}type="button" className="btn btn-warning">{!loading ? buttonText : <i className="fa fa-spinner fa-spin text-white mx-auto" />}</button>
           </div>
         </div>
       </div>
     </div>
+    </>
 );
 }

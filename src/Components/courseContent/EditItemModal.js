@@ -103,11 +103,11 @@ export default function EditItemModal({setUser, user, item, updateSectionItem, s
                       File <i className="fa fa-file" style={{fontSize: "1.5em"}} />
                     </a>
                 </li>
-                <li className="nav-item">
+                {/*<li className="nav-item">
                     <a onClick={()=>setType('quizz')} className="btn btn btn-outline-light" data-toggle="tab" href={`#editQuizzItem${itemId}`}>
                       Quizz <i className="fa fa-check-square-o" style={{fontSize: "1.5em"}} />
                     </a>
-                </li>
+                  </li>*/}
               </ul>
 
         <div className="tab-content">

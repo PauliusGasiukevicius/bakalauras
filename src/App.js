@@ -62,23 +62,31 @@ function App() {
     let cachedUser = ls.get('user') || null;
     if(cachedUser != null)setUser(cachedUser);
 
-    fetch('/courses')
+    fetch(`/courses/0/9/${coursesFilter}`)
     .then(resp => resp.json())
     .then(r => {setCourses(r)})
   },[]);
 
   useEffect(() => {
     if(route=='home' || route=='coursesSearch')
-    fetch('/courses')
+    fetch(`/courses/0/9/${coursesFilter}`)
     .then(resp => resp.json())
     .then(r => {setCourses(r)})
-  },[route]);
+  },[route, coursesFilter]);
+
+  let showMore = async () => {
+    let resp = await fetch(`/courses/${courses.length}/9/${coursesFilter}`);
+    let json = await resp.json();
+    setCourses(courses.concat(json));
+  }
 
   let changeUser = (newUser) => {
-    if(newUser == null)
+
+    if(newUser == null){
       setRoute('home');
       setUser(null);
       setCurrentCourse(null);
+    }else setUser(newUser);
   }
  
  useEffect(() => {
@@ -88,13 +96,11 @@ function App() {
 
   return (
     <div className="App" style={{backgroundColor: "#282c34"}}>
-      <Header setCoursesFilter={setCoursesFilter} setRoute={setRoute} user={user} onSuccessGoogleAuth={onSuccessGoogleAuth} onLogout={onLogout} onSuccessFacebookAuth={onSuccessFacebookAuth} />
+      <Header setUser={changeUser} setCoursesFilter={setCoursesFilter} setRoute={setRoute} user={user} onSuccessGoogleAuth={onSuccessGoogleAuth} onLogout={onLogout} onSuccessFacebookAuth={onSuccessFacebookAuth} />
         <div className="h-100" style={{backgroundColor: "#282c34", marginTop: "65px"}}>
           {
-            route == 'home' ? 
-              <CoursesDisplay courses={courses} user={user} goToCourseView={goToCourseView}/>
-            : route == 'coursesSearch' ?
-              <CoursesDisplay courses={courses} coursesFilter={coursesFilter} user={user} goToCourseView={goToCourseView}/>
+              route=='home' || route == 'coursesSearch'  ?
+              <CoursesDisplay courses={courses} showMore={showMore} user={user} goToCourseView={goToCourseView}/>
             : route == 'coursesITeach' ?
               <CoursesITeach user={user} goToCourseView={goToCourseView}/>
               : route == 'coursesIStudy' ?

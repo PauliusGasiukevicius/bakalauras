@@ -13,7 +13,6 @@ export default function CourseView({setCurrentCourse, course, user, setRoute, go
         .then(r => r.json())
         .then(r => {
             if(r._id)setUserRating(r.value);
-            console.log(setUser);
         });
     }, []);
 
@@ -23,7 +22,6 @@ export default function CourseView({setCurrentCourse, course, user, setRoute, go
       if(json._id)
       {
           let cnt = course.ratingsCount + (userRating==0 ? 1 : 0);
-          console.log(cnt, course.ratingsCount, userRating);
           let nwValue = course.rating - userRating + newRating;
           setUserRating(json.value);
           setCurrentCourse({...course, ratingsCount: cnt, rating: nwValue});
@@ -98,7 +96,7 @@ export default function CourseView({setCurrentCourse, course, user, setRoute, go
                         user.courses.includes(course._id) ? 
                         <button onClick={()=>leaveCourse()} type="button" className="m-1 w-100 btn btn-danger">Leave course</button> : 
                         <button onClick={()=>joinCourse()} type="button" className="m-1 w-100 btn btn-success">Join course</button>}
-                        {!user ? null : <button onClick={()=>completeCourse()} type="button" className="m-1 w-100 btn btn-success">Claim badge & certificate</button>}
+                        {!user || course.creator === user._id ? null : <button onClick={()=>completeCourse()} type="button" className="m-1 w-100 btn btn-success">Claim badge & certificate</button>}
                         {!user ? <></> :
                         course.creator === user._id ? 
                         <button onClick={()=>goToCourseView(course,1)} type="button" className="m-1 w-100 btn btn-warning">Edit course</button> : 

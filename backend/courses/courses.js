@@ -21,10 +21,28 @@ module.exports = (app, mongoose) => {
         return resp.send(courses);
     });
 
-    app.get('/courses', (req,resp) => {
+    app.get(`/courses/:skip/:need/:filter`, async (req,resp) => {
+        try{
+            let {filter,skip,need} = req.params;
+            let courses = await Course.find({name: {$regex: filter, $options: 'i' }}).skip(skip|0).limit(need|0);
+            return resp.send(courses);
+        }catch(err){console.log(err);return resp.send({err})}
+    });
+
+    app.get(`/courses/:skip/:need`, async (req,resp) => {
+        try{
+            let {skip,need} = req.params;
+            let courses = await Course.find({}).skip(skip|0).limit(need|0);
+            return resp.send(courses);
+        }catch(err){console.log(err);return resp.send({err})}
+    });
+
+    
+
+    /*app.get('/courses', (req,resp) => {
         Course.find({}, (err,docs) => {
             if(err)return resp.send({err: "DB ERROR"});
             return resp.send(docs);
         });
-    });
+    });*/
 }
