@@ -27,6 +27,7 @@ module.exports = (app, mongoose) => {
                 badges: []
             });
 
+            await TempUser.deleteMany({email: user.email});
             user = await user.save();
 
             return resp.send(`<html>

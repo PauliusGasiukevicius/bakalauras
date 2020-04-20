@@ -12,7 +12,7 @@ export default function CourseFileView({item, clickNextPrevItem, isPreview}) {
     
   return (
       <div className="p-2 card text-white bg-dark border border-white w-100" >
-        {!isPreview ? 
+        {!isPreview && item ? 
         <div className="d-flex justify-content-between">
           <button className="btn btn-outline-light" type="button" onClick={()=>clickPrev()}>&#8249; Previous</button>
           <p>{item.name}</p>
@@ -26,7 +26,7 @@ export default function CourseFileView({item, clickNextPrevItem, isPreview}) {
             Download <i className="fa fa-download" style={{fontSize: "2em"}}></i>
             </a> : null}
         {item && item.type == 'video' ? 
-        <video onEnded={()=>clickNext()} className="w-100" style={{maxHeight: "500px"}} controls autoplay src={item.location}></video> : null}
+        <video onEnded={()=>clickNext()} className="w-100" style={{maxHeight: "500px"}} controls autoPlay src={item.location}></video> : null}
       </div>
   );
 }

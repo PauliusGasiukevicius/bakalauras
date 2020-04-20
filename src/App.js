@@ -1,16 +1,16 @@
 import React, {useState, useEffect} from 'react';
 import ls from 'local-storage'
 import Header from './Components/Header.js';
-import CoursesDisplay from './Components/CoursesDisplay.js';
-import CourseCreation from './Components/CourseCreation.js'
-import CourseEdit from './Components/CourseEdit.js'
-import CourseView from './Components/CourseView.js'
+import CoursesDisplay from './Components/Courses/CoursesDisplay.js';
+import CourseCreation from './Components/Courses/CourseCreation.js'
+import CourseEdit from './Components/Courses/CourseEdit.js'
+import CourseView from './Components/Courses/CourseView.js'
 import About from './Components/About.js'
 import Donate from './Components/Donate.js'
 import UserProfile from './Components/UserProfile.js'
-import CoursesITeach from './Components/CoursesITeach.js'
-import CoursesIStudy from './Components/CoursesIStudy.js'
-import Completion from './Components/Completion.js';
+import CoursesITeach from './Components/Courses/CoursesITeach.js'
+import CoursesIStudy from './Components/Courses/CoursesIStudy.js'
+import Completion from './Components/Courses/Completion/Completion.js';
 import './App.css';
 
 function App() {

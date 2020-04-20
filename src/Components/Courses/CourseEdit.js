@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import CourseContent from './courseContent/CourseContent.js';
+import CourseContent from './Content/CourseContent.js';
+import EditCompletion from './Completion/EditCompletion.js';
 
 export default function CourseEdit({setUser, course, user, setRoute, setCourse}) {
 
@@ -66,6 +67,9 @@ export default function CourseEdit({setUser, course, user, setRoute, setCourse})
             <li className="nav-item">
                 <a className="btn btn btn-outline-light w-100" data-toggle="tab" href="#edit-content">Edit content</a>
             </li>
+            <li className="nav-item">
+                <a className="btn btn btn-outline-light w-100" data-toggle="tab" href="#edit-completion">Edit Badge & Certificate</a>
+            </li>
         </ul>
 
         {isDoingAction ?<div className="position-fixed h-100 w-100 mx-auto" style={{zIndex: 10}}>
@@ -101,6 +105,10 @@ export default function CourseEdit({setUser, course, user, setRoute, setCourse})
             <div id="edit-content" className="tab-pane fade">
                 <h3>Content</h3>
                 <CourseContent setUser={setUser} user={user} course={course} edit={true}/>
+            </div>
+            <div id="edit-completion" className="tab-pane fade">
+                <h3>Completion:</h3>
+                <EditCompletion setUser={setUser} user={user} course={course} />
             </div>
         </div>
     </div>

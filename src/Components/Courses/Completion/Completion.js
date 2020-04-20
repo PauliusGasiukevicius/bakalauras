@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import Badge from './Badge.js';
 
 export default function Completion({course, user, setUser}) {
 
     const [isComlete, setIsComplete] = useState(null);
     const [completionDate, setCompletionDate] = useState(null);
+    const [badge, setBadge] = useState(null);
 
     useEffect(()=>{
         fetch(`/complete/${course._id}/${user._id}`)
@@ -16,18 +18,27 @@ export default function Completion({course, user, setUser}) {
                 setIsComplete(false);
             }
         });
+
+        if(course.completionBadge)
+        fetch(`/badge/${course.completionBadge}`)
+        .then(r => r.json())
+        .then(r => {
+            if(r._id)setBadge(r);
+        });
     },[]);
 
     const clickViewCertificate = () => {
         alert('W.I.P.');
     }
   return (
-    <div className="text-white h-100" style={{backgroundColor: "#282c34"}}>
+    <div className="text-white h-100 p-2" style={{backgroundColor: "#282c34"}}>
       {(isComlete == null) ? 
         <i className="fa fa-spinner fa-spin text-white" style={{fontSize: "3em"}}></i> : isComlete ?
-    <div className="m-2 card text-white bg-dark border border-white">
+    <div className="card text-white bg-dark border border-white">
         Congratulations for finishing "{course.name}" course! <br />
-        Course badge has been successfully added to your badges section in the profile <br />
+        Here's your competion badge: <br />
+        {!badge ? <p><i className="fa fa-spinner fa-spin text-white" style={{fontSize: "2em"}}/></p> : 
+        <div className="d-flex align-self-center"><Badge badge={badge} /></div>}
         Couse certificate has been generated, you can view it by clicking <br />
          <button className="btn btn-outline-light w-50 m-2 mx-auto" onClick={()=>clickViewCertificate()} type="button" >here</button>
     </div> 

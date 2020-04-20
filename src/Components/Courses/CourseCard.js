@@ -22,7 +22,7 @@ export default function CourseCard({course, user, goToCourseView}) {
         <div className="card-footer">
             <small className="">
                 <i className="fa fa-user" /> {course.students || 0} <br />
-                <i className="fa fa-star" /> {course.ratingsCount > 0 ? course.rating : "?"}
+                <i className="fa fa-star" /> {course.ratingsCount > 0 ? (course.rating/course.ratingsCount).toFixed(1) : "?"}
             </small>
         </div>
   </div>

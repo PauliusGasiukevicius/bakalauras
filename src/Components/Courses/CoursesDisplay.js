@@ -10,7 +10,9 @@ export default function CourseDisplay({showMore, courses, user, goToCourseView})
               courses.map(course => <CourseCard goToCourseView={goToCourseView} user={user} course={course} key={"Course" + course._id}/>)
           }
     </div>
+    {!showMore ? null : 
     <button onClick={()=>showMore()} className="btn btn-outline-light m-3" style={{fontSize: "1.2em"}}> Show more</button>
+    }
   </>
   );
 }

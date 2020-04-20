@@ -1,6 +1,7 @@
 import React, {} from 'react';
-import CoursesITeach from './CoursesITeach.js';
-import CoursesIStudy from './CoursesIStudy.js';
+import CoursesITeach from './Courses/CoursesITeach.js';
+import CoursesIStudy from './Courses/CoursesIStudy.js';
+import BadgesOfUserDisplay from './Courses/Completion/BadgesOfUserDisplay.js';
 
 export default function UserProfile({user, goToCourseView}) {
 
@@ -16,6 +17,7 @@ export default function UserProfile({user, goToCourseView}) {
             <div className="m-2 card text-white bg-dark border border-white">
                 <div className="card-body">
                     <h2 className="card-title">Badges of {user.name} :</h2>
+                    {<BadgesOfUserDisplay user={user}/>}
                 </div>
             </div>
             <div className="m-2 card text-white bg-dark border border-white">

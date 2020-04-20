@@ -5,6 +5,7 @@ let courseSchema = new mongoose.Schema({
         desc : String,
         creator: mongoose.ObjectId,
         imageUrl: String,
+        completionBadge: mongoose.ObjectId,
         students: Number,
         ratingsCount: Number,
         rating: Number
