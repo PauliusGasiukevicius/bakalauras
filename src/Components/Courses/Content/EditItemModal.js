@@ -9,6 +9,7 @@ export default function EditItemModal({setUser, user, item, updateSectionItem, s
   const [type, setType] = useState(item.type);
   const [itemLoading, setItemLoading] = useState(false);
   const [fileLocation, setFileLocation] = useState(item.location);
+  const [show, setShow] = useState(false);
 
   let editItem = () => {
       updateSectionItem(sectionPos, itemPos, itemId, newItemName, setItemLoading, itemContent, fileLocation, type) 
@@ -64,7 +65,7 @@ export default function EditItemModal({setUser, user, item, updateSectionItem, s
 
   return (
   <>
-    <button disabled={itemLoading} className="btn btn-outline-light" style={{fontSize: "1.2em"}} data-toggle="modal" data-target={`#${itemId}editItem`}>
+    <button disabled={itemLoading} onClick={()=>setShow(true)} className="btn btn-outline-light" style={{fontSize: "1.2em"}} data-toggle="modal" data-target={`#${itemId}editItem`}>
         <i className="fa fa-edit" style={{fontSize: '2em'}}></i>
     </button>
 
@@ -114,15 +115,16 @@ export default function EditItemModal({setUser, user, item, updateSectionItem, s
             <div id={`editTextItem${itemId}`} className="tab-pane fade">
                 <div className="m-2 card text-white bg-dark border border-white" >
                     <div className="card-body">
-                      <Editor initialValue={itemContent}
+                      {!show ? null : <Editor initialValue={itemContent}
                         apiKey="abmgxvtjvz9gg53o1r2ohp1f5qua4yc5aoiyovbj297ritax"
+                        tinymceScriptSrc="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js"
                         init={{height: 500, menubar: false,
-                          plugins: ['advlist autolink lists link image charmap print preview anchor','searchreplace visualblocks code fullscreen','insertdatetime media table paste code help wordcount'],
+                          plugins: ['lists link image code paste'],
                           default_link_target:"_blank",
                           toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
                           }}
                         onEditorChange={(c,e)=>textEditorChange(c,e)}
-                      />
+                      />}
                     </div>
                 </div>
             </div>

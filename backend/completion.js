@@ -4,9 +4,20 @@ let CourseContent = require('./models/courseContentModel.js');
 let Completion = require('./models/Completion.js');
 let Course = require('./models/courseModel.js');
 let Badge = require('./models/badgeModel.js');
+let Certificate = require('./models/certificateModel.js');
 let User = require('./models/userModel.js');
 
 module.exports = (app, mongoose) => {
+
+    app.get('/certificate/:certificateId', async (req,resp) => {
+        try{
+            let certificate = await Certificate.findOne({_id: req.params.certificateId});
+            if(!certificate)return resp.send({err: 'Unexpected error occured.'});
+
+            return resp.send(certificate);
+
+        }catch (error) {console.log(error);return resp.status(400).send({err: error});}
+    });
 
     app.get('/complete/:courseId/:userId', async (req,resp) => {
         try{
@@ -25,10 +36,12 @@ module.exports = (app, mongoose) => {
         }catch (error) {console.log(error);return resp.status(400).send({err: error});}
     });
 
-    app.post('editbadge/:badgeId', async (req,resp) => {
+    app.post('/editBadge/:badgeId', async (req,resp) => {
         try{
             let b = await Badge.findOne({_id: req.params.badgeId});
-            let {name,desc, imageUrl} = req.body;
+            let {name, desc, imageUrl} = req.body;
+            if(name.length > 40)return resp.send({err: "badge name can only be <= 40 characters long"});
+            if(desc.length > 40)return resp.send({err: "badge description can only be <= 40 characters long"});
             b.name = name;
             b.desc = desc;
             b.imageUrl = imageUrl;
@@ -36,6 +49,7 @@ module.exports = (app, mongoose) => {
             return resp.send({ok: 'success'});
         }catch (error) {console.log(error);return resp.status(400).send({err: error});}
     });
+
     app.get('/badgesOfUser/:userId', async (req,resp) => {
         try{
             let user = await User.findOne({_id: req.params.userId});

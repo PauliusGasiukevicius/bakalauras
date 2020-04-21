@@ -36,7 +36,7 @@ export default function Completion({course, user, setUser}) {
         <i className="fa fa-spinner fa-spin text-white" style={{fontSize: "3em"}}></i> : isComlete ?
     <div className="card text-white bg-dark border border-white">
         Congratulations for finishing "{course.name}" course! <br />
-        Here's your competion badge: <br />
+        Here's your completion badge: <br />
         {!badge ? <p><i className="fa fa-spinner fa-spin text-white" style={{fontSize: "2em"}}/></p> : 
         <div className="d-flex align-self-center"><Badge badge={badge} /></div>}
         Couse certificate has been generated, you can view it by clicking <br />

@@ -3,10 +3,17 @@ import CourseFileView from './CourseFileView.js';
 
 export default function PreviewSectionItem({edit, item, clickViewItem, sectionPos, itemPos, isDoingAction}) {
 
+  const [show, setShow] = useState(false);
+
+  let clickPreview = () => {
+    setShow(true);
+    clickViewItem(sectionPos,itemPos);
+  }
+
   return (
   <>
 
-<button disabled={isDoingAction} onClick={()=>clickViewItem(sectionPos,itemPos)} className="w-100 btn btn-outline-light" 
+<button disabled={isDoingAction} onClick={()=>clickPreview()} className="w-100 btn btn-outline-light" 
 data-toggle="modal" data-target={`#previewItem${item._id}${edit ? '' : 'notEdit'}`}>
             {item.name}
             <i className="fa fa-eye float-right" style={{fontSize: '2em'}}></i>
@@ -22,7 +29,7 @@ data-toggle="modal" data-target={`#previewItem${item._id}${edit ? '' : 'notEdit'
             </button>
           </div>
           <div className="modal-body d-flex">
-              <CourseFileView isPreview={true} item={item}/>
+              {show ? <CourseFileView isPreview={true} item={item}/> : null}
           </div>
           <div className="modal-footer">
             <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>

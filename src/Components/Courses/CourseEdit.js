@@ -62,13 +62,13 @@ export default function CourseEdit({setUser, course, user, setRoute, setCourse})
     <div className="w-100" style={{color: "white"}}>
         <ul className="nav nav-tabs nav-justified w-100">
             <li className="nav-item w-100">
-                <a className="btn btn btn-outline-light w-100" id="courseViewFirstTab" data-toggle="tab" href="#edit-general">Edit about</a>
+                <a className="btn btn btn-outline-light w-100" id="courseViewFirstTab" data-toggle="tab" href="#edit-general">about</a>
             </li>
             <li className="nav-item">
-                <a className="btn btn btn-outline-light w-100" data-toggle="tab" href="#edit-content">Edit content</a>
+                <a className="btn btn btn-outline-light w-100" data-toggle="tab" href="#edit-content">content</a>
             </li>
             <li className="nav-item">
-                <a className="btn btn btn-outline-light w-100" data-toggle="tab" href="#edit-completion">Edit Badge & Certificate</a>
+                <a className="btn btn btn-outline-light w-100" data-toggle="tab" href="#edit-completion">completion</a>
             </li>
         </ul>
 
@@ -85,7 +85,7 @@ export default function CourseEdit({setUser, course, user, setRoute, setCourse})
 
                         <div className="custom-file">
                             <input onChange={(e)=>onChangeImage(e)} type="file" className="custom-file-input" id="editCourseImageUpload" accept="image/*" />
-                            <label className="custom-file-label" htmlFor="editCourseImageUpload">Change Image</label>
+                            <label className="custom-file-label text-left" htmlFor="editCourseImageUpload">Change Image</label>
                         </div>
                         </div>
                         <div className="form-group m-2">

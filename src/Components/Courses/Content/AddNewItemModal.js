@@ -8,6 +8,7 @@ export default function AddNewItemModal({setUser, user, sectionId, createNewSect
   const [type, setType] = useState('');
   const [itemLoading, setItemLoading] = useState(false);
   const [fileLocation, setFileLocation] = useState('');
+  const [show, setShow] = useState(false);
 
   let createItem = () => {
     createNewSectionItem(sectionPos,sectionId,newItemName,setItemLoading, itemContent, fileLocation, type);
@@ -64,7 +65,7 @@ export default function AddNewItemModal({setUser, user, sectionId, createNewSect
 
   return (
   <>
-    <button disabled={itemLoading} className="btn btn-outline-light mx-auto" style={{fontSize: "1.2em"}} data-toggle="modal" data-target={`#${sectionId}addItem`}>
+    <button disabled={itemLoading} onClick={()=>setShow(true)} className="btn btn-outline-light mx-auto" style={{fontSize: "1.2em"}} data-toggle="modal" data-target={`#${sectionId}addItem`}>
         {!itemLoading ? 
         <p className="align-middle p-0 m-0">
             New item <i className="fa fa-plus-circle"></i>
@@ -122,15 +123,15 @@ export default function AddNewItemModal({setUser, user, sectionId, createNewSect
             <div id={`addTextItem${sectionId}`} className="tab-pane fade">
                 <div className="m-2 card text-white bg-dark border border-white" >
                     <div className="card-body">
-                      <Editor initialValue={itemContent}
+                      {!show ? null : <Editor initialValue={itemContent}
                         apiKey="abmgxvtjvz9gg53o1r2ohp1f5qua4yc5aoiyovbj297ritax"
                         init={{height: 500, menubar: false,
-                          plugins: ['advlist autolink lists link image charmap print preview anchor','searchreplace visualblocks code fullscreen','insertdatetime media table paste code help wordcount'],
+                          plugins: ['lists link image code paste'],
                           default_link_target:"_blank",
                           toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
                           }}
                         onEditorChange={(c,e)=>textEditorChange(c,e)}
-                      />
+                      />}
                     </div>
                 </div>
             </div>

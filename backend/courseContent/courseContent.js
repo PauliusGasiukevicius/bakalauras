@@ -33,7 +33,6 @@ module.exports = (app, mongoose) => {
                         itemPos[sections[i].items[j]] = [sectionPos[sections[i]._id],j];
                 }
             }
-        
         let items = await CourseContentSectionItem.find({courseId: req.params.courseId});
 
         for(let i=0; i<items.length; i++)
