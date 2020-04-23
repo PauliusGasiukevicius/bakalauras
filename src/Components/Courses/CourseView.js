@@ -3,9 +3,10 @@ import CourseContent from './Content/CourseContent.js';
 import QA from '../QA/QA.js';
 import ReactStars from 'react-stars'
 
-export default function CourseView({setCurrentCourse, course, user, setRoute, goToCourseView, setUser}) {
+export default function CourseView({clickViewProfile, setCurrentCourse, course, user, setRoute, goToCourseView, setUser}) {
 
     const [userRating, setUserRating] = useState(0);
+    const [creator, setCreator] = useState(0);
 
     useEffect(() => {
         setTimeout(document.getElementById('courseViewFirstTab').click(),50);
@@ -14,6 +15,13 @@ export default function CourseView({setCurrentCourse, course, user, setRoute, go
         .then(r => {
             if(r._id)setUserRating(r.value);
         });
+
+        fetch(`user/${course.creator}`)
+        .then(r => r.json())
+        .then(r => {
+            if(r._id)setCreator(r);
+        });
+
     }, []);
 
     const ratingChanged = async (newRating) => {
@@ -89,6 +97,10 @@ export default function CourseView({setCurrentCourse, course, user, setRoute, go
                     <div className="card-body">
                         <h2 className="card-title">{course.name}</h2>
                         <p className="card-text">{course.desc}</p>
+                        {!creator ? null : 
+                        <p>Created by: {"   "}
+                            <a className=" btn badge badge-light text-dark" onClick={()=>{clickViewProfile(creator)}}>{creator.name}</a>
+                        </p>}
                         {user && course.creator != user._id ? <div className="d-flex justify-content-center">
                                     <ReactStars value={userRating} count={5} onChange={ratingChanged} size={60} color2={'#ffd700'} />
                                 </div> : null}
@@ -117,7 +129,7 @@ export default function CourseView({setCurrentCourse, course, user, setRoute, go
             </div>
             <div id="qa" className="tab-pane fade">
                 <h3 className="p-2">Q & A</h3>
-                <QA course={course} user={user} setUser={setUser} />
+                <QA clickViewProfile={clickViewProfile} course={course} user={user} setUser={setUser} />
             </div>
         </div>
     </div>

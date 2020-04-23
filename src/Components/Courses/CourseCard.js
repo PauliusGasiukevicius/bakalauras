@@ -2,9 +2,15 @@ import React, {} from 'react';
 
 export default function CourseCard({course, user, goToCourseView}) {
 
+ let getLowResLinkForImgur = () => {
+     if(!course.imageUrl)return "https://i.imgur.com/IUwKaVmm.png";
+     let url = course.imageUrl;
+     return url.substring(0, url.lastIndexOf('.')) + "m" + url.substring(url.lastIndexOf('.'));
+ }
+
   return (
   <div className="m-2 card text-white bg-dark border border-white" style={{width: "420px", maxHeight: "600px"}}>
-        <img className="card-img-top" style={{maxHeight: "200px", width: "auto"}} src={course.imageUrl || "https://i.imgur.com/IUwKaVm.png"} />
+        <img className="card-img-top" style={{maxHeight: "200px", width: "auto"}} src={getLowResLinkForImgur()} />
 
         <div className="card-body">
             <h2 className="card-title">{course.name}</h2>

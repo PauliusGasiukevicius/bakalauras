@@ -3,7 +3,7 @@ import Question from './Question.js';
 import QuestionSummary from './QuestionSummary.js';
 import AskNewQuestionModal from './AskNewQuestionModal.js';
 
-export default function QA({setUser, course, user}) {
+export default function QA({clickViewProfile, setUser, course, user}) {
 
     const [currentQuestion, setCurrentQuestion] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -127,7 +127,7 @@ export default function QA({setUser, course, user}) {
       <div className="w-100 text-white bg-dark border border-white p-2">
           {!questions ? <i className="fa fa-spinner fa-spin text-white" style={{fontSize: "3em"}}></i> : 
           currentQuestion ? null : questions.filter(q => q.title.toLowerCase().includes(searchFilter)).map(q => <QuestionSummary question={q} user={user} key={"Q:"+q._id} setCurrentQuestion={setCurrentQuestion} />)}
-          {!currentQuestion ? null : <Question setUser={setUser} changeQuestionReplies={changeQuestionReplies} changeQuestionUpvotes={changeQuestionUpvotes} setLoading={setLoading} clickDeleteQuestion={clickDeleteQuestion} loading={loading} clickEditQuestion={clickEditQuestion} question={currentQuestion} user={user} setCurrentQuestion={setCurrentQuestion} />}
+          {!currentQuestion ? null : <Question clickViewProfile={clickViewProfile} setUser={setUser} changeQuestionReplies={changeQuestionReplies} changeQuestionUpvotes={changeQuestionUpvotes} setLoading={setLoading} clickDeleteQuestion={clickDeleteQuestion} loading={loading} clickEditQuestion={clickEditQuestion} question={currentQuestion} user={user} setCurrentQuestion={setCurrentQuestion} />}
       </div>
     </div>
   );

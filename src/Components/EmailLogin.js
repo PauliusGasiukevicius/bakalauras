@@ -106,7 +106,7 @@ export default function EmailLogin({setUser}) {
           </div>
           <div className="modal-footer">
             <button id="closeEmailLogin" type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button onClick={()=>clickLoginRegister()}type="button" className="btn btn-warning">{!loading ? buttonText : <i className="fa fa-spinner fa-spin text-white mx-auto" />}</button>
+            <button onClick={()=>clickLoginRegister()}type="button" className="btn btn-warning">{!loading ? buttonText : <i className="fa fa-spinner fa-spin text-white mx-auto" />}</button>
           </div>
         </div>
       </div>

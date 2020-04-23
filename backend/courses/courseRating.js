@@ -1,9 +1,9 @@
-let auth = require('./auth.js');
+let auth = require('../auth.js');
 
 module.exports = (app, mongoose) => {
 
-    let Rating = require(`./models/courseRatingModel.js`);
-    let Course = require('./models/courseModel.js');
+    let Rating = require(`../models/courseRatingModel.js`);
+    let Course = require('../models/courseModel.js');
 
     app.get(`/rating/:courseId/:userId`, async (req,resp) => {
         try{

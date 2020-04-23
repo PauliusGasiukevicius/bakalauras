@@ -4,6 +4,7 @@ import { Editor } from '@tinymce/tinymce-react';
 export default function ReplyModal({reply, loading, editReply}) {
 
   const [content, setContent] = useState(reply.content);
+  const [show, setShow] = useState(false);
 
   let clickSubmitQuestion = () => {
     editReply(reply, content);
@@ -11,7 +12,7 @@ export default function ReplyModal({reply, loading, editReply}) {
 
   return (
   <>
-    <button disabled={loading} className="btn btn-outline-light" data-toggle="modal" data-target={`#editReplyQuestion${reply._id}`}>
+    <button onClick={()=>setShow(true)} disabled={loading} className="btn btn-outline-light" data-toggle="modal" data-target={`#editReplyQuestion${reply._id}`}>
       <i className="fa fa-edit"></i>
       {" Edit"}
     </button>
@@ -29,7 +30,7 @@ export default function ReplyModal({reply, loading, editReply}) {
             <div className="form w-100">
               <div className="form-group w-100">
                 <div className="w-100 m-1">
-                  <Editor initialValue={content}
+                  {show ? <Editor initialValue={content}
                           apiKey="abmgxvtjvz9gg53o1r2ohp1f5qua4yc5aoiyovbj297ritax"
                           init={{height: 500, menubar: false,
                             plugins: ['advlist autolink lists link image charmap print preview anchor','searchreplace visualblocks code fullscreen','insertdatetime media table paste code help wordcount'],
@@ -37,7 +38,7 @@ export default function ReplyModal({reply, loading, editReply}) {
                             toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
                             }}
                           onEditorChange={(c,e)=>setContent(c)}
-                  />
+                  /> : null}
                 </div>
               </div>
             </div>

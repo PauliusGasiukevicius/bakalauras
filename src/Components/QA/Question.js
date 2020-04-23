@@ -3,7 +3,7 @@ import Reply from './Reply.js';
 import ReplyModal from './ReplyModal.js';
 import EditQuestion from './EditQuestion.js';
 
-export default function Question({setUser, changeQuestionReplies, changeQuestionUpvotes, setLoading, question, user, setCurrentQuestion, clickEditQuestion, loading, clickDeleteQuestion}) {
+export default function Question({clickViewProfile, setUser, changeQuestionReplies, changeQuestionUpvotes, setLoading, question, user, setCurrentQuestion, clickEditQuestion, loading, clickDeleteQuestion}) {
 
     const [replies, setReplies] = useState(null);
     const [upvotes, setUpvotes] = useState([]);
@@ -176,6 +176,15 @@ export default function Question({setUser, changeQuestionReplies, changeQuestion
       }
     }
 
+    let clickViewQuestionStarterProfile = () => {
+        fetch(`/user/${question.userId}`)
+        .then(r => r.json())
+        .then(r => {
+          if(r._id)
+          clickViewProfile(r);
+        });
+    }
+
   return (
     <div className="w-100" style={{color: "white"}}>
 
@@ -216,7 +225,9 @@ export default function Question({setUser, changeQuestionReplies, changeQuestion
         </div>
 
         <div className="card-footer m-0 p-0"> 
-          <i className="fa fa-user" /> {question.userName || ' '} &nbsp;&nbsp;
+          <i className="fa fa-user" /> <a  onClick={()=>clickViewQuestionStarterProfile()} className="btn badge badge-light text-dark">
+            {question.userName || ' '}
+            </a> &nbsp;&nbsp;
           <i className="fa fa-calendar" /> {(new Date(question.creation_date)).toLocaleString()}&nbsp;&nbsp;
           {question.creation_date != question.edit_date ? `Editted: ${ (new Date(question.edit_date)).toLocaleString() }` : null}
         </div>
@@ -226,7 +237,7 @@ export default function Question({setUser, changeQuestionReplies, changeQuestion
 
     <div className="w-100 text-white bg-dark border border-white p-2">
       {!replies ? <i className="fa fa-spinner fa-spin text-white" style={{fontSize: "3em"}}></i> : 
-      replies.map(r => <Reply isUpvoted={isUpvoted(r,upvotes)} clickReplyUpvote={clickReplyUpvote} upvotes={upvotes} clickEditReply={clickEditReply} loading={loading} reply={r} user={user} deleteReply={deleteReply} />)}
+      replies.map(r => <Reply key={"Reply"+r._id} clickViewProfile={clickViewProfile} isUpvoted={isUpvoted(r,upvotes)} clickReplyUpvote={clickReplyUpvote} upvotes={upvotes} clickEditReply={clickEditReply} loading={loading} reply={r} user={user} deleteReply={deleteReply} />)}
     </div>
       
   </div>

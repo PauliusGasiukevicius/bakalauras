@@ -8,7 +8,6 @@ module.exports = (app, mongoose) => {
     app.post('/leaveCourse/:course_id/', auth, async (req, resp) => {
         let {user} = req.body;
         let {course_id} = req.params;
-
         if(!user.courses.includes(course_id))return resp.send({err: "already leaved"});
 
         let tmp = user.courses.slice(0);
@@ -17,10 +16,9 @@ module.exports = (app, mongoose) => {
             if(x != course_id)user.courses.push(x);
 
         let course = (await Course.findById(course_id)).toObject();
-        if(course.creator == user._id)return resp.send({err: "Can't join a course you made yourself"});
         course.students--;
         await Course.findOneAndUpdate({_id: course_id},course);
-        await User.findOneAndUpdate({_id: user._id}, user);
+        await User.findOneAndUpdate({_id: user._id}, {$pull: {courses: course._id}});
         return resp.send(user);
     });
 }

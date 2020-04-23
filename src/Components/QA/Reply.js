@@ -1,10 +1,19 @@
 import React, {useEffect, useState} from 'react';
 import EditReplyModal from './EditReplyModal.js';
 
-export default function Reply({clickReplyUpvote, isUpvoted, deleteReply, reply, user, loading, clickEditReply}) {
+export default function Reply({clickViewProfile, clickReplyUpvote, isUpvoted, deleteReply, reply, user, loading, clickEditReply}) {
 
   let clickUpvote = () => {
     clickReplyUpvote(reply);
+  }
+
+  let viewReplyCreatorProfile = () => {
+    fetch(`/user/${reply.userId}`)
+    .then(r => r.json())
+    .then(r => {
+      if(r._id)
+      clickViewProfile(r);
+    });
   }
 
   return (
@@ -36,7 +45,9 @@ export default function Reply({clickReplyUpvote, isUpvoted, deleteReply, reply, 
 
         <div className="card-footer m-0 p-0">
             <small>
-                <i className="fa fa-user" /> {reply.userName}  &nbsp;&nbsp;
+            <i className="fa fa-user" /> <a  onClick={()=>viewReplyCreatorProfile()} className="btn badge badge-light text-dark">
+            {reply.userName || ' '}
+            </a> &nbsp;&nbsp;
                 <i className="fa fa-calendar" /> {(new Date(reply.creation_date)).toLocaleString()} &nbsp;&nbsp;
                 {reply.creation_date != reply.edit_date ? `Editted: ${ (new Date(reply.edit_date)).toLocaleString() }` : null}
             </small>

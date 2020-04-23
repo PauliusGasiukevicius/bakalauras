@@ -3,7 +3,7 @@ import React, {} from 'react';
 import { GoogleLogin } from 'react-google-login';
 import EmailLogin from './EmailLogin.js';
 
-export default function Header({setUser, setCoursesFilter, onSuccessGoogleAuth, user, onLogout, onSuccessFacebookAuth, setRoute}) {
+export default function Header({clickViewProfile, setUser, setCoursesFilter, onSuccessGoogleAuth, user, onLogout, onSuccessFacebookAuth, setRoute}) {
 
   const onFailure = (response) => {
     alert('Deja jums nepavyko prisijungti');
@@ -61,7 +61,7 @@ export default function Header({setUser, setCoursesFilter, onSuccessGoogleAuth, 
             (<div className = "form-inline justify-content-md-end justify-content-center w-100">
             <button type="button" onClick={()=>setRoute('courseCreate')} className="btn btn-outline-light my-2 my-md-0 m-1" data-toggle="tooltip" data-placement="bottom" title="Create course">
               <i className="fa fa-plus"></i></button>
-            <button type="button" onClick={()=>setRoute('profile')} className="btn btn-outline-light my-2 my-md-0 m-1" data-toggle="tooltip" data-placement="bottom" title="My profile">
+            <button type="button" onClick={()=>clickViewProfile(user)} className="btn btn-outline-light my-2 my-md-0 m-1" data-toggle="tooltip" data-placement="bottom" title="My profile">
               <i className="fa fa-user"></i></button>
             <button type="button" onClick={()=>setRoute('coursesIStudy')} className="btn btn-outline-light my-2 my-md-0 m-1" data-toggle="tooltip" data-placement="bottom" title="My courses">
               <i className="fa fa-folder"></i></button>

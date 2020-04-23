@@ -51,10 +51,9 @@ app.listen(process.env.PORT || 8080, () => {
     db.once('open', () => {
         require('./courses/courses.js')(app, mongoose);
         require('./courseContent/courseContent.js')(app, mongoose);
-        require('./userLogin/userLogin.js')(app, mongoose);
+        require('./users/userLogin.js')(app, mongoose);
         require('./files.js')(app, mongoose);
         require('./qa/qa.js')(app, mongoose);
-        require('./courseRating.js')(app, mongoose);
         require('./completion.js')(app, mongoose);
     });
 });

@@ -17,6 +17,7 @@ function App() {
 
   const [route, setRoute] = useState('home');
   const [user, setUser] = useState(null);
+  const [userToView, setUserToView] = useState(null);
   const [courses, setCourses] = useState(null);
   const [currentCourse, setCurrentCourse] = useState(null);
   const [coursesFilter, setCoursesFilter] = useState('');
@@ -58,6 +59,11 @@ function App() {
     setRoute('home');
   }
 
+  let clickViewProfile = (userToView) => {
+    setUserToView(userToView);
+    setRoute('profile');
+  }
+
   useEffect(() => {
     let cachedUser = ls.get('user') || null;
     if(cachedUser != null)setUser(cachedUser);
@@ -96,15 +102,15 @@ function App() {
 
   return (
     <div className="App" style={{backgroundColor: "#282c34"}}>
-      <Header setUser={changeUser} setCoursesFilter={setCoursesFilter} setRoute={setRoute} user={user} onSuccessGoogleAuth={onSuccessGoogleAuth} onLogout={onLogout} onSuccessFacebookAuth={onSuccessFacebookAuth} />
+      <Header clickViewProfile={clickViewProfile} setUser={changeUser} setCoursesFilter={setCoursesFilter} setRoute={setRoute} user={user} onSuccessGoogleAuth={onSuccessGoogleAuth} onLogout={onLogout} onSuccessFacebookAuth={onSuccessFacebookAuth} />
         <div className="h-100" style={{backgroundColor: "#282c34", marginTop: "65px"}}>
           {
               route=='home' || route == 'coursesSearch'  ?
               <CoursesDisplay courses={courses} showMore={showMore} user={user} goToCourseView={goToCourseView}/>
             : route == 'coursesITeach' ?
-              <CoursesITeach user={user} goToCourseView={goToCourseView}/>
+              <CoursesITeach user={user} userToView={userToView || user} goToCourseView={goToCourseView}/>
               : route == 'coursesIStudy' ?
-              <CoursesIStudy user={user} goToCourseView={goToCourseView}/>
+              <CoursesIStudy user={user} userToView={userToView || user} goToCourseView={goToCourseView}/>
             : route == 'about' ?
               <About />
             : route == 'completion' ?
@@ -112,11 +118,11 @@ function App() {
             : route == 'donate' ?
               <Donate user={user}/>
             : route == 'profile' ?
-              <UserProfile user={user} goToCourseView={goToCourseView}/>
+              <UserProfile setUser={setUser} user={user} userToView={userToView || user} goToCourseView={goToCourseView}/>
             : route == 'courseEdit' ?
               <CourseEdit setUser={changeUser} course={currentCourse} user={user} setRoute={setRoute} setCourse={setCurrentCourse}/>
               : route == 'courseView' ?
-              <CourseView setCurrentCourse={setCurrentCourse} setUser={changeUser} course={currentCourse} user={user} setRoute={setRoute} goToCourseView={goToCourseView}/>
+              <CourseView clickViewProfile={clickViewProfile} setCurrentCourse={setCurrentCourse} setUser={changeUser} course={currentCourse} user={user} setRoute={setRoute} goToCourseView={goToCourseView}/>
             : route == 'courseCreate' ?
               <CourseCreation setUser={changeUser} user={user} setRoute={setRoute} setCurrentCourse={setCurrentCourse}/>
             : <p>An unexpected error has occured.</p>

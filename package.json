@@ -15,7 +15,6 @@
     "form-data": "^3.0.0",
     "googleapis": "^48.0.0",
     "helmet": "^3.22.0",
-    "jquery": "^3.4.1",
     "local-storage": "^2.0.0",
     "mongodb": "^3.5.5",
     "mongoose": "^5.9.7",
@@ -25,13 +24,10 @@
     "path": "^0.12.7",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-dropzone": "^10.2.2",
-    "react-facebook-login": "^4.1.1",
     "react-google-login": "^5.1.2",
     "react-scripts": "3.4.0",
     "react-stars": "^2.2.5",
-    "tinymce": "^5.2.1",
-    "uuid": "^7.0.3"
+    "tinymce": "^5.2.1"
   },
   "scripts": {
     "start": "react-scripts start",

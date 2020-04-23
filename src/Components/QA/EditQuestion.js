@@ -5,6 +5,7 @@ export default function EditQuestion({question, editQuestion, loading}) {
 
   const [title, setTitle] = useState(question.title);
   const [content, setContent] = useState(question.content);
+  const [show, setShow] = useState(false);
 
   let clickSubmitQuestion = () => {
     editQuestion(question, title, content);
@@ -12,7 +13,7 @@ export default function EditQuestion({question, editQuestion, loading}) {
 
   return (
   <>
-    <button disabled={loading} className="btn btn-outline-light" data-toggle="modal" data-target="#editQuestion">
+    <button disabled={loading} onClick={()=>setShow(true)} className="btn btn-outline-light" data-toggle="modal" data-target="#editQuestion">
         <i className="fa fa-edit"></i>
         {" Edit"}
     </button>
@@ -31,7 +32,7 @@ export default function EditQuestion({question, editQuestion, loading}) {
               <div className="form-group w-100">
                 <input type="text" value={title} onChange={(e)=>setTitle(e.target.value)} className="m-1 w-100 form-control" placeholder="Enter question" />
                 <div className="w-100 m-1">
-                  <Editor initialValue={content}
+                  {show ? <Editor initialValue={content}
                           apiKey="abmgxvtjvz9gg53o1r2ohp1f5qua4yc5aoiyovbj297ritax"
                           init={{height: 500, menubar: false,
                             plugins: ['advlist autolink lists link image charmap print preview anchor','searchreplace visualblocks code fullscreen','insertdatetime media table paste code help wordcount'],
@@ -39,7 +40,7 @@ export default function EditQuestion({question, editQuestion, loading}) {
                             toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
                             }}
                           onEditorChange={(c,e)=>setContent(c)}
-                  />
+                  /> : null}
                 </div>
               </div>
             </div>

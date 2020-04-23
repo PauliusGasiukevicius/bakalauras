@@ -17,7 +17,7 @@ module.exports = (app, mongoose) => {
         if(course.creator == user._id)return resp.send({err: "Can't join a course you made yourself"});
         course.students++;
         await Course.findOneAndUpdate({_id: course_id},course);
-        await User.findOneAndUpdate({_id: user._id}, user);
+        await User.findOneAndUpdate({_id: user._id}, {$push: {courses: course._id}});
         return resp.send(user);
     });
 }
