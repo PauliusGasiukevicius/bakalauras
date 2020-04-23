@@ -117,7 +117,6 @@ export default function EditItemModal({setUser, user, item, updateSectionItem, s
                     <div className="card-body">
                       {!show ? null : <Editor initialValue={itemContent}
                         apiKey="abmgxvtjvz9gg53o1r2ohp1f5qua4yc5aoiyovbj297ritax"
-                        tinymceScriptSrc="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js"
                         init={{height: 500, menubar: false,
                           plugins: ['lists link image code paste'],
                           default_link_target:"_blank",

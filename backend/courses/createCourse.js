@@ -42,7 +42,7 @@ module.exports = (app, mongoose) => {
         let doc = await Course.findOne({name: name});
         if(doc)return resp.send({err: "course with such name already exists"});
 
-        let b = new Badge({name : course.name + " completion badge!",
+        let b = new Badge({name : name + " completion badge!",
         desc : "Congratulations for finishing the course!",
         courseId: req.params.courseId,
         imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Golden_star.svg/1200px-Golden_star.svg.png'});
