@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const helmet = require('helmet');
 const enforce = require('express-sslify');
+const compression = require('compression')
 
 //Middle-ware
 app.use(helmet());
@@ -28,6 +29,7 @@ app.use(helmet.contentSecurityPolicy({
     reportOnly: true
   }));
 
+app.use(compression());
 app.use(express.static(path.join(__dirname, '..', 'build')));
 app.use(express.static(path.join(__dirname, '..', 'public')));
 app.use(bodyParser.json());

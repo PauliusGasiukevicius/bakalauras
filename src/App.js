@@ -15,6 +15,7 @@ import './App.css';
 
 function App() {
 
+  const [mobile, setMobile] = useState(false);
   const [route, setRoute] = useState('home');
   const [user, setUser] = useState(null);
   const [userToView, setUserToView] = useState(null);
@@ -65,23 +66,41 @@ function App() {
   }
 
   useEffect(() => {
+    if(window.innerWidth < 840){
+      setMobile(true);
+    fetch(`/courses/0/3/${coursesFilter}`)
+    .then(resp => resp.json())
+    .then(r => {setCourses(r)})
+    }
+    else{
+      fetch(`/courses/0/9/${coursesFilter}`)
+    .then(resp => resp.json())
+    .then(r => {setCourses(r)})
+    }
     let cachedUser = ls.get('user') || null;
     if(cachedUser != null)setUser(cachedUser);
 
-    fetch(`/courses/0/9/${coursesFilter}`)
-    .then(resp => resp.json())
-    .then(r => {setCourses(r)})
+    
   },[]);
 
   useEffect(() => {
     if(route=='home' || route=='coursesSearch')
-    fetch(`/courses/0/9/${coursesFilter}`)
+    {
+      if(mobile){
+        fetch(`/courses/0/5/${coursesFilter}`)
     .then(resp => resp.json())
     .then(r => {setCourses(r)})
+      }
+      else {
+        fetch(`/courses/0/9/${coursesFilter}`)
+        .then(resp => resp.json())
+        .then(r => {setCourses(r)})
+      }
+    }
   },[route, coursesFilter]);
 
   let showMore = async () => {
-    let resp = await fetch(`/courses/${courses.length}/9/${coursesFilter}`);
+    let resp = await fetch(`/courses/${courses.length}/${mobile ? 5 : 9}/${coursesFilter}`);
     let json = await resp.json();
     setCourses(courses.concat(json));
   }
