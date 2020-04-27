@@ -10,7 +10,7 @@ export default function CourseCard({course, user, goToCourseView}) {
 
   return (
   <div className="m-2 card text-white bg-dark border border-white" style={{width: "420px", maxHeight: "600px"}}>
-        <img className="card-img-top" style={{maxHeight: "200px", width: "auto"}} src={getLowResLinkForImgur()} />
+        <img alt="" className="card-img-top m-1" style={{height: "250px", width: "auto", objectFit: "contain"}} src={getLowResLinkForImgur()} />
 
         <div className="card-body">
             <h2 className="card-title">{course.name}</h2>

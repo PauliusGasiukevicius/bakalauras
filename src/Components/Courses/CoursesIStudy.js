@@ -12,7 +12,7 @@ export default function CoursesIStudy({user, userToView, goToCourseView}) {
             if(r.err)console.log(r);
             else setCourses(r);
         })
-        },[]);
+        },[userToView]);
 
     return <CoursesDisplay courses={courses} user={user} goToCourseView={goToCourseView}/>;
 }

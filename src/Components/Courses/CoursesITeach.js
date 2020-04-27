@@ -12,7 +12,7 @@ export default function CoursesITeach({user, goToCourseView, userToView}) {
             if(r.err)console.log(r);
             else setCourses(r);
         })
-        },[]);
+        },[userToView]);
 
     return <CoursesDisplay courses={courses} user={user} goToCourseView={goToCourseView}/>;
 }

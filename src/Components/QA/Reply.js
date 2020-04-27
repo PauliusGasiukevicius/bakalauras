@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {} from 'react';
 import EditReplyModal from './EditReplyModal.js';
 
 export default function Reply({clickViewProfile, clickReplyUpvote, isUpvoted, deleteReply, reply, user, loading, clickEditReply}) {
@@ -45,9 +45,9 @@ export default function Reply({clickViewProfile, clickReplyUpvote, isUpvoted, de
 
         <div className="card-footer m-0 p-0">
             <small>
-            <i className="fa fa-user" /> <a  onClick={()=>viewReplyCreatorProfile()} className="btn badge badge-light text-dark">
+            <i className="fa fa-user" /> <button  onClick={()=>viewReplyCreatorProfile()} className="btn badge badge-light text-dark">
             {reply.userName || ' '}
-            </a> &nbsp;&nbsp;
+            </button> &nbsp;&nbsp;
                 <i className="fa fa-calendar" /> {(new Date(reply.creation_date)).toLocaleString()} &nbsp;&nbsp;
                 {reply.creation_date != reply.edit_date ? `Editted: ${ (new Date(reply.edit_date)).toLocaleString() }` : null}
             </small>

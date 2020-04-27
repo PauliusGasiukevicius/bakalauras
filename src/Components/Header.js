@@ -9,18 +9,9 @@ export default function Header({clickViewProfile, setUser, setCoursesFilter, onS
     alert('Deja jums nepavyko prisijungti');
   }
 
-  const responseFacebook = (response) => {
-    if(response.status == "connected" || response.accessToken)onSuccessFacebookAuth(response);
-   else alert('Deja jums nepavyko prisijungti');
-  }
-
   const clickSearch = () => {
     setCoursesFilter(document.getElementById('coursesSearchInput').value.toLowerCase());
     setRoute('coursesSearch');
-  }
-
-  const clickEmailLogin = () => {
-    alert('W.I.P.');
   }
 
   return (
@@ -45,8 +36,8 @@ export default function Header({clickViewProfile, setUser, setCoursesFilter, onS
             </ul>
           </div>
 
-          <div className = "input-group form-inline justify-content-center align-items-center w-100">
-            <input id="coursesSearchInput" className="w-100 ml-auto justify-content-center align-items-center form-control mr-sm-2" type="search" placeholder="Search for courses" aria-label="Search"/>
+          <div className = "input-group form-inline d-flex justify-content-center align-items-center w-100">
+            <input id="coursesSearchInput" className="form-control mr-sm-2" type="search" placeholder="Search for courses" aria-label="Search"/>
             <button type="button" onClick={()=>clickSearch()} className="btn btn-outline-light my-2 my-md-0" >
               <i className="fa fa-search"></i></button>
           </div>
@@ -89,26 +80,26 @@ export default function Header({clickViewProfile, setUser, setCoursesFilter, onS
           <GoogleLogin className="w-100 p-1 m-1"
           clientId="289002604454-d8h61qef9mdg6nglvtld21otnnatjkc3.apps.googleusercontent.com"
           render={renderProps => (
-            <div onClick={renderProps.onClick} disabled={renderProps.disabled} className="btn btn-outline-light w-100 p-11  m-1 text-left" style={{padding: "10px"}}>
+            <button onClick={renderProps.onClick} disabled={renderProps.disabled} className="btn btn-outline-light w-100 p-11  m-1 text-left" style={{padding: "10px"}}>
               <span className="align-middle">
                 &nbsp;
                 <i className="fa fa-google "  style={{fontSize: "1.5em"}}/>	
                 &nbsp; 	&nbsp; Login with Google
               </span>
-            </div>
+            </button>
           )}
           onSuccess={(r) => onSuccessGoogleAuth(r)}
           onFailure={(r) => onFailure(r)}
           cookiePolicy={'single_host_origin'}
           />
 
-        <div className="btn btn-outline-light w-100 p-11  m-1 text-left" style={{padding: "10px"}} data-toggle="modal" data-target="#emailLogin">
+        <button className="btn btn-outline-light w-100 p-11  m-1 text-left" style={{padding: "10px"}} data-toggle="modal" data-target="#emailLogin">
           <span className="align-middle">
               &nbsp;
               <i className="fa fa-envelope "  style={{fontSize: "1.5em"}}/>	
               &nbsp; 	&nbsp; Login with email
           </span>
-        </div>
+        </button>
           
         </div>
       </div>

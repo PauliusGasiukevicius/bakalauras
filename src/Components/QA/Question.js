@@ -225,9 +225,9 @@ export default function Question({clickViewProfile, setUser, changeQuestionRepli
         </div>
 
         <div className="card-footer m-0 p-0"> 
-          <i className="fa fa-user" /> <a  onClick={()=>clickViewQuestionStarterProfile()} className="btn badge badge-light text-dark">
+          <i className="fa fa-user" /> <button  onClick={()=>clickViewQuestionStarterProfile()} className="btn badge badge-light text-dark">
             {question.userName || ' '}
-            </a> &nbsp;&nbsp;
+            </button> &nbsp;&nbsp;
           <i className="fa fa-calendar" /> {(new Date(question.creation_date)).toLocaleString()}&nbsp;&nbsp;
           {question.creation_date != question.edit_date ? `Editted: ${ (new Date(question.edit_date)).toLocaleString() }` : null}
         </div>

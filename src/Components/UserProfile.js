@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+/* eslint-disable eqeqeq */
+import React, { } from 'react';
 import CoursesITeach from './Courses/CoursesITeach.js';
 import CoursesIStudy from './Courses/CoursesIStudy.js';
 import BadgesOfUserDisplay from './Courses/Completion/BadgesOfUserDisplay.js';
@@ -10,7 +11,7 @@ export default function UserProfile({user, userToView, goToCourseView, setUser})
     <div className="m-2 card text-white bg-dark border border-white">
         {user._id == userToView._id ? <EditProfileModal user={user} setUser={setUser} /> : null}
 
-        <img style={{width: "300px"}} className="p-2 card-img-top img-fluid mx-auto" src={userToView.imageUrl} />
+        <img alt="" style={{width: "300px"}} className="p-2 card-img-top img-fluid mx-auto" src={userToView.imageUrl} />
 
 
         <div className="card-body">

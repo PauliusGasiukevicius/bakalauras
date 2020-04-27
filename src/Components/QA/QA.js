@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 import React, {useEffect, useState} from 'react';
 import Question from './Question.js';
 import QuestionSummary from './QuestionSummary.js';

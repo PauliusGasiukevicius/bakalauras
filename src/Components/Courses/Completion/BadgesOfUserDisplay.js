@@ -11,7 +11,7 @@ export default function BadgesOfUserDisplay({user}) {
         .then(r => {
             if(r && !r.err)setBadges(r);
         });
-    },[]);
+    },[user]);
 
   return (
     <div className="w-100 container-fluid d-flex flex-wrap justify-content-around">
