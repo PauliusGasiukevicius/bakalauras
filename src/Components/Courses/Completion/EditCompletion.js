@@ -81,8 +81,6 @@ export default function EditCompletion({user, course, setUser}) {
                     </form>
         </>
         }
-        
-        W.I.P. Certificate:
          <br />
         
     </div> 

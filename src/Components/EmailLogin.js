@@ -10,7 +10,7 @@ export default function EmailLogin({setUser}) {
     const [buttonText, setButtonText] = useState('Login');
 
   let clickForgotPass = async () => {
-
+    document.getElementById('resetTab').click();
   }
 
   let clickLoginRegister = async () => {
@@ -27,9 +27,16 @@ export default function EmailLogin({setUser}) {
         setUser(json);
         setTimeout(document.getElementById('closeEmailLogin').click(),50);
       }
-    }else {
+    }else if(buttonText == 'Register') {
       let resp = await fetch('/registerEmail',  {method: "POST", headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({email, pass, confirmPass, name})});
+      let json = await resp.json();
+      if(json.err)alert(json.err);
+      else alert(json.ok);
+    }
+    else{
+      let resp = await fetch('/forgotPassword',  {method: "POST", headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({email})});
       let json = await resp.json();
       if(json.err)alert(json.err);
       else alert(json.ok);
@@ -67,6 +74,11 @@ export default function EmailLogin({setUser}) {
                       Register
                     </a>
                 </li>
+                <li className="nav-item w-100 d-none">
+                    <a onClick={()=>setButtonText('Reset Password')} id="resetTab" className="w-100 btn btn btn-outline-light" data-toggle="tab" href={`#resetPass`}>
+                      Forgot Password
+                    </a>
+                </li>
               </ul>
 
             <div className="tab-content">
@@ -79,6 +91,17 @@ export default function EmailLogin({setUser}) {
                                 </div>
                                 <div className="form-group w-100">    
                                     <input className="form-control" type="password" value={pass} onChange={(e)=>setPass(e.target.value)} placeholder="Enter password"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id={`resetPass`} className="tab-pane fade">
+                    <div className="m-2 card text-white bg-dark border border-white" >
+                        <div className="card-body w-100">
+                            <div className="form w-100 p-1">    
+                                <div className="form-group w-100">    
+                                    <input className="form-control" type="email" value={email} onChange={(e)=>setEmail(e.target.value)} placeholder="Enter email"/>
                                 </div>
                             </div>
                         </div>
@@ -110,7 +133,7 @@ export default function EmailLogin({setUser}) {
           </div>
           <div className="modal-footer">
             <button id="closeEmailLogin" type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-            {/*<button onClick={()=>clickForgotPass()} id="forgotPass" type="button" className="btn btn-secondary" >Forgot password?</button>*/}
+            <button onClick={()=>clickForgotPass()} id="forgotPass" type="button" className="btn btn-secondary" >Forgot password?</button>
             <button onClick={()=>clickLoginRegister()}type="button" className="btn btn-warning">{!loading ? buttonText : <i className="fa fa-spinner fa-spin text-white mx-auto" />}</button>
           </div>
         </div>

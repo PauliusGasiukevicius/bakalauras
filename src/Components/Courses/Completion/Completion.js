@@ -28,7 +28,7 @@ export default function Completion({course, user, setUser}) {
     },[]);
 
     const clickViewCertificate = () => {
-        alert('W.I.P.');
+        window.open(`/certificate/${user._id}/${course._id}`);
     }
   return (
     <div className="text-white h-100 p-2" style={{backgroundColor: "#282c34"}}>

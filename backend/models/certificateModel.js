@@ -3,7 +3,7 @@ let mongoose = require('mongoose');
 let certificateSchema = new mongoose.Schema({
         message : String,
         courseId: mongoose.ObjectId,
-        imageUrl: String,
+        userId: mongoose.ObjectId,
     });
 
 module.exports = mongoose.model('certificate', certificateSchema);

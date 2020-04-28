@@ -9,12 +9,113 @@ let User = require('./models/userModel.js');
 
 module.exports = (app, mongoose) => {
 
-    app.get('/certificate/:certificateId', async (req,resp) => {
+    app.get('/certificate/:userId/:courseId', async (req,resp) => {
         try{
-            let certificate = await Certificate.findOne({_id: req.params.certificateId});
-            if(!certificate)return resp.send({err: 'Unexpected error occured.'});
+            let certificate = await Certificate.findOne({userId: req.params.userId, courseId: req.params.courseId});
+            if(certificate)return resp.send(certificate.message);
 
-            return resp.send(certificate);
+            let completion = await Completion.findOne({userId: req.params.userId, courseId: req.params.courseId});
+            if(!completion)return resp.send({err: "user haven't completed the course yet"});
+            let course = await Course.findOne({_id: req.params.courseId});
+            let user = await User.findOne({_id: req.params.userId});
+
+            certificate = new Certificate({
+                message : `
+                <style>
+
+                html{
+                    width: 100%;
+                    height: 100%;
+                    background-color: #282c34;
+                }
+
+                #title {
+                margin-top: 3em;
+                }
+
+                body{
+                width: 800px;
+                height: 600px;
+                border: 5px solid white;
+                margin: auto;
+                text-align: center;
+                background: #eee url("https://i.imgur.com/bYve5gf.png") no-repeat; background-size: 100%;
+                }
+
+                h1 {
+                margin-top: 1em;
+                font-family: sans-serif;
+                width: 100%;
+                }
+
+                p {
+                font-family: 'Arial', sans-serif;
+                font-size: 1.2em;
+                margin: 5px 0;
+                }
+
+                #user {
+                font-size: 50px;
+                color: #282c34;
+                }
+
+                #date {
+                margin-top: 6em;
+                }
+
+                #verify {
+                opacity: 1;
+                font-size: 12px;
+                color: grey;
+                margin-top: 1em;
+                }
+
+                </style>
+
+                <body>
+                    <div id="certificate">
+                        <h1 id="itle">
+                        Certificate of Completion
+                        </h1>
+
+                        <p>
+                            THIS IS TO CERTIFY THAT
+                        </p>
+
+                        <h1 id="user">
+                        ${user.name}
+                        </h1>
+
+                        <p>
+                        has successfully completed the
+                        </p>
+
+                        <h2 id="course">
+                        ${course.name}
+                        </h2>
+
+                        <p>
+                        &nbsp; from ${req.get('host')}
+                        </p>
+
+                        <br>
+                        <p id="date">
+                        <b>Issued on:</b> ${(new Date(completion.date)).toLocaleDateString()}
+                        </p>
+
+                        <div id="verify">
+                            Verify at ${req.get('Host')+`/certificate/${user._id}/${course._id}`}
+                        </div>
+                    </div>
+
+                </body>
+                `,
+                courseId: course._id,
+                userId: user._id,});
+            
+            certificate = await certificate.save();
+
+            return resp.send(certificate.message);
 
         }catch (error) {console.log(error);return resp.status(400).send({err: error});}
     });
