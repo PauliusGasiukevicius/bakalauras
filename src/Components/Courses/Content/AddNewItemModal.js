@@ -65,7 +65,7 @@ export default function AddNewItemModal({setUser, user, sectionId, createNewSect
 
   return (
   <>
-    <button disabled={itemLoading} onClick={()=>setShow(true)} className="btn btn-outline-light mx-auto" style={{fontSize: "1.2em"}} data-toggle="modal" data-target={`#${sectionId}addItem`}>
+    <button type="button" disabled={itemLoading} onClick={()=>setShow(true)} className="btn btn-outline-light mx-auto" style={{fontSize: "1.2em"}} data-toggle="modal" data-target={`#addItem${sectionId}`}>
         {!itemLoading ? 
         <p className="align-middle p-0 m-0">
             New item <i className="fa fa-plus-circle"></i>
@@ -77,7 +77,7 @@ export default function AddNewItemModal({setUser, user, sectionId, createNewSect
          </div>}
     </button>
 
-    <div className="modal fade" id={`${sectionId}addItem`} tabIndex="-1" role="dialog">
+    <div className="modal fade" id={`addItem${sectionId}`} tabIndex="-1" role="dialog">
       <div className="modal-dialog modal-lg" role="document">
         <div className="modal-content bg-dark">
           <div className="modal-header">

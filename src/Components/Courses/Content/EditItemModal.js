@@ -65,11 +65,11 @@ export default function EditItemModal({setUser, user, item, updateSectionItem, s
 
   return (
   <>
-    <button disabled={itemLoading} onClick={()=>setShow(true)} className="btn btn-outline-light" style={{fontSize: "1.2em"}} data-toggle="modal" data-target={`#${itemId}editItem`}>
+    <button disabled={itemLoading} onClick={()=>setShow(true)} className="btn btn-outline-light" style={{fontSize: "1.2em"}} data-toggle="modal" data-target={`#editItem${itemId}`}>
         <i className="fa fa-edit" style={{fontSize: '2em'}}></i>
     </button>
 
-    <div className="modal fade" id={`${itemId}editItem`} tabIndex="-1" role="dialog">
+    <div className="modal fade" id={`editItem${itemId}`} tabIndex="-1" role="dialog">
       <div className="modal-dialog modal-lg" role="document">
         <div className="modal-content bg-dark">
           <div className="modal-header">

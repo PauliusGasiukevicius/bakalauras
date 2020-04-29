@@ -70,7 +70,7 @@ export default function EditProfileModal({user, setUser}) {
                               <img style={{width: "300px"}} className="p-2 card-img-top img-fluid mx-auto" src={imageUrl} />
                                 <div className="custom-file m-2">
                                   <input onChange={(e)=>onChangeImage(e)} type="file" className="custom-file-input" id="profileEditImageUpload" accept="image/gif, image/jpeg, image/png" />
-                                  <label className="custom-file-label" htmlFor="profileEditImageUpload">Change Image</label>
+                                  <label className="custom-file-label text-left" htmlFor="profileEditImageUpload">Change Image</label>
                                 </div>
                                 <br />
                                 <div className="form-group w-100 m-2">    
