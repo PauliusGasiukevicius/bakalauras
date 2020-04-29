@@ -30,8 +30,8 @@ app.use(helmet.contentSecurityPolicy({
   }));
 
 app.use(compression());
-app.use(express.static(path.join(__dirname, '..', 'build')));
-app.use(express.static(path.join(__dirname, '..', 'public')));
+app.use(express.static(path.join(__dirname, '..', 'build'), {maxAge: 1000 * 60}));
+app.use(express.static(path.join(__dirname, '..', 'public'), {maxAge: 1000 * 60}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
