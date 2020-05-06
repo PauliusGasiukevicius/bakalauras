@@ -20,7 +20,7 @@ export default function CourseFileView({item, clickNextPrevItem, isPreview}) {
         </div> : null}
 
         {item && item.type == 'text' ? 
-        <div style={{maxHeight: "500px", overflowY: "auto"}} className="w-100 text-left" dangerouslySetInnerHTML={{ __html: item.content }}></div> : null}
+        <div style={{maxHeight: "500px", overflowY: "auto"}} className="w-100" dangerouslySetInnerHTML={{ __html: item.content }}></div> : null}
         {item && item.type == 'file' ? 
         <a download href={item.location} className="btn btn-outline-light">
             Download <i className="fa fa-download" style={{fontSize: "2em"}}></i>

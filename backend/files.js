@@ -1,5 +1,5 @@
 let multer  = require('multer');
-let upload = multer({ dest: 'uploads/' });
+let upload = multer({ dest: '/tmp' });
 let fs = require('fs').promises;
 let auth = require('./auth.js');
 let FormData = require('form-data');
@@ -29,16 +29,18 @@ module.exports = (app, mongoose) => {
         let file = await File.findOne({_id: req.params.fileId});
         if(!file)return resp.status(404).send({err: 'file does not exist'});
 
-        await fs.writeFile(`/${file.name}`, Buffer.from(file.data, 'binary'), 'binary'); //loads from DB to RAM
-        return resp.download(`/${file.name}`,`${file.name}`); //sends the file
+        /* Idk why all this stoppped working
+            await fs.writeFile(`/tmp/files/${file.name}`, Buffer.from(file.data, 'binary'), 'binary'); //loads from DB to RAM
+            return resp.download(`/tmp/files/${file.name}`,`${file.name}`); //sends the file
+        */
 
-        /*
+        //backup solution: no streaming though
         resp.writeHead(200, {
             'Content-Type': file.contentType,
             'Content-disposition': 'attachment;filename=' + file.name,
             'Content-Length': file.data.length
         });
-        return resp.end(Buffer.from(file.data, 'binary'));*/
+        return resp.end(Buffer.from(file.data, 'binary'));
 
     }catch (error) {console.log(error);return resp.status(400).send({err: error});}
     });

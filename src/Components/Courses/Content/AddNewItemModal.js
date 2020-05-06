@@ -127,9 +127,10 @@ export default function AddNewItemModal({setUser, user, sectionId, createNewSect
                       {!show ? null : <Editor initialValue={itemContent}
                         apiKey="abmgxvtjvz9gg53o1r2ohp1f5qua4yc5aoiyovbj297ritax"
                         init={{height: 500, menubar: false,
-                          plugins: ['lists link image code paste'],
+                          plugins: ['lists link image codesample paste'],
                           default_link_target:"_blank",
-                          toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image code",
+                          toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image codesample",
+                          codesample_global_prismjs: true
                           }}
                         onEditorChange={(c,e)=>textEditorChange(c,e)}
                       />}

@@ -33,9 +33,9 @@ export default function ReplyModal({loading, reply}) {
                   <Editor initialValue={content}
                           apiKey="abmgxvtjvz9gg53o1r2ohp1f5qua4yc5aoiyovbj297ritax"
                           init={{height: 500, menubar: false,
-                            plugins: ['advlist autolink lists link image charmap print preview anchor','searchreplace visualblocks code fullscreen','insertdatetime media table paste code help wordcount'],
+                            plugins: ['advlist autolink lists link image charmap print preview anchor','searchreplace visualblocks fullscreen','insertdatetime media table paste codesample help wordcount'],
                             default_link_target:"_blank",
-                            toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image code",
+                            toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image codesample",
                             }}
                           onEditorChange={(c,e)=>setContent(c)}
                   />
