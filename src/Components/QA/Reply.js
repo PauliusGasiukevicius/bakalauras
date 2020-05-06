@@ -40,7 +40,7 @@ export default function Reply({clickViewProfile, clickReplyUpvote, isUpvoted, de
 
     <div className="w-100 text-white bg-dark border border-white p-2">
       <div className="card-body m-1 p-0">
-            <div style={{maxHeight: "500px", overflowY: "auto"}} className="w-100" dangerouslySetInnerHTML={{ __html: reply.content }}/>
+            <div style={{maxHeight: "500px", overflowY: "auto"}} className="w-100 text-left" dangerouslySetInnerHTML={{ __html: reply.content }}/>
         </div>
 
         <div className="card-footer m-0 p-0">

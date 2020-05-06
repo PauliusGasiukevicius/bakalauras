@@ -92,6 +92,7 @@ export default function AddNewItemModal({setUser, user, sectionId, createNewSect
                 <label className="">Item name</label>
                 <input type="text" value={newItemName} onChange={(e)=>setNewItemName(e.target.value)} 
                 className="w-100 form-control" placeholder="Enter item name" />
+                {itemLoading ? <div><div className="fa fa-spinner fa-spin text-white position-fixed" style={{fontSize: "7em", zIndex: 11}}></div></div> : null}
               </div>
             </div>
 
@@ -128,7 +129,7 @@ export default function AddNewItemModal({setUser, user, sectionId, createNewSect
                         init={{height: 500, menubar: false,
                           plugins: ['lists link image code paste'],
                           default_link_target:"_blank",
-                          toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+                          toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image code",
                           }}
                         onEditorChange={(c,e)=>textEditorChange(c,e)}
                       />}

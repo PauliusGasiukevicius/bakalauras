@@ -221,7 +221,7 @@ export default function Question({clickViewProfile, setUser, changeQuestionRepli
               <h4> {question.title} </h4>
             </div>
 
-            <div style={{maxHeight: "500px", overflowY: "auto"}} className="w-100" dangerouslySetInnerHTML={{ __html: question.content }}/>
+            <div style={{maxHeight: "500px", overflowY: "auto"}} className="w-100 text-left" dangerouslySetInnerHTML={{ __html: question.content }}/>
         </div>
 
         <div className="card-footer m-0 p-0"> 

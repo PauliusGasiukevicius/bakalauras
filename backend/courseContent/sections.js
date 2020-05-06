@@ -5,6 +5,7 @@ module.exports = (app, mongoose) => {
     let CourseContent = require('../models/courseContentModel.js');
     let CourseContentSection = require('../models/courseContentSectionModel.js');
     let CourseContentSectionItem = require('../models/courseContentSectionItemModel.js');
+    let File = require('../models/fileModel.js');
 
     app.post('/editSection/:sectionId', auth, async (req,resp) => {
         try{
@@ -34,7 +35,7 @@ module.exports = (app, mongoose) => {
     app.delete('/deleteSection/:courseId/:sectionId', auth, async (req,resp) => {
         try{
             let section = await CourseContentSection.findOne({_id: req.params.sectionId});
-            await CourseContentSectionItem.deleteMany({_id: {$in: section.items}});
+            if(section) await CourseContentSectionItem.deleteMany({_id: {$in: section.items}});
             await CourseContentSection.deleteOne({_id: req.params.sectionId});
             await CourseContent.updateOne({courseId: req.params.courseId}, {$pull: {sections: req.params.sectionId}});
             await File.deleteMany({sectionId: req.params.sectionId});
