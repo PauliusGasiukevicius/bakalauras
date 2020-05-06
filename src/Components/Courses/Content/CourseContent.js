@@ -278,8 +278,12 @@ export default function CourseContent({setUser, course, user, edit}) {
       }
     }
 
+    if(!userProgress || !data)
+    return (<div className="fa fa-spinner fa-spin text-white mx-auto" style={{fontSize: "7em"}}></div>);
+
   return (
-  <div style={{color: "white"}}>
+
+    <div style={{color: "white"}}>
       {!edit && data && data.length > 0 ? <CourseFileView isPreview={false} clickNextPrevItem={clickNextPrevItem} item={data[currentSection].items[currentItem]}/> : null}
 
       {isDoingAction ?<div className="position-fixed h-100 w-100 mx-auto" style={{zIndex: 10}}>
